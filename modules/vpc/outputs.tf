@@ -20,7 +20,7 @@ output "cidr_block" {
 
 output "secondary_cidr_blocks" {
   description = "List of secondary CIDR blocks of the VPC."
-  value       = aws_vpc_ipv4_cidr_block_association.this.*.cidr_block
+  value       = var.secondary_cidr_blocks
 }
 
 output "ipv6_cidr_block" {
