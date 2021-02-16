@@ -39,6 +39,12 @@ variable "dns_support_enabled" {
   default     = true
 }
 
+variable "private_hosted_zones" {
+  description = "List of private Hosted Zone IDs to associate."
+  type        = list(string)
+  default     = []
+}
+
 variable "dhcp_options_enabled" {
   description = "Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type."
   type        = bool

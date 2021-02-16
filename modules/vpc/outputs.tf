@@ -48,6 +48,11 @@ output "dns_hostnames_enabled" {
   value       = aws_vpc.this.enable_dns_hostnames
 }
 
+output "private_hosted_zones" {
+  description = "List of associated private Hosted Zone IDs."
+  value       = values(aws_route53_zone_association.this)[*].zone_id
+}
+
 output "default_security_group_id" {
   description = "The ID of the security group created by default on VPC creation."
   value       = aws_vpc.this.default_security_group_id
