@@ -1,6 +1,9 @@
 # tf-aws-network
 
-Terraform module which creates Account and IAM related resources on AWS.
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+![GitHub](https://img.shields.io/github/license/tedilabs/tf-aws-account?color=blue&style=flat-square)
+
+Terraform module which creates VPC related resources on AWS.
 
 
 ## Self Promotion
