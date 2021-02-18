@@ -30,15 +30,15 @@ output "requester_vpc_id" {
 
 output "accepter_id" {
   description = "The AWS account ID of the owner of the accepter VPC."
-  value       = local.accepter.id
+  value       = aws_vpc_peering_connection.this.peer_owner_id
 }
 
 output "accepter_region" {
   description = "The region of the accepter VPC."
-  value       = local.accepter.region
+  value       = aws_vpc_peering_connection.this.peer_region
 }
 
 output "accepter_vpc_id" {
   description = "The ID of the accepter VPC."
-  value       = var.accepter.vpc_id
+  value       = aws_vpc_peering_connection.this.peer_vpc_id
 }

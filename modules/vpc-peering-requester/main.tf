@@ -26,7 +26,7 @@ resource "aws_vpc_peering_connection" "this" {
 
   peer_owner_id = local.accepter.id
   peer_region   = local.accepter.region
-  peer_vpc_id   = var.accepter.vpc_id
+  peer_vpc_id   = local.accepter.vpc_id
 
   tags = merge(
     {
