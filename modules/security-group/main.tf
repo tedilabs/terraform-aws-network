@@ -54,8 +54,30 @@ locals {
       }
   ]
 
-  ingress_rules = {
+  # Filter if empty
+  compacted_ingress_rules = [
     for rule in local.normalized_ingress_rules:
+      rule if length(compact(flatten([
+        rule.cidr_blocks,
+        rule.ipv6_cidr_blocks,
+        rule.prefix_list_ids,
+        rule.source_security_group_id,
+        rule.self != null ? "self" : null,
+      ]))) > 0
+  ]
+  compacted_egress_rules = [
+    for rule in local.normalized_egress_rules:
+      rule if length(compact(flatten([
+        rule.cidr_blocks,
+        rule.ipv6_cidr_blocks,
+        rule.prefix_list_ids,
+        rule.source_security_group_id,
+        rule.self != null ? "self" : null,
+      ]))) > 0
+  ]
+
+  ingress_rules = {
+    for rule in local.compacted_ingress_rules:
       join("_", compact(flatten([
         rule.protocol,
         rule.from_port,
@@ -68,7 +90,7 @@ locals {
       ]))) => rule
   }
   egress_rules = {
-    for rule in local.normalized_egress_rules:
+    for rule in local.compacted_egress_rules:
       join("_", compact(flatten([
         rule.protocol,
         rule.from_port,
