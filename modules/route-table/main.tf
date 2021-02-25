@@ -16,8 +16,8 @@ resource "aws_route_table" "this" {
 
 resource "aws_route" "ipv4" {
   for_each = {
-    for route in var.ipv4_routes:
-      route.cidr_block => route
+    for route in var.ipv4_routes :
+    route.cidr_block => route
   }
 
   route_table_id         = aws_route_table.this.id
@@ -36,8 +36,8 @@ resource "aws_route" "ipv4" {
 
 resource "aws_route" "ipv6" {
   for_each = {
-    for route in var.ipv6_routes:
-      route.cidr => route
+    for route in var.ipv6_routes :
+    route.cidr => route
   }
 
   route_table_id              = aws_route_table.this.id
