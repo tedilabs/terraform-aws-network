@@ -80,12 +80,12 @@ output "dhcp_options_enabled" {
 
 output "dhcp_options_id" {
   description = "The ID of the DHCP Options Set."
-  value       = element(concat(aws_vpc_dhcp_options.this.*.id, [""]), 0)
+  value       = try(aws_vpc_dhcp_options.this.*.id[0], null)
 }
 
 output "dhcp_options_arn" {
   description = "The ARN of the DHCP Options Set."
-  value       = element(concat(aws_vpc_dhcp_options.this.*.arn, [""]), 0)
+  value       = try(aws_vpc_dhcp_options.this.*.arn[0], null)
 }
 
 output "internet_gateway_enabled" {
@@ -95,12 +95,12 @@ output "internet_gateway_enabled" {
 
 output "internet_gateway_id" {
   description = "The ID of the Internet Gateway."
-  value       = element(concat(aws_internet_gateway.this.*.id, [""]), 0)
+  value       = try(aws_internet_gateway.this.*.id[0], null)
 }
 
 output "internet_gateway_arn" {
   description = "The ARN of the Internet Gateway."
-  value       = element(concat(aws_internet_gateway.this.*.arn, [""]), 0)
+  value       = try(aws_internet_gateway.this.*.arn[0], null)
 }
 
 output "egress_only_internet_gateway_enabled" {
@@ -110,7 +110,7 @@ output "egress_only_internet_gateway_enabled" {
 
 output "egress_only_internet_gateway_id" {
   description = "The ID of the Egress Only Internet Gateway."
-  value       = element(concat(aws_egress_only_internet_gateway.this.*.id, [""]), 0)
+  value       = try(aws_egress_only_internet_gateway.this.*.id[0], null)
 }
 
 output "vpn_gateway_enabled" {
@@ -120,15 +120,15 @@ output "vpn_gateway_enabled" {
 
 output "vpn_gateway_id" {
   description = "The ID of the Virtual Private Gateway."
-  value       = element(concat(aws_vpn_gateway.this.*.id, [""]), 0)
+  value       = try(aws_vpn_gateway.this.*.id[0], null)
 }
 
 output "vpn_gateway_arn" {
   description = "The ARN of the Virtual Private Gateway."
-  value       = element(concat(aws_vpn_gateway.this.*.arn, [""]), 0)
+  value       = try(aws_vpn_gateway.this.*.arn[0], null)
 }
 
 output "vpn_gateway_asn" {
   description = "The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN."
-  value       = element(concat(aws_vpn_gateway.this.*.amazon_side_asn, [""]), 0)
+  value       = try(aws_vpn_gateway.this.*.amazon_side_asn[0], null)
 }
