@@ -21,122 +21,45 @@ resource "aws_security_group" "this" {
 ###################################################
 
 locals {
-  flattened_ingress_rules = concat(
-    [
-      for rule in var.ingress_rules :
-      rule
-      if length(lookup(rule, "source_security_group_ids", [])) < 1
-    ],
-    flatten([
-      for rule in var.ingress_rules : [
-        for source_security_group_id in rule.source_security_group_ids :
-        merge(rule, {
-          source_security_group_id = source_security_group_id
-        })
-      ] if length(lookup(rule, "source_security_group_ids", [])) > 0
-    ])
-  )
-  flattened_egress_rules = concat(
-    [
-      for rule in var.egress_rules :
-      rule
-      if length(lookup(rule, "source_security_group_ids", [])) < 1
-    ],
-    flatten([
-      for rule in var.egress_rules : [
-        for source_security_group_id in rule.source_security_group_ids :
-        merge(rule, {
-          source_security_group_id = source_security_group_id
-        })
-      ] if length(lookup(rule, "source_security_group_ids", [])) > 0
-    ])
-  )
-
   normalized_ingress_rules = [
-    for rule in local.flattened_ingress_rules : {
+    for rule in var.ingress_rules : {
+      id          = rule.id
       description = lookup(rule, "description", "Managed by Terraform")
 
       protocol  = rule.protocol
       from_port = rule.from_port
       to_port   = rule.to_port
 
-      cidr_blocks              = lookup(rule, "cidr_blocks", null) != null ? sort(compact(rule.cidr_blocks)) : null
-      ipv6_cidr_blocks         = lookup(rule, "ipv6_cidr_blocks", null) != null ? sort(compact(rule.ipv6_cidr_blocks)) : null
-      prefix_list_ids          = lookup(rule, "prefix_list_ids", null) != null ? sort(compact(rule.prefix_list_ids)) : null
-      source_security_group_id = lookup(rule, "source_security_group_id", null)
-      self                     = lookup(rule, "self", null) != null ? true : null
+      cidr_blocks              = try(sort(compact(rule.cidr_blocks)), null)
+      ipv6_cidr_blocks         = try(sort(compact(rule.ipv6_cidr_blocks)), null)
+      prefix_list_ids          = try(sort(compact(rule.prefix_list_ids)), null)
+      source_security_group_id = try(rule.source_security_group_id, null)
+      self                     = try(rule.self, false) ? true : null
     }
   ]
   normalized_egress_rules = [
-    for rule in local.flattened_egress_rules : {
+    for rule in var.egress_rules : {
+      id          = rule.id
       description = lookup(rule, "description", "Managed by Terraform")
 
       protocol  = rule.protocol
       from_port = rule.from_port
       to_port   = rule.to_port
 
-      cidr_blocks              = lookup(rule, "cidr_blocks", null) != null ? sort(compact(rule.cidr_blocks)) : null
-      ipv6_cidr_blocks         = lookup(rule, "ipv6_cidr_blocks", null) != null ? sort(compact(rule.ipv6_cidr_blocks)) : null
-      prefix_list_ids          = lookup(rule, "prefix_list_ids", null) != null ? sort(compact(rule.prefix_list_ids)) : null
-      source_security_group_id = lookup(rule, "source_security_group_id", null)
-      self                     = lookup(rule, "self", null) != null ? true : null
+      cidr_blocks              = try(sort(compact(rule.cidr_blocks)), null)
+      ipv6_cidr_blocks         = try(sort(compact(rule.ipv6_cidr_blocks)), null)
+      prefix_list_ids          = try(sort(compact(rule.prefix_list_ids)), null)
+      source_security_group_id = try(rule.source_security_group_id, null)
+      self                     = try(rule.self, false) ? true : null
     }
   ]
-
-  # Filter if empty
-  compacted_ingress_rules = [
-    for rule in local.normalized_ingress_rules :
-    rule
-    if length(compact(flatten([
-      rule.cidr_blocks,
-      rule.ipv6_cidr_blocks,
-      rule.prefix_list_ids,
-      rule.source_security_group_id,
-      rule.self != null ? "self" : null,
-    ]))) > 0
-  ]
-  compacted_egress_rules = [
-    for rule in local.normalized_egress_rules :
-    rule
-    if length(compact(flatten([
-      rule.cidr_blocks,
-      rule.ipv6_cidr_blocks,
-      rule.prefix_list_ids,
-      rule.source_security_group_id,
-      rule.self != null ? "self" : null,
-    ]))) > 0
-  ]
-
-  ingress_rules = {
-    for rule in local.compacted_ingress_rules :
-    join("_", compact(flatten([
-      rule.protocol,
-      rule.from_port,
-      rule.to_port,
-      rule.cidr_blocks,
-      rule.ipv6_cidr_blocks,
-      rule.prefix_list_ids,
-      rule.source_security_group_id,
-      rule.self != null ? "self" : null,
-    ]))) => rule
-  }
-  egress_rules = {
-    for rule in local.compacted_egress_rules :
-    join("_", compact(flatten([
-      rule.protocol,
-      rule.from_port,
-      rule.to_port,
-      rule.cidr_blocks,
-      rule.ipv6_cidr_blocks,
-      rule.prefix_list_ids,
-      rule.source_security_group_id,
-      rule.self != null ? "self" : null,
-    ]))) => rule
-  }
 }
 
 resource "aws_security_group_rule" "ingress" {
-  for_each = local.ingress_rules
+  for_each = {
+    for rule in local.normalized_ingress_rules :
+    rule.id => rule
+  }
 
   security_group_id = aws_security_group.this.id
   type              = "ingress"
@@ -154,7 +77,10 @@ resource "aws_security_group_rule" "ingress" {
 }
 
 resource "aws_security_group_rule" "egress" {
-  for_each = local.egress_rules
+  for_each = {
+    for rule in local.normalized_egress_rules :
+    rule.id => rule
+  }
 
   security_group_id = aws_security_group.this.id
   type              = "egress"
