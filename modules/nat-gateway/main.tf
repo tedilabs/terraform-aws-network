@@ -1,5 +1,5 @@
 resource "aws_eip" "this" {
-  count = var.eip_id != "" ? 0 : 1
+  count = var.assign_eip_on_create ? 1 : 0
 
   vpc = true
 
@@ -13,7 +13,7 @@ resource "aws_eip" "this" {
 
 resource "aws_nat_gateway" "this" {
   subnet_id     = var.subnet_id
-  allocation_id = var.eip_id != "" ? var.eip_id : aws_eip.this[0].id
+  allocation_id = var.assign_eip_on_create ? aws_eip.this[0].id : var.eip_id
 
   tags = merge(
     {

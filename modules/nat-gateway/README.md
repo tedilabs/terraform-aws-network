@@ -25,6 +25,7 @@ This module creates following resources.
 |------|-------------|------|---------|:--------:|
 | name | Desired name for the NAT Gateway resources. | `string` | n/a | yes |
 | subnet\_id | The ID of the subnet which the NAT Gateway belongs to. | `string` | n/a | yes |
+| assign\_eip\_on\_create | Assign a new Elastic IP to NAT Gateway on create. Set false if you want to provide existing Elastic IP. | `bool` | `false` | no |
 | eip\_id | The Allocation ID of the Elastic IP address for the gateway. Create a new Elastic IP if not provided. | `string` | `""` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 

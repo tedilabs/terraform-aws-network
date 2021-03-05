@@ -8,6 +8,12 @@ variable "subnet_id" {
   type        = string
 }
 
+variable "assign_eip_on_create" {
+  description = "Assign a new Elastic IP to NAT Gateway on create. Set false if you want to provide existing Elastic IP."
+  type        = bool
+  default     = false
+}
+
 variable "eip_id" {
   description = "The Allocation ID of the Elastic IP address for the gateway. Create a new Elastic IP if not provided."
   type        = string
