@@ -59,11 +59,12 @@ resource "aws_route" "ipv6" {
 # Associations
 ###################################################
 
+# INFO: Conflict on create with `for_each`
 resource "aws_route_table_association" "subnets" {
-  for_each = toset(var.subnets)
+  count = length(var.subnets)
 
   route_table_id = aws_route_table.this.id
-  subnet_id      = each.value
+  subnet_id      = var.subnets[count.index]
 }
 
 resource "aws_route_table_association" "gateways" {

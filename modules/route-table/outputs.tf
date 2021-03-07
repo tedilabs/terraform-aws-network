@@ -10,7 +10,7 @@ output "id" {
 
 output "associated_subnets" {
   description = "A list of subnet IDs which is associated with the route table."
-  value       = values(aws_route_table_association.subnets)[*].subnet_id
+  value       = aws_route_table_association.subnets[*].subnet_id
 }
 
 output "associated_gateways" {
