@@ -20,7 +20,7 @@ output "cidr_blocks" {
 
 output "ipv6_cidr_blocks" {
   description = "The IPv6 CIDR blocks of the subnet group."
-  value       = values(aws_subnet.this)[*].ipv6_cidr_block
+  value       = compact(values(aws_subnet.this)[*].ipv6_cidr_block)
 }
 
 output "availability_zones" {
