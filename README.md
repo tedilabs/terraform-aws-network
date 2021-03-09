@@ -2,7 +2,7 @@
 
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tedilabs/terraform-aws-network?color=blue&sort=semver&style=flat-square)
 ![GitHub](https://img.shields.io/github/license/tedilabs/terraform-aws-network?color=blue&style=flat-square)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square)](https://github.com/pre-commit/pre-commit)
 
 Terraform module which creates VPC related resources on AWS.
 
