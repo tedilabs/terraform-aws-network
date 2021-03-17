@@ -4,7 +4,7 @@ locals {
     : join(".", [
       local.metadata.package,
       local.metadata.module,
-      local.metadata.name,
+      replace(local.metadata.name, "/[^a-zA-Z0-9_\\.-]/", "-"),
     ])
   )
   resource_group_filters = [
