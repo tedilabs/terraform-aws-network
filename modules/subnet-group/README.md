@@ -29,6 +29,7 @@ This module creates following resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| name | The name of the subnet group. | `string` | n/a | yes |
 | subnets | A map of subnet parameters to create subnets for the subnet group. | `map(map(any))` | n/a | yes |
 | vpc\_id | The ID of the VPC which the subnet group belongs to. | `string` | n/a | yes |
 | assign\_ipv6\_address\_on\_creation | Assign IPv6 address on subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map\_public\_ip\_on\_launch. | `bool` | `false` | no |
@@ -45,11 +46,15 @@ This module creates following resources.
 | docdb\_subnet\_group\_name | Desired name for the DocumentDB Subnet Group. | `string` | `""` | no |
 | map\_customer\_owned\_ip\_on\_launch | Should be true if network interfaces created in the subnet should be assigned a customer owned IP address. | `bool` | `false` | no |
 | map\_public\_ip\_on\_launch | Should be false if you do not want to auto-assign public IP on launch. | `bool` | `false` | no |
+| module\_tags\_enabled | Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
 | neptune\_subnet\_group\_enabled | Controls if Neptune Subnet Group should be created. | `bool` | `false` | no |
 | neptune\_subnet\_group\_name | Desired name for the Neptune Subnet Group. | `string` | `""` | no |
 | outpost\_arn | The ARN of the Outpost. | `string` | `""` | no |
 | redshift\_subnet\_group\_enabled | Controls if Redshift Subnet Group should be created. | `bool` | `false` | no |
 | redshift\_subnet\_group\_name | Desired name for the Redshift Subnet Group. | `string` | `""` | no |
+| resource\_group\_description | The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
+| resource\_group\_enabled | Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
+| resource\_group\_name | The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
 | tags | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
@@ -69,10 +74,13 @@ This module creates following resources.
 | docdb\_subnet\_group\_id | The ID of the DocumentDB Subnet Group. |
 | ids | A list of IDs of subnets |
 | ipv6\_cidr\_blocks | The IPv6 CIDR blocks of the subnet group. |
+| name | The name of the subnet group. |
 | neptune\_subnet\_group\_arn | The ARN of the Neptune Subnet Group. |
 | neptune\_subnet\_group\_id | The ID of the Neptune DB Subnet Group. |
 | redshift\_subnet\_group\_arn | The ARN of the Redshift Subnet Group. |
 | redshift\_subnet\_group\_id | The ID of the Redshift Subnet Group. |
+| resource\_group\_enabled | Whether Resource Group is enabled. |
+| resource\_group\_name | The name of Resource Group. |
 | subnets | A list of subnets. |
 | vpc\_id | The ID of the VPC which the subnet group belongs to. |
 
