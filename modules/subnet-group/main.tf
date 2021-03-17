@@ -1,4 +1,20 @@
 locals {
+  metadata = {
+    package = "terraform-aws-network"
+    version = trimspace(file("${path.module}/../../VERSION"))
+    module  = basename(path.module)
+    name    = var.name
+  }
+  module_tags = var.module_tags_enabled ? {
+    "module.terraform.io/package"   = local.metadata.package
+    "module.terraform.io/version"   = local.metadata.version
+    "module.terraform.io/name"      = local.metadata.module
+    "module.terraform.io/full-name" = "${local.metadata.package}/${local.metadata.module}"
+    "module.terraform.io/instance"  = local.metadata.name
+  } : {}
+}
+
+locals {
   availability_zones = distinct(
     values(aws_subnet.this)[*].availability_zone
   )
@@ -26,8 +42,9 @@ resource "aws_subnet" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", each.key)
+      "Name" = each.key
     },
+    local.module_tags,
     var.tags,
   )
 }
@@ -45,8 +62,9 @@ resource "aws_db_subnet_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.db_subnet_group_name)
+      "Name" = var.db_subnet_group_name
     },
+    local.module_tags,
     var.tags,
   )
 }
@@ -69,8 +87,9 @@ resource "aws_redshift_subnet_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.redshift_subnet_group_name)
+      "Name" = var.redshift_subnet_group_name
     },
+    local.module_tags,
     var.tags,
   )
 }
@@ -83,8 +102,9 @@ resource "aws_neptune_subnet_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.neptune_subnet_group_name)
+      "Name" = var.neptune_subnet_group_name
     },
+    local.module_tags,
     var.tags,
   )
 }
@@ -97,8 +117,9 @@ resource "aws_docdb_subnet_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.docdb_subnet_group_name)
+      "Name" = var.docdb_subnet_group_name
     },
+    local.module_tags,
     var.tags,
   )
 }
@@ -123,8 +144,9 @@ resource "aws_dms_replication_subnet_group" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s", var.dms_replication_subnet_group_name)
+      "Name" = var.dms_replication_subnet_group_name
     },
+    local.module_tags,
     var.tags,
   )
 }
