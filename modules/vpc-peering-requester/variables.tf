@@ -6,25 +6,23 @@ variable "name" {
 variable "vpc_id" {
   description = "The ID of the requester VPC."
   type        = string
-  default     = ""
-}
-
-variable "accepter_id" {
-  description = "The AWS account ID of the owner of the peer VPC."
-  type        = string
-  default     = ""
-}
-
-variable "accepter_region" {
-  description = "The region of the VPC with which you are creating the VPC Peering Connection."
-  type        = string
-  default     = ""
 }
 
 variable "accepter_vpc_id" {
   description = "The ID of the VPC with which you are creating the VPC Peering Connection."
   type        = string
-  default     = ""
+}
+
+variable "accepter_region" {
+  description = "The region of the VPC with which you are creating the VPC Peering Connection."
+  type        = string
+  default     = null
+}
+
+variable "accepter_account_id" {
+  description = "The AWS account ID of the owner of the peer VPC."
+  type        = string
+  default     = null
 }
 
 variable "allow_remote_vpc_dns_resolution" {

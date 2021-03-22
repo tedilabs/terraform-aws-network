@@ -19,14 +19,14 @@ data "aws_region" "this" {}
 
 locals {
   requester = {
-    id     = data.aws_caller_identity.this.account_id
-    region = data.aws_region.this.name
-    vpc_id = var.vpc_id
+    account_id = data.aws_caller_identity.this.account_id
+    region     = data.aws_region.this.name
+    vpc_id     = var.vpc_id
   }
   accepter = {
-    id     = var.accepter_id
-    region = var.accepter_region
-    vpc_id = var.accepter_vpc_id
+    account_id = var.accepter_account_id != null ? var.accepter_account_id : local.requester.account_id
+    region     = var.accepter_region != null ? var.accepter_region : local.requester.region
+    vpc_id     = var.accepter_vpc_id
   }
 }
 
@@ -39,9 +39,9 @@ resource "aws_vpc_peering_connection" "this" {
   vpc_id      = local.requester.vpc_id
   auto_accept = false
 
-  peer_owner_id = local.accepter.id
-  peer_region   = local.accepter.region
   peer_vpc_id   = local.accepter.vpc_id
+  peer_region   = local.accepter.region
+  peer_owner_id = local.accepter.account_id
 
   tags = merge(
     {

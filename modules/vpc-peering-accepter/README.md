@@ -36,14 +36,10 @@ This module creates following resources.
 
 | Name | Description |
 |------|-------------|
-| accepter\_id | The AWS account ID of the owner of the accepter VPC. |
-| accepter\_region | The region of the accepter VPC. |
-| accepter\_vpc\_id | The ID of the accepter VPC. |
+| accepter | The accepter information including AWS Account ID, Region, VPC ID. |
 | id | The ID of the VPC Peering Connection. |
 | name | The VPC Peering name. |
-| requester\_id | The AWS account ID of the owner of the requester VPC. |
-| requester\_region | The region of the requester VPC. |
-| requester\_vpc\_id | The ID of the requester VPC. |
+| requester | The requester information including AWS Account ID, Region, VPC ID. |
 | resource\_group\_enabled | Whether Resource Group is enabled. |
 | resource\_group\_name | The name of Resource Group. |
 | status | The status of the VPC Peering Connection request. |

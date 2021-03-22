@@ -17,6 +17,19 @@ locals {
 data "aws_caller_identity" "this" {}
 data "aws_region" "this" {}
 
+locals {
+  requester = {
+    account_id = aws_vpc_peering_connection_accepter.this.peer_owner_id
+    region     = aws_vpc_peering_connection_accepter.this.peer_region
+    vpc_id     = aws_vpc_peering_connection_accepter.this.peer_vpc_id
+  }
+  accepter = {
+    account_id = data.aws_caller_identity.this.account_id
+    region     = data.aws_region.this.name
+    vpc_id     = aws_vpc_peering_connection_accepter.this.vpc_id
+  }
+}
+
 
 ###################################################
 # VPC Peering for Accepter
