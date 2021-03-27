@@ -40,15 +40,15 @@ resource "aws_route" "ipv4" {
   route_table_id         = aws_route_table.this.id
   destination_cidr_block = each.key
 
-  egress_only_gateway_id    = lookup(each.value, "egress_only_gateway_id", "")
-  gateway_id                = lookup(each.value, "gateway_id", "")
-  instance_id               = lookup(each.value, "instance_id", "")
-  local_gateway_id          = lookup(each.value, "local_gateway_id", "")
-  nat_gateway_id            = lookup(each.value, "nat_gateway_id", "")
-  network_interface_id      = lookup(each.value, "network_interface_id", "")
-  transit_gateway_id        = lookup(each.value, "transit_gateway_id", "")
-  vpc_endpoint_id           = lookup(each.value, "vpc_endpoint_id", "")
-  vpc_peering_connection_id = lookup(each.value, "vpc_peering_connection_id", "")
+  egress_only_gateway_id    = try(each.value.egress_only_gateway_id, null)
+  gateway_id                = try(each.value.gateway_id, null)
+  instance_id               = try(each.value.instance_id, null)
+  local_gateway_id          = try(each.value.local_gateway_id, null)
+  nat_gateway_id            = try(each.value.nat_gateway_id, null)
+  network_interface_id      = try(each.value.network_interface_id, null)
+  transit_gateway_id        = try(each.value.transit_gateway_id, null)
+  vpc_endpoint_id           = try(each.value.vpc_endpoint_id, null)
+  vpc_peering_connection_id = try(each.value.vpc_peering_connection_id, null)
 }
 
 resource "aws_route" "ipv6" {
@@ -60,15 +60,15 @@ resource "aws_route" "ipv6" {
   route_table_id              = aws_route_table.this.id
   destination_ipv6_cidr_block = each.key
 
-  egress_only_gateway_id    = lookup(each.value, "egress_only_gateway_id", "")
-  gateway_id                = lookup(each.value, "gateway_id", "")
-  instance_id               = lookup(each.value, "instance_id", "")
-  local_gateway_id          = lookup(each.value, "local_gateway_id", "")
-  nat_gateway_id            = lookup(each.value, "nat_gateway_id", "")
-  network_interface_id      = lookup(each.value, "network_interface_id", "")
-  transit_gateway_id        = lookup(each.value, "transit_gateway_id", "")
-  vpc_endpoint_id           = lookup(each.value, "vpc_endpoint_id", "")
-  vpc_peering_connection_id = lookup(each.value, "vpc_peering_connection_id", "")
+  egress_only_gateway_id    = try(each.value.egress_only_gateway_id, null)
+  gateway_id                = try(each.value.gateway_id, null)
+  instance_id               = try(each.value.instance_id, null)
+  local_gateway_id          = try(each.value.local_gateway_id, null)
+  nat_gateway_id            = try(each.value.nat_gateway_id, null)
+  network_interface_id      = try(each.value.network_interface_id, null)
+  transit_gateway_id        = try(each.value.transit_gateway_id, null)
+  vpc_endpoint_id           = try(each.value.vpc_endpoint_id, null)
+  vpc_peering_connection_id = try(each.value.vpc_peering_connection_id, null)
 }
 
 
