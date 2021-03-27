@@ -22,18 +22,3 @@ output "propagated_vpn_gateways" {
   description = "A list of Virtual Private Gateway IDs which propagate routes from."
   value       = values(aws_vpn_gateway_route_propagation.this)[*].vpn_gateway_id
 }
-
-
-###################################################
-# Resource Group
-###################################################
-
-output "resource_group_enabled" {
-  description = "Whether Resource Group is enabled."
-  value       = var.resource_group_enabled
-}
-
-output "resource_group_name" {
-  description = "The name of Resource Group."
-  value       = try(aws_resourcegroups_group.this.*.name[0], null)
-}

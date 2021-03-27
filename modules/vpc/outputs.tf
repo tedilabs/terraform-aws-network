@@ -132,18 +132,3 @@ output "vpn_gateway_asn" {
   description = "The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN."
   value       = try(aws_vpn_gateway.this.*.amazon_side_asn[0], null)
 }
-
-
-###################################################
-# Resource Group
-###################################################
-
-output "resource_group_enabled" {
-  description = "Whether Resource Group is enabled."
-  value       = var.resource_group_enabled
-}
-
-output "resource_group_name" {
-  description = "The name of Resource Group."
-  value       = try(aws_resourcegroups_group.this.*.name[0], null)
-}

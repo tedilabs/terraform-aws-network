@@ -13,13 +13,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -46,8 +46,6 @@ This module creates following resources.
 | associated\_subnets | A list of subnet IDs which is associated with the route table. |
 | id | The ID of the routing table. |
 | propagated\_vpn\_gateways | A list of Virtual Private Gateway IDs which propagate routes from. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 | vpc\_id | The ID of the VPC which the route table belongs to. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

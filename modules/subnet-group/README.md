@@ -17,13 +17,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -79,8 +79,6 @@ This module creates following resources.
 | neptune\_subnet\_group\_id | The ID of the Neptune DB Subnet Group. |
 | redshift\_subnet\_group\_arn | The ARN of the Redshift Subnet Group. |
 | redshift\_subnet\_group\_id | The ID of the Redshift Subnet Group. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 | subnets | A list of subnets. |
 | vpc\_id | The ID of the VPC which the subnet group belongs to. |
 

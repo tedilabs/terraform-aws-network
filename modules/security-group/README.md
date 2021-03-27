@@ -11,13 +11,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -44,8 +44,6 @@ This module creates following resources.
 | id | The ID of the security group. |
 | name | The name of the security group. |
 | owner\_id | The ID of the AWS account that owns the security group. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 | vpc\_id | The ID of the associated VPC. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -11,13 +11,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -42,7 +42,5 @@ This module creates following resources.
 | id | The ID of the NAT Gateway. |
 | private\_ip | The private IP address of the NAT Gateway. |
 | public\_ip | The public IP address of the NAT Gateway. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

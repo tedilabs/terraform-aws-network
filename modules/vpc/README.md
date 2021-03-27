@@ -17,13 +17,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -79,8 +79,6 @@ This module creates following resources.
 | main\_route\_table\_id | The ID of the main route table associated with this VPC. Note that you can change a VPC's main route table. |
 | name | The VPC name. |
 | private\_hosted\_zones | List of associated private Hosted Zone IDs. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 | secondary\_cidr\_blocks | List of secondary CIDR blocks of the VPC. |
 | vpn\_gateway\_arn | The ARN of the Virtual Private Gateway. |
 | vpn\_gateway\_asn | The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN. |

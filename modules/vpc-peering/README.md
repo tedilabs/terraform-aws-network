@@ -10,13 +10,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | terraform | >= 0.13 |
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| aws | >= 3.30 |
+| aws | >= 3.34 |
 
 ## Inputs
 
@@ -41,8 +41,6 @@ This module creates following resources.
 | id | The ID of the VPC Peering Connection. |
 | name | The VPC Peering name. |
 | requester | The requester information including AWS Account ID, Region, VPC ID. |
-| resource\_group\_enabled | Whether Resource Group is enabled. |
-| resource\_group\_name | The name of Resource Group. |
 | status | The status of the VPC Peering Connection request. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
