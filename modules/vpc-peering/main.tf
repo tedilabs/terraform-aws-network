@@ -17,16 +17,36 @@ locals {
 data "aws_caller_identity" "this" {}
 data "aws_region" "this" {}
 
+data "aws_vpc" "requester" {
+  id = var.requester_vpc_id
+}
+
+data "aws_vpc" "accepter" {
+  id = var.accepter_vpc_id
+}
+
 locals {
   requester = {
     account_id = data.aws_caller_identity.this.account_id
     region     = data.aws_region.this.name
     vpc_id     = var.requester_vpc_id
+    cidr_block = data.aws_vpc.requester.cidr_block
+    secondary_cidr_blocks = [
+      for association in data.aws_vpc.requester.cidr_block_associations :
+      association.cidr_block
+      if association.cidr_block != data.aws_vpc.requester.cidr_block
+    ]
   }
   accepter = {
     account_id = data.aws_caller_identity.this.account_id
     region     = data.aws_region.this.name
     vpc_id     = var.accepter_vpc_id
+    cidr_block = data.aws_vpc.accepter.cidr_block
+    secondary_cidr_blocks = [
+      for association in data.aws_vpc.accepter.cidr_block_associations :
+      association.cidr_block
+      if association.cidr_block != data.aws_vpc.accepter.cidr_block
+    ]
   }
 }
 
