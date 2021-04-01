@@ -22,11 +22,23 @@ locals {
     account_id = aws_vpc_peering_connection_accepter.this.peer_owner_id
     region     = aws_vpc_peering_connection_accepter.this.peer_region
     vpc_id     = aws_vpc_peering_connection_accepter.this.peer_vpc_id
+    cidr_block = data.aws_vpc_peering_connection.this.cidr_block
+    secondary_cidr_blocks = [
+      for cidr in data.aws_vpc_peering_connection.this.cidr_block_set :
+      cidr.cidr_block
+      if cidr.cidr_block != data.aws_vpc_peering_connection.this.cidr_block
+    ]
   }
   accepter = {
     account_id = data.aws_caller_identity.this.account_id
     region     = data.aws_region.this.name
     vpc_id     = aws_vpc_peering_connection_accepter.this.vpc_id
+    cidr_block = data.aws_vpc_peering_connection.this.peer_cidr_block
+    secondary_cidr_blocks = [
+      for cidr in data.aws_vpc_peering_connection.this.peer_cidr_block_set :
+      cidr.cidr_block
+      if cidr.cidr_block != data.aws_vpc_peering_connection.this.peer_cidr_block
+    ]
   }
 }
 
@@ -54,4 +66,8 @@ resource "aws_vpc_peering_connection_options" "this" {
   accepter {
     allow_remote_vpc_dns_resolution = var.allow_remote_vpc_dns_resolution
   }
+}
+
+data "aws_vpc_peering_connection" "this" {
+  id = aws_vpc_peering_connection_accepter.this.id
 }

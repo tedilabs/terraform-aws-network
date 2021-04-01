@@ -61,3 +61,7 @@ resource "aws_vpc_peering_connection_options" "this" {
     allow_remote_vpc_dns_resolution = true
   }
 }
+
+data "aws_vpc_peering_connection" "this" {
+  id = aws_vpc_peering_connection.this.id
+}
