@@ -48,6 +48,16 @@ output "dns_hostnames_enabled" {
   value       = aws_vpc.this.enable_dns_hostnames
 }
 
+output "dns_dnssec_validation_enabled" {
+  description = "Whether or not the VPC has Route53 DNSSEC validation support."
+  value       = var.dns_dnssec_validation_enabled
+}
+
+output "dns_dnssec_validation_id" {
+  description = "The ID of a configuration for DNSSEC validation."
+  value       = try(aws_route53_resolver_dnssec_config.this.*.id[0], null)
+}
+
 output "private_hosted_zones" {
   description = "List of associated private Hosted Zone IDs."
   value       = values(aws_route53_zone_association.this)[*].zone_id

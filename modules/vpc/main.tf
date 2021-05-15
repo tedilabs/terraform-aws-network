@@ -53,6 +53,17 @@ resource "aws_route53_zone_association" "this" {
 
 
 ###################################################
+# Route53 DNSSEC Validation
+###################################################
+
+resource "aws_route53_resolver_dnssec_config" "this" {
+  count = var.dns_dnssec_validation_enabled ? 1 : 0
+
+  resource_id = aws_vpc.this.id
+}
+
+
+###################################################
 # DHCP Options
 ###################################################
 

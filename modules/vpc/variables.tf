@@ -39,6 +39,12 @@ variable "dns_support_enabled" {
   default     = true
 }
 
+variable "dns_dnssec_validation_enabled" {
+  description = "Should be true to enable Route53 DNSSEC validation in the VPC."
+  type        = bool
+  default     = false
+}
+
 variable "private_hosted_zones" {
   description = "List of private Hosted Zone IDs to associate."
   type        = list(string)
