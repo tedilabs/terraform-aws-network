@@ -3,6 +3,12 @@ variable "name" {
   type        = string
 }
 
+variable "is_private" {
+  description = "Whether to create the gateway as private or public connectivity type. Defaults to public(false)."
+  type        = bool
+  default     = false
+}
+
 variable "subnet_id" {
   description = "The ID of the subnet which the NAT Gateway belongs to."
   type        = string

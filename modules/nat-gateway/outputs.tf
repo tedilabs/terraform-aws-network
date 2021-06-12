@@ -3,6 +3,11 @@ output "id" {
   value       = aws_nat_gateway.this.id
 }
 
+output "connectivity_type" {
+  description = "Connectivity type for the gateway. Valid values are private and public."
+  value       = aws_nat_gateway.this.connectivity_type
+}
+
 output "eip_id" {
   description = "The Allocation ID of the Elastic IP address for the gateway."
   value       = aws_nat_gateway.this.allocation_id
