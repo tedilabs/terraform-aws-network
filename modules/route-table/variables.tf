@@ -33,13 +33,19 @@ variable "is_main" {
 }
 
 variable "ipv4_routes" {
-  description = "A list of IPv4 route rules."
+  description = "A list of route rules for IPv4 CIDRs."
   type        = list(map(string))
   default     = []
 }
 
 variable "ipv6_routes" {
-  description = "A list of IPv6 route rules."
+  description = "A list of route rules for IPv6 CIDRs."
+  type        = list(map(string))
+  default     = []
+}
+
+variable "prefix_list_routes" {
+  description = "A list of route rules for Managed Prefix List."
   type        = list(map(string))
   default     = []
 }

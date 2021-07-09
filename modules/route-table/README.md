@@ -33,6 +33,7 @@ No modules.
 | [aws_resourcegroups_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
 | [aws_route.ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.prefix_list](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table_association.gateways](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_route_table_association.subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
@@ -45,10 +46,11 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | Desired name for the route table resources. | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | The ID of the VPC which the route table belongs to. | `string` | n/a | yes |
 | <a name="input_gateways"></a> [gateways](#input\_gateways) | A list of gateway IDs to associate with the route table. Only support Internet Gateway and Virtual Private Gateway. | `list(string)` | `[]` | no |
-| <a name="input_ipv4_routes"></a> [ipv4\_routes](#input\_ipv4\_routes) | A list of IPv4 route rules. | `list(map(string))` | `[]` | no |
-| <a name="input_ipv6_routes"></a> [ipv6\_routes](#input\_ipv6\_routes) | A list of IPv6 route rules. | `list(map(string))` | `[]` | no |
+| <a name="input_ipv4_routes"></a> [ipv4\_routes](#input\_ipv4\_routes) | A list of route rules for IPv4 CIDRs. | `list(map(string))` | `[]` | no |
+| <a name="input_ipv6_routes"></a> [ipv6\_routes](#input\_ipv6\_routes) | A list of route rules for IPv6 CIDRs. | `list(map(string))` | `[]` | no |
 | <a name="input_is_main"></a> [is\_main](#input\_is\_main) | Whether to set this route table as the main route table. | `bool` | `false` | no |
 | <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
+| <a name="input_prefix_list_routes"></a> [prefix\_list\_routes](#input\_prefix\_list\_routes) | A list of route rules for Managed Prefix List. | `list(map(string))` | `[]` | no |
 | <a name="input_propagating_vpn_gateways"></a> [propagating\_vpn\_gateways](#input\_propagating\_vpn\_gateways) | A list of Virtual Private Gateway IDs to propagate routes from. | `list(string)` | `[]` | no |
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
