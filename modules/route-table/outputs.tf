@@ -22,3 +22,8 @@ output "propagated_vpn_gateways" {
   description = "A list of Virtual Private Gateway IDs which propagate routes from."
   value       = values(aws_vpn_gateway_route_propagation.this)[*].vpn_gateway_id
 }
+
+output "is_main" {
+  description = "Whether to set this route table as the main route table."
+  value       = var.is_main
+}

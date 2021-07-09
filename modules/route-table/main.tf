@@ -26,6 +26,13 @@ resource "aws_route_table" "this" {
   )
 }
 
+resource "aws_main_route_table_association" "this" {
+  count = var.is_main ? 1 : 0
+
+  vpc_id         = var.vpc_id
+  route_table_id = aws_route_table.this.id
+}
+
 
 ###################################################
 # Routes

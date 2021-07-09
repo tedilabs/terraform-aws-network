@@ -26,6 +26,12 @@ variable "propagating_vpn_gateways" {
   default     = []
 }
 
+variable "is_main" {
+  description = "Whether to set this route table as the main route table."
+  type        = bool
+  default     = false
+}
+
 variable "ipv4_routes" {
   description = "A list of IPv4 route rules."
   type        = list(map(string))

@@ -29,6 +29,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [aws_main_route_table_association.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/main_route_table_association) | resource |
 | [aws_resourcegroups_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
 | [aws_route.ipv4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.ipv6](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
@@ -46,6 +47,7 @@ No modules.
 | <a name="input_gateways"></a> [gateways](#input\_gateways) | A list of gateway IDs to associate with the route table. Only support Internet Gateway and Virtual Private Gateway. | `list(string)` | `[]` | no |
 | <a name="input_ipv4_routes"></a> [ipv4\_routes](#input\_ipv4\_routes) | A list of IPv4 route rules. | `list(map(string))` | `[]` | no |
 | <a name="input_ipv6_routes"></a> [ipv6\_routes](#input\_ipv6\_routes) | A list of IPv6 route rules. | `list(map(string))` | `[]` | no |
+| <a name="input_is_main"></a> [is\_main](#input\_is\_main) | Whether to set this route table as the main route table. | `bool` | `false` | no |
 | <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
 | <a name="input_propagating_vpn_gateways"></a> [propagating\_vpn\_gateways](#input\_propagating\_vpn\_gateways) | A list of Virtual Private Gateway IDs to propagate routes from. | `list(string)` | `[]` | no |
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
@@ -61,6 +63,7 @@ No modules.
 | <a name="output_associated_gateways"></a> [associated\_gateways](#output\_associated\_gateways) | A list of gateway IDs which is associated with the route table. |
 | <a name="output_associated_subnets"></a> [associated\_subnets](#output\_associated\_subnets) | A list of subnet IDs which is associated with the route table. |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the routing table. |
+| <a name="output_is_main"></a> [is\_main](#output\_is\_main) | Whether to set this route table as the main route table. |
 | <a name="output_propagated_vpn_gateways"></a> [propagated\_vpn\_gateways](#output\_propagated\_vpn\_gateways) | A list of Virtual Private Gateway IDs which propagate routes from. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the route table belongs to. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
