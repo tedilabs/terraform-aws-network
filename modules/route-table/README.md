@@ -4,6 +4,7 @@ This module creates following resources.
 
 - `aws_route_table`
 - `aws_route` (optional)
+- `aws_main_route_table_association` (optional)
 - `aws_route_table_association` (optional)
 - `aws_vpn_gateway_route_propagation` (optional)
 
