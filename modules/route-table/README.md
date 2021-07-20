@@ -6,6 +6,7 @@ This module creates following resources.
 - `aws_route` (optional)
 - `aws_main_route_table_association` (optional)
 - `aws_route_table_association` (optional)
+- `aws_vpc_endpoint_route_table_association` (optional)
 - `aws_vpn_gateway_route_propagation` (optional)
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -38,6 +39,7 @@ No modules.
 | [aws_route_table.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table_association.gateways](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
 | [aws_route_table_association.subnets](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_vpc_endpoint_route_table_association.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_route_table_association) | resource |
 | [aws_vpn_gateway_route_propagation.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpn_gateway_route_propagation) | resource |
 
 ## Inputs
@@ -58,6 +60,7 @@ No modules.
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | A list of subnet IDs to associate with the route table. | `list(string)` | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| <a name="input_vpc_gateway_endpoints"></a> [vpc\_gateway\_endpoints](#input\_vpc\_gateway\_endpoints) | A list of the VPC Endpoint IDs with which the Route Table will be associated. | `list(string)` | `[]` | no |
 
 ## Outputs
 
@@ -65,6 +68,7 @@ No modules.
 |------|-------------|
 | <a name="output_associated_gateways"></a> [associated\_gateways](#output\_associated\_gateways) | A list of gateway IDs which is associated with the route table. |
 | <a name="output_associated_subnets"></a> [associated\_subnets](#output\_associated\_subnets) | A list of subnet IDs which is associated with the route table. |
+| <a name="output_associated_vpc_gateway_endpoints"></a> [associated\_vpc\_gateway\_endpoints](#output\_associated\_vpc\_gateway\_endpoints) | A list of the VPC Gateway Endpoint IDs which is associated with the route table. |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the routing table. |
 | <a name="output_is_main"></a> [is\_main](#output\_is\_main) | Whether to set this route table as the main route table. |
 | <a name="output_propagated_vpn_gateways"></a> [propagated\_vpn\_gateways](#output\_propagated\_vpn\_gateways) | A list of Virtual Private Gateway IDs which propagate routes from. |

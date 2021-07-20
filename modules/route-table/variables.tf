@@ -20,6 +20,12 @@ variable "gateways" {
   default     = []
 }
 
+variable "vpc_gateway_endpoints" {
+  description = "A list of the VPC Endpoint IDs with which the Route Table will be associated."
+  type        = list(string)
+  default     = []
+}
+
 variable "propagating_vpn_gateways" {
   description = "A list of Virtual Private Gateway IDs to propagate routes from."
   type        = list(string)

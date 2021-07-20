@@ -18,6 +18,11 @@ output "associated_gateways" {
   value       = values(aws_route_table_association.gateways)[*].gateway_id
 }
 
+output "associated_vpc_gateway_endpoints" {
+  description = "A list of the VPC Gateway Endpoint IDs which is associated with the route table."
+  value       = var.vpc_gateway_endpoints
+}
+
 output "propagated_vpn_gateways" {
   description = "A list of Virtual Private Gateway IDs which propagate routes from."
   value       = values(aws_vpn_gateway_route_propagation.this)[*].vpn_gateway_id
