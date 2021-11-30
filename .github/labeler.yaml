@@ -1,0 +1,36 @@
+# Modules
+":floppy_disk: dx-gateway":
+- modules/dx-gateway/**/*
+
+":floppy_disk: nacl":
+- modules/nacl/**/*
+
+":floppy_disk: nat-gateway":
+- modules/nat-gateway/**/*
+
+":floppy_disk: route-table":
+- modules/route-table/**/*
+
+":floppy_disk: security-group":
+- modules/security-group/**/*
+
+":floppy_disk: vpc":
+- modules/vpc/**/*
+
+":floppy_disk: vpc-endpoint-service":
+- modules/vpc-endpoint-service/**/*
+
+":floppy_disk: vpc-gateway-endpoint":
+- modules/vpc-gateway-endpoint/**/*
+
+":floppy_disk: vpc-interface-endpoint":
+- modules/vpc-interface-endpoint/**/*
+
+":floppy_disk: vpc-peering":
+- modules/vpc-peering/**/*
+
+":floppy_disk: vpc-peering-accepter":
+- modules/vpc-peering-accepter/**/*
+
+":floppy_disk: vpc-peering-requester":
+- modules/vpc-peering-requester/**/*
