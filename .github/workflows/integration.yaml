@@ -1,39 +1,87 @@
 name: Integration
 
-on: [push]
+on:
+  push:
+    branches:
+    - main
+  pull_request: {}
+
+concurrency:
+  group: integration-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint-yaml:
+  changed:
     runs-on: ubuntu-latest
 
+    outputs:
+      terraform_modules_changed: ${{ steps.filter-terraform-modules.outputs.changed }}
+      terraform_modules_files: ${{ steps.filter-terraform-modules.outputs.files }}
+      terraform_modules_dirs: ${{ steps.filter-terraform-modules.outputs.dirs }}
+
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Lint YAML files
-      uses: ibiqlik/action-yamllint@v3
+    - name: Checkout
+      uses: actions/checkout@v2
       with:
-        file_or_dir: .
-        config_file: .yamllint.yaml
-        strict: false
+        fetch-depth: 0
 
-  lint-tf:
+    - name: Get Changed Files
+      id: changed-files
+      uses: dorny/paths-filter@v2
+      with:
+        list-files: json
+        filters: |
+          modules:
+          - 'modules/**'
+
+    - name: Filter changed files to outputs
+      id: filter-terraform-modules
+      run: |
+        dirs=$(echo '${{ steps.changed-files.outputs.modules_files }}' | jq '[.[] | match("modules/[^/]+").string] | unique')
+        echo ::set-output name=changed::${{ steps.changed-files.outputs.modules }}
+        echo ::set-output name=files::${{ steps.changed-files.outputs.modules_files }}
+        echo ::set-output name=dirs::$dirs
+
+
+  terraform:
+    needs:
+    - changed
+    if: ${{ needs.changed.outputs.terraform_modules_changed != 'false' }}
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        path: ${{ fromJson(needs.changed.outputs.terraform_modules_dirs) }}
+
     steps:
-    - uses: actions/checkout@v2
-    - uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set-up terraform
+      uses: hashicorp/setup-terraform@v1
 
     - name: Terraform fmt
-      id: fmt
+      id: terraform-fmt
+      working-directory: ${{ matrix.path }}
       run: terraform fmt -check
       continue-on-error: true
 
-    - name: Terraform Init
-      id: init
-      run: terraform init
-
     - name: Terraform Validate
-      id: validate
-      run: terraform validate -no-color
+      id: terraform-validate
+      working-directory: ${{ matrix.path }}
+      run: |
+        terraform init -backend=false
+        terraform validate -no-color
+
+
+  yaml:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Lint YAML Files
+      id: yaml-lint
+      run: |
+        yamllint .

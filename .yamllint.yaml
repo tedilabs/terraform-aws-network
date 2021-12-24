@@ -2,11 +2,6 @@ yaml-files:
 - '*.yaml'
 - '*.yml'
 
-ignore: |
-  **/.terraform/
-
-extends: default
-
 rules:
   braces:
     min-spaces-inside: 0
