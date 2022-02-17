@@ -102,6 +102,7 @@ No modules.
 | <a name="output_neptune_subnet_group_id"></a> [neptune\_subnet\_group\_id](#output\_neptune\_subnet\_group\_id) | The ID of the Neptune DB Subnet Group. |
 | <a name="output_redshift_subnet_group_arn"></a> [redshift\_subnet\_group\_arn](#output\_redshift\_subnet\_group\_arn) | The ARN of the Redshift Subnet Group. |
 | <a name="output_redshift_subnet_group_id"></a> [redshift\_subnet\_group\_id](#output\_redshift\_subnet\_group\_id) | The ID of the Redshift Subnet Group. |
-| <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnets. |
+| <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnets of the subnet group. |
+| <a name="output_subnets_by_az"></a> [subnets\_by\_az](#output\_subnets\_by\_az) | A map of subnets of the subnet group which are grouped by availability zone id. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the subnet group belongs to. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

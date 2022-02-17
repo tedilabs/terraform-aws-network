@@ -23,6 +23,22 @@ locals {
   )
 }
 
+locals {
+  subnets = [
+    for subnet in aws_subnet.this : {
+      id   = subnet.id
+      arn  = subnet.arn
+      name = subnet.tags["Name"]
+
+      availability_zone    = subnet.availability_zone
+      availability_zone_id = subnet.availability_zone_id
+
+      cidr_block      = subnet.cidr_block
+      ipv6_cidr_block = subnet.ipv6_cidr_block
+    }
+  ]
+}
+
 resource "aws_subnet" "this" {
   for_each = var.subnets
 

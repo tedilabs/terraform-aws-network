@@ -39,8 +39,16 @@ output "availability_zone_ids" {
 }
 
 output "subnets" {
-  description = "A list of subnets."
-  value       = values(aws_subnet.this)
+  description = "A list of subnets of the subnet group."
+  value       = local.subnets
+}
+
+output "subnets_by_az" {
+  description = "A map of subnets of the subnet group which are grouped by availability zone id."
+  value = {
+    for subnet in local.subnets :
+    subnet.availability_zone_id => subnet...
+  }
 }
 
 output "db_subnet_group_id" {
