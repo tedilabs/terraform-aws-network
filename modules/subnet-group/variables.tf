@@ -127,6 +127,18 @@ variable "dms_replication_subnet_group_name" {
   default     = ""
 }
 
+variable "memorydb_subnet_group_enabled" {
+  description = "Controls if MemoryDB Subnet Group should be created."
+  type        = bool
+  default     = false
+}
+
+variable "memorydb_subnet_group_name" {
+  description = "Desired name for the MemoryDB Subnet Group."
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   description = "A map of tags to add to all resources."
   type        = map(string)

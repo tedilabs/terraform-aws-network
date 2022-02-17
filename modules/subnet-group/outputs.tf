@@ -115,3 +115,13 @@ output "dms_replication_subnet_group_id" {
 #   description = "The ARN of the DMS Replication Subnet Group."
 #   value       = try(aws_dms_replication_subnet_group.this.*.arn[0], null)
 # }
+
+output "memorydb_subnet_group_id" {
+  description = "The ID of the MemoryDB Subnet Group."
+  value       = try(aws_memorydb_subnet_group.this.*.id[0], null)
+}
+
+output "memorydb_subnet_group_arn" {
+  description = "The ARN of the MemoryDB Subnet Group."
+  value       = try(aws_memorydb_subnet_group.this.*.arn[0], null)
+}

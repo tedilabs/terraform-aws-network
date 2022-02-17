@@ -138,13 +138,29 @@ resource "aws_dms_replication_subnet_group" "this" {
   count = var.dms_replication_subnet_group_enabled ? 1 : 0
 
   replication_subnet_group_id          = var.dms_replication_subnet_group_name
-  replication_subnet_group_description = "Managed by Terraform"
+  replication_subnet_group_description = "Managed by Terraform."
 
   subnet_ids = values(aws_subnet.this)[*].id
 
   tags = merge(
     {
       "Name" = var.dms_replication_subnet_group_name
+    },
+    local.module_tags,
+    var.tags,
+  )
+}
+
+resource "aws_memorydb_subnet_group" "this" {
+  count = var.memorydb_subnet_group_enabled ? 1 : 0
+
+  name        = var.memorydb_subnet_group_name
+  description = "Managed by Terraform."
+  subnet_ids  = values(aws_subnet.this)[*].id
+
+  tags = merge(
+    {
+      "Name" = var.memorydb_subnet_group_name
     },
     local.module_tags,
     var.tags,
