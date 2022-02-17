@@ -91,8 +91,13 @@ resource "aws_elasticache_subnet_group" "this" {
   name       = var.cache_subnet_group_name
   subnet_ids = values(aws_subnet.this)[*].id
 
-  # INFO: Not support resource tags
-  # tags = {}
+  tags = merge(
+    {
+      "Name" = var.cache_subnet_group_name
+    },
+    local.module_tags,
+    var.tags,
+  )
 }
 
 resource "aws_redshift_subnet_group" "this" {
