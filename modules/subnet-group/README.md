@@ -17,13 +17,13 @@ This module creates following resources.
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.45 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.71 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.45.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.1.0 |
 
 ## Modules
 
@@ -38,6 +38,7 @@ No modules.
 | [aws_dms_replication_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dms_replication_subnet_group) | resource |
 | [aws_docdb_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/docdb_subnet_group) | resource |
 | [aws_elasticache_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/elasticache_subnet_group) | resource |
+| [aws_memorydb_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/memorydb_subnet_group) | resource |
 | [aws_neptune_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/neptune_subnet_group) | resource |
 | [aws_redshift_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/redshift_subnet_group) | resource |
 | [aws_resourcegroups_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
@@ -64,6 +65,8 @@ No modules.
 | <a name="input_docdb_subnet_group_name"></a> [docdb\_subnet\_group\_name](#input\_docdb\_subnet\_group\_name) | Desired name for the DocumentDB Subnet Group. | `string` | `""` | no |
 | <a name="input_map_customer_owned_ip_on_launch"></a> [map\_customer\_owned\_ip\_on\_launch](#input\_map\_customer\_owned\_ip\_on\_launch) | Should be true if network interfaces created in the subnet should be assigned a customer owned IP address. | `bool` | `false` | no |
 | <a name="input_map_public_ip_on_launch"></a> [map\_public\_ip\_on\_launch](#input\_map\_public\_ip\_on\_launch) | Should be false if you do not want to auto-assign public IP on launch. | `bool` | `false` | no |
+| <a name="input_memorydb_subnet_group_enabled"></a> [memorydb\_subnet\_group\_enabled](#input\_memorydb\_subnet\_group\_enabled) | Controls if MemoryDB Subnet Group should be created. | `bool` | `false` | no |
+| <a name="input_memorydb_subnet_group_name"></a> [memorydb\_subnet\_group\_name](#input\_memorydb\_subnet\_group\_name) | Desired name for the MemoryDB Subnet Group. | `string` | `""` | no |
 | <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
 | <a name="input_neptune_subnet_group_enabled"></a> [neptune\_subnet\_group\_enabled](#input\_neptune\_subnet\_group\_enabled) | Controls if Neptune Subnet Group should be created. | `bool` | `false` | no |
 | <a name="input_neptune_subnet_group_name"></a> [neptune\_subnet\_group\_name](#input\_neptune\_subnet\_group\_name) | Desired name for the Neptune Subnet Group. | `string` | `""` | no |
@@ -92,11 +95,14 @@ No modules.
 | <a name="output_docdb_subnet_group_id"></a> [docdb\_subnet\_group\_id](#output\_docdb\_subnet\_group\_id) | The ID of the DocumentDB Subnet Group. |
 | <a name="output_ids"></a> [ids](#output\_ids) | A list of IDs of subnets |
 | <a name="output_ipv6_cidr_blocks"></a> [ipv6\_cidr\_blocks](#output\_ipv6\_cidr\_blocks) | The IPv6 CIDR blocks of the subnet group. |
+| <a name="output_memorydb_subnet_group_arn"></a> [memorydb\_subnet\_group\_arn](#output\_memorydb\_subnet\_group\_arn) | The ARN of the MemoryDB Subnet Group. |
+| <a name="output_memorydb_subnet_group_id"></a> [memorydb\_subnet\_group\_id](#output\_memorydb\_subnet\_group\_id) | The ID of the MemoryDB Subnet Group. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the subnet group. |
 | <a name="output_neptune_subnet_group_arn"></a> [neptune\_subnet\_group\_arn](#output\_neptune\_subnet\_group\_arn) | The ARN of the Neptune Subnet Group. |
 | <a name="output_neptune_subnet_group_id"></a> [neptune\_subnet\_group\_id](#output\_neptune\_subnet\_group\_id) | The ID of the Neptune DB Subnet Group. |
 | <a name="output_redshift_subnet_group_arn"></a> [redshift\_subnet\_group\_arn](#output\_redshift\_subnet\_group\_arn) | The ARN of the Redshift Subnet Group. |
 | <a name="output_redshift_subnet_group_id"></a> [redshift\_subnet\_group\_id](#output\_redshift\_subnet\_group\_id) | The ID of the Redshift Subnet Group. |
-| <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnets. |
+| <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnets of the subnet group. |
+| <a name="output_subnets_by_az"></a> [subnets\_by\_az](#output\_subnets\_by\_az) | A map of subnets of the subnet group which are grouped by availability zone id. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the subnet group belongs to. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

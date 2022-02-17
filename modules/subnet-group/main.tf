@@ -23,6 +23,22 @@ locals {
   )
 }
 
+locals {
+  subnets = [
+    for subnet in aws_subnet.this : {
+      id   = subnet.id
+      arn  = subnet.arn
+      name = subnet.tags["Name"]
+
+      availability_zone    = subnet.availability_zone
+      availability_zone_id = subnet.availability_zone_id
+
+      cidr_block      = subnet.cidr_block
+      ipv6_cidr_block = subnet.ipv6_cidr_block
+    }
+  ]
+}
+
 resource "aws_subnet" "this" {
   for_each = var.subnets
 
@@ -75,8 +91,13 @@ resource "aws_elasticache_subnet_group" "this" {
   name       = var.cache_subnet_group_name
   subnet_ids = values(aws_subnet.this)[*].id
 
-  # INFO: Not support resource tags
-  # tags = {}
+  tags = merge(
+    {
+      "Name" = var.cache_subnet_group_name
+    },
+    local.module_tags,
+    var.tags,
+  )
 }
 
 resource "aws_redshift_subnet_group" "this" {
@@ -138,13 +159,29 @@ resource "aws_dms_replication_subnet_group" "this" {
   count = var.dms_replication_subnet_group_enabled ? 1 : 0
 
   replication_subnet_group_id          = var.dms_replication_subnet_group_name
-  replication_subnet_group_description = "Managed by Terraform"
+  replication_subnet_group_description = "Managed by Terraform."
 
   subnet_ids = values(aws_subnet.this)[*].id
 
   tags = merge(
     {
       "Name" = var.dms_replication_subnet_group_name
+    },
+    local.module_tags,
+    var.tags,
+  )
+}
+
+resource "aws_memorydb_subnet_group" "this" {
+  count = var.memorydb_subnet_group_enabled ? 1 : 0
+
+  name        = var.memorydb_subnet_group_name
+  description = "Managed by Terraform."
+  subnet_ids  = values(aws_subnet.this)[*].id
+
+  tags = merge(
+    {
+      "Name" = var.memorydb_subnet_group_name
     },
     local.module_tags,
     var.tags,
