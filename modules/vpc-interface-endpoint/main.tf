@@ -15,11 +15,14 @@ locals {
 }
 
 resource "aws_vpc_endpoint" "this" {
-  vpc_endpoint_type  = "Interface"
-  service_name       = var.service_name
-  vpc_id             = var.vpc_id
-  subnet_ids         = var.subnets
-  security_group_ids = var.security_group_ids
+  vpc_endpoint_type = "Interface"
+  service_name      = var.service_name
+  vpc_id            = var.vpc_id
+  subnet_ids        = var.subnets
+  security_group_ids = setunion(
+    [module.security_group.id],
+    var.security_groups,
+  )
 
   private_dns_enabled = var.private_dns_enabled
   auto_accept         = var.auto_accept
