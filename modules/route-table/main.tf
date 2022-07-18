@@ -38,6 +38,8 @@ resource "aws_main_route_table_association" "this" {
 # Routes
 ###################################################
 
+# INFO: Not supported attributes
+# - `instance_id` (Deprecated)
 resource "aws_route" "ipv4" {
   for_each = {
     for route in var.ipv4_routes :
@@ -48,9 +50,9 @@ resource "aws_route" "ipv4" {
   destination_cidr_block = each.key
 
   carrier_gateway_id        = try(each.value.carrier_gateway_id, null)
+  core_network_arn          = try(each.value.core_network_arn, null)
   egress_only_gateway_id    = try(each.value.egress_only_gateway_id, null)
   gateway_id                = try(each.value.gateway_id, null)
-  instance_id               = try(each.value.instance_id, null)
   local_gateway_id          = try(each.value.local_gateway_id, null)
   nat_gateway_id            = try(each.value.nat_gateway_id, null)
   network_interface_id      = try(each.value.network_interface_id, null)
@@ -69,9 +71,9 @@ resource "aws_route" "ipv6" {
   destination_ipv6_cidr_block = each.key
 
   carrier_gateway_id        = try(each.value.carrier_gateway_id, null)
+  core_network_arn          = try(each.value.core_network_arn, null)
   egress_only_gateway_id    = try(each.value.egress_only_gateway_id, null)
   gateway_id                = try(each.value.gateway_id, null)
-  instance_id               = try(each.value.instance_id, null)
   local_gateway_id          = try(each.value.local_gateway_id, null)
   nat_gateway_id            = try(each.value.nat_gateway_id, null)
   network_interface_id      = try(each.value.network_interface_id, null)
@@ -90,9 +92,9 @@ resource "aws_route" "prefix_list" {
   destination_prefix_list_id = each.key
 
   carrier_gateway_id        = try(each.value.carrier_gateway_id, null)
+  core_network_arn          = try(each.value.core_network_arn, null)
   egress_only_gateway_id    = try(each.value.egress_only_gateway_id, null)
   gateway_id                = try(each.value.gateway_id, null)
-  instance_id               = try(each.value.instance_id, null)
   local_gateway_id          = try(each.value.local_gateway_id, null)
   nat_gateway_id            = try(each.value.nat_gateway_id, null)
   network_interface_id      = try(each.value.network_interface_id, null)
