@@ -107,7 +107,8 @@ variable "vpn_gateway_enabled" {
 
 variable "vpn_gateway_asn" {
   description = "The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN."
-  default     = "64512"
+  type        = number
+  default     = 64512
 }
 
 variable "tags" {

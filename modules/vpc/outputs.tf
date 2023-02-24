@@ -55,7 +55,7 @@ output "dns_dnssec_validation_enabled" {
 
 output "dns_dnssec_validation_id" {
   description = "The ID of a configuration for DNSSEC validation."
-  value       = try(aws_route53_resolver_dnssec_config.this.*.id[0], null)
+  value       = one(aws_route53_resolver_dnssec_config.this[*].id)
 }
 
 output "private_hosted_zones" {
@@ -90,12 +90,12 @@ output "dhcp_options_enabled" {
 
 output "dhcp_options_id" {
   description = "The ID of the DHCP Options Set."
-  value       = try(aws_vpc_dhcp_options.this.*.id[0], null)
+  value       = one(aws_vpc_dhcp_options.this[*].id)
 }
 
 output "dhcp_options_arn" {
   description = "The ARN of the DHCP Options Set."
-  value       = try(aws_vpc_dhcp_options.this.*.arn[0], null)
+  value       = one(aws_vpc_dhcp_options.this[*].arn)
 }
 
 output "internet_gateway_enabled" {
@@ -105,12 +105,12 @@ output "internet_gateway_enabled" {
 
 output "internet_gateway_id" {
   description = "The ID of the Internet Gateway."
-  value       = try(aws_internet_gateway.this.*.id[0], null)
+  value       = one(aws_internet_gateway.this[*].id)
 }
 
 output "internet_gateway_arn" {
   description = "The ARN of the Internet Gateway."
-  value       = try(aws_internet_gateway.this.*.arn[0], null)
+  value       = one(aws_internet_gateway.this[*].arn)
 }
 
 output "egress_only_internet_gateway_enabled" {
@@ -120,7 +120,7 @@ output "egress_only_internet_gateway_enabled" {
 
 output "egress_only_internet_gateway_id" {
   description = "The ID of the Egress Only Internet Gateway."
-  value       = try(aws_egress_only_internet_gateway.this.*.id[0], null)
+  value       = one(aws_egress_only_internet_gateway.this[0].id)
 }
 
 output "vpn_gateway_enabled" {
@@ -130,15 +130,15 @@ output "vpn_gateway_enabled" {
 
 output "vpn_gateway_id" {
   description = "The ID of the Virtual Private Gateway."
-  value       = try(aws_vpn_gateway.this.*.id[0], null)
+  value       = one(aws_vpn_gateway.this[*].id)
 }
 
 output "vpn_gateway_arn" {
   description = "The ARN of the Virtual Private Gateway."
-  value       = try(aws_vpn_gateway.this.*.arn[0], null)
+  value       = one(aws_vpn_gateway.this[*].arn)
 }
 
 output "vpn_gateway_asn" {
   description = "The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN."
-  value       = try(aws_vpn_gateway.this.*.amazon_side_asn[0], null)
+  value       = one(aws_vpn_gateway.this[*].amazon_side_asn)
 }

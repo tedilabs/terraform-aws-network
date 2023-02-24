@@ -37,12 +37,12 @@ This module creates following resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_name"></a> [name](#input\_name) | (Required) The name of the security group. | `string` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | (Required) The ID of the associated VPC. | `string` | n/a | yes |
 | <a name="input_description"></a> [description](#input\_description) | (Optional) The security group description. This field maps to the AWS `GroupDescription` attribute, for which there is no Update API. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | (Optional) A list of egress rules in a security group. | `any` | `[]` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | (Optional) A list of ingress rules in a security group. | `any` | `[]` | no |
 | <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | (Optional) Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
-| <a name="input_name"></a> [name](#input\_name) | (Optional) The name of the security group. If omitted, Terraform will assign a random, unique name. | `string` | `null` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | (Optional) Creates a unique name beginning with the specified prefix. Conflicts with `name`. | `string` | `null` | no |
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | (Optional) The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | (Optional) Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
