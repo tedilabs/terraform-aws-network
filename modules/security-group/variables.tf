@@ -1,7 +1,7 @@
 variable "name" {
-  description = "(Optional) The name of the security group. If omitted, Terraform will assign a random, unique name."
+  description = "(Required) The name of the security group."
   type        = string
-  default     = null
+  nullable    = false
 }
 
 variable "name_prefix" {
