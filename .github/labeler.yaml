@@ -8,6 +8,9 @@
 ":floppy_disk: nat-gateway":
 - modules/nat-gateway/**/*
 
+":floppy_disk: prefix-list":
+- modules/prefix-list/**/*
+
 ":floppy_disk: route-table":
 - modules/route-table/**/*
 
