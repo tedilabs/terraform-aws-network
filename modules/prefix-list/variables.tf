@@ -80,3 +80,24 @@ variable "resource_group_description" {
   default     = "Managed by Terraform."
   nullable    = false
 }
+
+
+###################################################
+# Resource Sharing by RAM (Resource Access Manager)
+###################################################
+
+variable "shares" {
+  description = "(Optional) A list of resource shares via RAM (Resource Access Manager)."
+  type = list(object({
+    name = optional(string)
+
+    permissions = optional(set(string), ["AWSRAMDefaultPermissionPrefixList"])
+
+    external_principals_allowed = optional(bool, false)
+    principals                  = optional(set(string), [])
+
+    tags = optional(map(string), {})
+  }))
+  default  = []
+  nullable = false
+}

@@ -37,3 +37,15 @@ output "entries" {
   description = "A set of prefix list entries."
   value       = aws_ec2_managed_prefix_list.this.entry
 }
+
+output "sharing" {
+  description = <<EOF
+  The configuration for sharing of the VPC prefix list.
+    `status` - An indication of whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM). Values are `NOT_SHARED`, `SHARED_BY_ME` or `SHARED_WITH_ME`.
+    `shares` - The list of resource shares via RAM (Resource Access Manager).
+  EOF
+  value = {
+    status = length(module.share) > 0 ? "SHARED_BY_ME" : "NOT_SHARED"
+    shares = module.share
+  }
+}

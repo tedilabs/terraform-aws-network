@@ -17,13 +17,14 @@ This module creates following resources.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.52.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.58.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.10.0 |
+| <a name="module_share"></a> [share](#module\_share) | tedilabs/account/aws//modules/ram-share | ~> 0.24.0 |
 
 ## Resources
 
@@ -43,6 +44,7 @@ This module creates following resources.
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
+| <a name="input_shares"></a> [shares](#input\_shares) | (Optional) A list of resource shares via RAM (Resource Access Manager). | <pre>list(object({<br>    name = optional(string)<br><br>    permissions = optional(set(string), ["AWSRAMDefaultPermissionPrefixList"])<br><br>    external_principals_allowed = optional(bool, false)<br>    principals                  = optional(set(string), [])<br><br>    tags = optional(map(string), {})<br>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
@@ -56,5 +58,6 @@ This module creates following resources.
 | <a name="output_max_entries"></a> [max\_entries](#output\_max\_entries) | The maximum number of entries of this prefix list. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the prefix list. |
 | <a name="output_owner_id"></a> [owner\_id](#output\_owner\_id) | The ID of the AWS account that owns this prefix list. |
+| <a name="output_sharing"></a> [sharing](#output\_sharing) | The configuration for sharing of the VPC prefix list.<br>    `status` - An indication of whether the rule group is shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM). Values are `NOT_SHARED`, `SHARED_BY_ME` or `SHARED_WITH_ME`.<br>    `shares` - The list of resource shares via RAM (Resource Access Manager). |
 | <a name="output_version"></a> [version](#output\_version) | Latest version of this prefix list. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
