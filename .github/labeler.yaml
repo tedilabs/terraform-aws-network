@@ -11,6 +11,9 @@
 ":floppy_disk: prefix-list":
 - modules/prefix-list/**/*
 
+":floppy_disk: reachability-analyzer-path":
+- modules/reachability-analyzer-path/**/*
+
 ":floppy_disk: route-table":
 - modules/route-table/**/*
 
