@@ -10,6 +10,7 @@ Terraform module which creates network related resources on AWS.
 - [nacl](./modules/nacl)
 - [nat-gateway](./modules/nat-gateway)
 - [prefix-list](./modules/prefix-list)
+- [reachability-analyzer-path](./modules/reachability-analyzer-path)
 - [route-table](./modules/route-table)
 - [security-group](./modules/security-group)
 - [subnet-group](./modules/subnet-group)
@@ -44,6 +45,10 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
     - Interface Endpoint
 - **AWS DX (Direct Connect)**
   - DX Gateway
+- **AWS Network Manager**
+  - Reachability Analyzer
+    - Path
+    - Analysis
 
 
 ## Examples
