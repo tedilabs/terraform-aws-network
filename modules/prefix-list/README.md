@@ -36,16 +36,16 @@ This module creates following resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_address_family"></a> [address\_family](#input\_address\_family) | Address family of this prefix list. Valid values are `IPv4` or `IPv6`. | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | The name of the prefix list. The name must not start with `com.amazonaws`. | `string` | n/a | yes |
+| <a name="input_address_family"></a> [address\_family](#input\_address\_family) | (Required) Address family of this prefix list. Valid values are `IPv4` or `IPv6`. | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | (Required) The name of the prefix list. The name must not start with `com.amazonaws`. | `string` | n/a | yes |
 | <a name="input_entries"></a> [entries](#input\_entries) | (Optional) A set of prefix list entries. Each block of `entries` as defined below.<br>    (Required) `cidr` - The CIDR block of this entry.<br>    (Optional) `description` - The description of this entry. Due to API limitations, updating only the description of an existing entry requires temporarily removing and re-adding the entry. | <pre>set(object({<br>    cidr        = string<br>    description = optional(string, "Managed by Terraform.")<br>  }))</pre> | `[]` | no |
-| <a name="input_max_entries"></a> [max\_entries](#input\_max\_entries) | Maximum number of entries that this prefix list can contain. Configured the length of `entries` if not provided. | `number` | `null` | no |
-| <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
-| <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
-| <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
+| <a name="input_max_entries"></a> [max\_entries](#input\_max\_entries) | (Optional) Maximum number of entries that this prefix list can contain. Configured the length of `entries` if not provided. | `number` | `null` | no |
+| <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | (Optional) Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
+| <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | (Optional) The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
+| <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | (Optional) Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Optional) The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
 | <a name="input_shares"></a> [shares](#input\_shares) | (Optional) A list of resource shares via RAM (Resource Access Manager). | <pre>list(object({<br>    name = optional(string)<br><br>    permissions = optional(set(string), ["AWSRAMDefaultPermissionPrefixList"])<br><br>    external_principals_allowed = optional(bool, false)<br>    principals                  = optional(set(string), [])<br><br>    tags = optional(map(string), {})<br>  }))</pre> | `[]` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs
 
