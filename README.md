@@ -8,6 +8,7 @@ Terraform module which creates network related resources on AWS.
 
 - [dx-gateway](./modules/dx-gateway)
 - [ipam](./modules/ipam)
+- [ipam-resource-discovery](./modules/ipam-resource-discovery)
 - [nacl](./modules/nacl)
 - [nat-gateway](./modules/nat-gateway)
 - [prefix-list](./modules/prefix-list)
