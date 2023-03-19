@@ -7,6 +7,7 @@
 Terraform module which creates network related resources on AWS.
 
 - [dx-gateway](./modules/dx-gateway)
+- [ipam](./modules/ipam)
 - [nacl](./modules/nacl)
 - [nat-gateway](./modules/nat-gateway)
 - [prefix-list](./modules/prefix-list)
@@ -43,6 +44,11 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
     - Endpoint Service
     - Gateway Endpoint
     - Interface Endpoint
+- **AWS VPC IPAM(IP Address Manager)**
+  - IPAM
+  - Scope
+  - Pool
+  - Resource Discovery
 - **AWS DX (Direct Connect)**
   - DX Gateway
 - **AWS Network Manager**

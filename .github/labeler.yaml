@@ -2,6 +2,9 @@
 ":floppy_disk: dx-gateway":
 - modules/dx-gateway/**/*
 
+":floppy_disk: ipam":
+- modules/ipam/**/*
+
 ":floppy_disk: nacl":
 - modules/nacl/**/*
 
