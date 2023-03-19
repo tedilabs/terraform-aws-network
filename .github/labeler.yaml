@@ -5,6 +5,9 @@
 ":floppy_disk: ipam":
 - modules/ipam/**/*
 
+":floppy_disk: ipam-resource-discovery":
+- modules/ipam-resource-discovery/**/*
+
 ":floppy_disk: nacl":
 - modules/nacl/**/*
 
