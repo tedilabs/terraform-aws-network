@@ -21,18 +21,18 @@ resource "aws_dx_gateway_association" "this" {
   dx_gateway_id = aws_dx_gateway.this.id
 
   associated_gateway_id = each.key
-  allowed_prefixes      = try(each.value.allowed_prefixes, null)
+  allowed_prefixes      = each.value.allowed_prefixes
 }
 
 resource "aws_dx_gateway_association" "external" {
   for_each = {
     for association in var.cross_account_gateway_associations :
-    association.gateway_id => association
+    association.proposal_id => association
   }
 
   dx_gateway_id = aws_dx_gateway.this.id
 
   associated_gateway_owner_account_id = each.value.account_id
-  proposal_id                         = each.value.proposal_id
-  allowed_prefixes                    = try(each.value.allowed_prefixes, null)
+  proposal_id                         = each.key
+  allowed_prefixes                    = each.value.allowed_prefixes
 }

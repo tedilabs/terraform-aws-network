@@ -20,10 +20,27 @@ output "owner_account_id" {
 
 output "gateway_associations" {
   description = "Associated VGW or Transit gateway with a Direct Connect Gateway in same account."
-  value       = aws_dx_gateway_association.this
+  value = [
+    for assoc in aws_dx_gateway_association.this : {
+      id               = assoc.id
+      gateway_id       = assoc.associated_gateway_id
+      gateway_type     = assoc.associated_gateway_type
+      owner_account_id = assoc.associated_gateway_owner_account_id
+      allowed_prefixes = assoc.allowed_prefixes
+    }
+  ]
 }
 
 output "cross_account_gateway_associations" {
   description = "Associated VGW or Transit gateway with a Direct Connect Gateway in cross account."
-  value       = aws_dx_gateway_association.external
+  value = [
+    for assoc in aws_dx_gateway_association.external : {
+      id               = assoc.id
+      gateway_id       = assoc.associated_gateway_id
+      gateway_type     = assoc.associated_gateway_type
+      owner_account_id = assoc.associated_gateway_owner_account_id
+      proposal_id      = assoc.proposal_id
+      allowed_prefixes = assoc.allowed_prefixes
+    }
+  ]
 }
