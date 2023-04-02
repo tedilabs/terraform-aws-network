@@ -1,4 +1,7 @@
 # Modules
+":floppy_disk: dx-connection":
+- modules/dx-connection/**/*
+
 ":floppy_disk: dx-gateway":
 - modules/dx-gateway/**/*
 

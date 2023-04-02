@@ -6,6 +6,7 @@
 
 Terraform module which creates network related resources on AWS.
 
+- [dx-connection](./modules/dx-connection)
 - [dx-gateway](./modules/dx-gateway)
 - [ipam](./modules/ipam)
 - [ipam-resource-discovery](./modules/ipam-resource-discovery)
@@ -51,6 +52,7 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
   - Pool
   - Resource Discovery
 - **AWS DX (Direct Connect)**
+  - DX Connection
   - DX Gateway
 - **AWS Network Manager**
   - Reachability Analyzer
