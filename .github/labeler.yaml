@@ -5,6 +5,9 @@
 ":floppy_disk: dx-gateway":
 - modules/dx-gateway/**/*
 
+":floppy_disk: dx-private-virtual-interface":
+- modules/dx-private-virtual-interface/**/*
+
 ":floppy_disk: ipam":
 - modules/ipam/**/*
 
