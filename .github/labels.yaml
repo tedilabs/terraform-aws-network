@@ -41,6 +41,9 @@
 
 # Modules
 - color: "fbca04"
+  description: "This issue or pull request is related to dx-connection module."
+  name: ":floppy_disk: dx-connection"
+- color: "fbca04"
   description: "This issue or pull request is related to dx-gateway module."
   name: ":floppy_disk: dx-gateway"
 - color: "fbca04"
