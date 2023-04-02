@@ -72,8 +72,6 @@ resource "aws_dx_private_virtual_interface" "this" {
 # Additional BGP Peerings for Private VIF
 ###################################################
 
-# INFO: Not supported attributes
-# - `netmask_length`
 resource "aws_dx_bgp_peer" "this" {
   for_each = {
     for peering in local.secondary_peerings :
