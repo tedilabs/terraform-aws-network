@@ -99,11 +99,18 @@ variable "bgp_peerings" {
   }
 }
 
-variable "router" {
-  description = "(Optional) The ID of the Router Type to get the sample router configuration. For example: `CiscoSystemsInc-2900SeriesRouters-IOS124`"
-  type        = string
-  default     = null
-  nullable    = true
+variable "router_configuration" {
+  description = <<EOF
+  (Optional) The configuration to retrieve a sample router configuration for the virtual interface. `router_configuration` as defined below.
+    (Optional) `router` - The ID of the Router Type to get the sample router configuration. For example: `CiscoSystemsInc-2900SeriesRouters-IOS124`.
+    (Optional) `output_path` - The path to save sample router configuration.
+  EOF
+  type = object({
+    router      = optional(string)
+    output_path = optional(string)
+  })
+  default  = {}
+  nullable = false
 }
 
 variable "tags" {

@@ -94,14 +94,14 @@ output "bgp_peerings" {
   )
 }
 
-output "sample_configuration" {
+output "router_configuration" {
   description = "The sample router configuration for the virtual interface."
   value = {
     router = one([
       for router in local.routers :
       router
-      if router.id == var.router
+      if router.id == var.router_configuration.router
     ])
-    config = one(data.aws_dx_router_configuration.this[*].customer_router_config)
+    output_path = var.router_configuration.output_path
   }
 }

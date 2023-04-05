@@ -12,12 +12,14 @@ This module creates following resources.
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.60 |
+| <a name="requirement_local"></a> [local](#requirement\_local) | >= 2.4 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.61.0 |
+| <a name="provider_local"></a> [local](#provider\_local) | 2.4.0 |
 
 ## Modules
 
@@ -31,6 +33,7 @@ This module creates following resources.
 |------|------|
 | [aws_dx_bgp_peer.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dx_bgp_peer) | resource |
 | [aws_dx_private_virtual_interface.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dx_private_virtual_interface) | resource |
+| [local_file.this](https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file) | resource |
 | [aws_dx_router_configuration.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/dx_router_configuration) | data source |
 
 ## Inputs
@@ -47,7 +50,7 @@ This module creates following resources.
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | (Optional) The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | (Optional) Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Optional) The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
-| <a name="input_router"></a> [router](#input\_router) | (Optional) The ID of the Router Type to get the sample router configuration. For example: `CiscoSystemsInc-2900SeriesRouters-IOS124` | `string` | `null` | no |
+| <a name="input_router_configuration"></a> [router\_configuration](#input\_router\_configuration) | (Optional) The configuration to retrieve a sample router configuration for the virtual interface. `router_configuration` as defined below.<br>    (Optional) `router` - The ID of the Router Type to get the sample router configuration. For example: `CiscoSystemsInc-2900SeriesRouters-IOS124`.<br>    (Optional) `output_path` - The path to save sample router configuration. | <pre>object({<br>    router      = optional(string)<br>    output_path = optional(string)<br>  })</pre> | `{}` | no |
 | <a name="input_sitelink_enabled"></a> [sitelink\_enabled](#input\_sitelink\_enabled) | (Optional) Indicate whether to enable SiteLink. Control direct connectivity between Direct Connect points of presence. Subject to additional charges. Defaults to `false`. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A map of tags to add to all resources. | `map(string)` | `{}` | no |
 
@@ -65,7 +68,7 @@ This module creates following resources.
 | <a name="output_jumbo_frame_enabled"></a> [jumbo\_frame\_enabled](#output\_jumbo\_frame\_enabled) | Whether jumbo frames (9001 MTU) are enabled. |
 | <a name="output_mtu"></a> [mtu](#output\_mtu) | The MTU of the virtual interface. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the virtual interface. |
-| <a name="output_sample_configuration"></a> [sample\_configuration](#output\_sample\_configuration) | The sample router configuration for the virtual interface. |
+| <a name="output_router_configuration"></a> [router\_configuration](#output\_router\_configuration) | The sample router configuration for the virtual interface. |
 | <a name="output_sitelink_enabled"></a> [sitelink\_enabled](#output\_sitelink\_enabled) | Indicate whether to enable SiteLink. |
 | <a name="output_vlan"></a> [vlan](#output\_vlan) | The ID of the VLAN. |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

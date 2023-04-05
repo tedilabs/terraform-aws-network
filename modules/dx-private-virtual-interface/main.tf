@@ -95,15 +95,23 @@ resource "aws_dx_bgp_peer" "this" {
 ###################################################
 
 data "aws_dx_router_configuration" "this" {
-  count = var.router != null ? 1 : 0
+  count = var.router_configuration.router != null ? 1 : 0
 
   virtual_interface_id   = aws_dx_private_virtual_interface.this.id
-  router_type_identifier = var.router
+  router_type_identifier = var.router_configuration.router
 
   lifecycle {
     precondition {
-      condition     = contains(local.router_ids, var.router)
-      error_message = "Not supported router ID: ${var.router}."
+      condition     = contains(local.router_ids, var.router_configuration.router)
+      error_message = "Not supported router ID: ${var.router_configuration.router}."
     }
   }
+}
+
+resource "local_file" "this" {
+  count = var.router_configuration.router != null ? 1 : 0
+
+  filename = coalesce(var.router_configuration.output_path,
+  "${path.root}/outputs/${var.name}.${var.router_configuration.router}.conf")
+  content = one(data.aws_dx_router_configuration.this[*].customer_router_config)
 }
