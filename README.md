@@ -6,25 +6,12 @@
 
 Terraform module which creates network related resources on AWS.
 
-- [dx-connection](./modules/dx-connection)
-- [dx-gateway](./modules/dx-gateway)
-- [dx-private-virtual-interface](./modules/dx-private-virtual-interface)
-- [ipam](./modules/ipam)
-- [ipam-resource-discovery](./modules/ipam-resource-discovery)
 - [nacl](./modules/nacl)
 - [nat-gateway](./modules/nat-gateway)
-- [prefix-list](./modules/prefix-list)
-- [reachability-analyzer-path](./modules/reachability-analyzer-path)
 - [route-table](./modules/route-table)
 - [security-group](./modules/security-group)
 - [subnet-group](./modules/subnet-group)
 - [vpc](./modules/vpc)
-- [vpc-endpoint-service](./modules/vpc-endpoint-service)
-- [vpc-gateway-endpoint](./modules/vpc-gateway-endpoint)
-- [vpc-interface-endpoint](./modules/vpc-interface-endpoint)
-- [vpc-peering](./modules/vpc-peering)
-- [vpc-peering-accepter](./modules/vpc-peering-accepter)
-- [vpc-peering-requester](./modules/vpc-peering-requester)
 
 
 ## Target AWS Services
@@ -37,41 +24,16 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
   - Route Table
   - NACL (Network ACL)
   - Security Group
-  - Prefix List
-  - Elastic IP
   - Gateways
     - Internet Gateway
     - NAT Gateway
-  - Peering
-  - PrivateLink
-    - Endpoint Service
-    - Gateway Endpoint
-    - Interface Endpoint
-- **AWS VPC IPAM(IP Address Manager)**
-  - IPAM
-  - Scope
-  - Pool
-  - Resource Discovery
-- **AWS DX (Direct Connect)**
-  - Connection
-  - Gateway
-  - Virtual Interface
-    - Private Virtual Interface
-- **AWS Network Manager**
-  - Reachability Analyzer
-    - Path
-    - Analysis
 
 
 ## Examples
 
 ### VPC
 
-- [prefix-lists](./examples/prefix-lists)
-
-### Network Manager
-
-- [reachability-analyzer](./examples/reachability-analyzer)
+- To be added
 
 
 ## Self Promotion
