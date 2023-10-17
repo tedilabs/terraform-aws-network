@@ -120,7 +120,7 @@ output "egress_only_internet_gateway_enabled" {
 
 output "egress_only_internet_gateway_id" {
   description = "The ID of the Egress Only Internet Gateway."
-  value       = one(aws_egress_only_internet_gateway.this[0].id)
+  value       = one(aws_egress_only_internet_gateway.this[*].id)
 }
 
 output "vpn_gateway_enabled" {

@@ -6,7 +6,7 @@ variable "name" {
 variable "cidr_block" {
   description = "The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden."
   type        = string
-  default     = "0.0.0.0/0"
+  default     = "10.0.0.0/16"
 }
 
 variable "secondary_cidr_blocks" {
