@@ -176,17 +176,23 @@ variable "default_network_acl" {
   nullable = false
 
   validation {
-    condition = alltrue([
-      for rule in try(var.default_network_acl.ingress_rules, []) :
-      contains(["ALLOW", "DENY"], rule.action)
-    ])
+    condition = (var.default_network_acl.ingress_rules != null
+      ? alltrue([
+        for rule in var.default_network_acl.ingress_rules :
+        contains(["ALLOW", "DENY"], rule.action)
+      ])
+      : true
+    )
     error_message = "Valid values for `action` of each rules are `ALLOW` and `DENY`."
   }
   validation {
-    condition = alltrue([
-      for rule in try(var.default_network_acl.egress_rules, []) :
-      contains(["ALLOW", "DENY"], rule.action)
-    ])
+    condition = (var.default_network_acl.egress_rules != null
+      ? alltrue([
+        for rule in var.default_network_acl.egress_rules :
+        contains(["ALLOW", "DENY"], rule.action)
+      ])
+      : true
+    )
     error_message = "Valid values for `action` of each rules are `ALLOW` and `DENY`."
   }
 }
