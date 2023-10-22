@@ -20,20 +20,28 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
 
 - **AWS VPC (Virtual Private Cloud)**
   - VPC
+    - Default Network ACL
+    - Default Security Group
   - Subnet
   - Route Table
   - NACL (Network ACL)
   - Security Group
   - Gateways
     - Internet Gateway
+    - Egress-only Internet Gateway
     - NAT Gateway
+    - VPN Gateway (Virtual Private Gateway)
 
 
 ## Examples
 
 ### VPC
 
-- To be added
+- [vpc-full](./examples/vpc-full)
+- [vpc-ipv4-secondary-cidrs](./examples/vpc-ipv4-secondary-cidrs)
+- [vpc-ipv6-cidrs](./examples/vpc-ipv6-cidrs)
+- [vpc-simple](./examples/vpc-simple)
+- [vpc-with-ipam](./examples/vpc-with-ipam)
 
 
 ## Self Promotion
