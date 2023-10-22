@@ -41,7 +41,8 @@ variable "ipv6_cidrs" {
   description = <<EOF
   (Optional) A list of IPv6 CIDR blocks for the VPC. Each block of `ipv6_cidrs` as defined below.
     (Optional) `type` - Valid values are `AMAZON` and `IPAM_POOL`. Defaults to `AMAZON`.
-    (Optional) `network_border_group` - The name of the network border group. This can be changed to restrict advertisement of public addresses to specific Network Border Groups such as LocalZones. Defaults to the region of the VPC.
+    (Optional) `amazon` - The configuration to get the Amazon-provided IPv6 CIDR to use for the VPC. Only used if `type` is `AMAZON`. `amazon` as defined below.
+      (Optional) `network_border_group` - The name of the network border group. This can be changed to restrict advertisement of public addresses to specific Network Border Groups such as LocalZones. Defaults to the region of the VPC.
     (Optional) `ipam_pool` - The configuration to get an IPv6 CIDR from the IPAM pool to use for the VPC. Required if `type` is `IPAM_POOL`. `ipam_pool` as defined below.
       (Required) `id` - The ID of an IPv6 IPAM pool you want to use for allocating this VPC's CIDR.
       (Optional) `cidr` - The CIDR block for the VPC. The CIDR can be explicitly set. Required if `netmask_length` is not set and the IPAM pool does not have `allocation_default_netmask` set.
