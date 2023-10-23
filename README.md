@@ -43,6 +43,12 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
 - [vpc-simple](./examples/vpc-simple)
 - [vpc-with-ipam](./examples/vpc-with-ipam)
 
+### NAT Gateway
+
+- [nat-gateway-public](./examples/nat-gateway-public/)
+- [nat-gateway-private](./examples/nat-gateway-private/)
+- [nat-gateway-private-secondary-ip-addresses](./examples/nat-gateway-private-secondary-ip-addresses)
+
 
 ## Other Terraform Modules from Tedilabs
 
