@@ -5,7 +5,7 @@ output "name" {
 
 output "vpc_id" {
   description = "The ID of the VPC which the subnet group belongs to."
-  value       = var.vpc_id
+  value       = values(aws_subnet.this)[0].vpc_id
 }
 
 output "ids" {
@@ -18,12 +18,17 @@ output "arns" {
   value       = values(aws_subnet.this)[*].arn
 }
 
-output "cidr_blocks" {
-  description = "The CIDR blocks of the subnet group."
-  value       = values(aws_subnet.this)[*].cidr_block
+output "owner" {
+  description = "The ID of the AWS account that owns subnets in the subnet group."
+  value       = values(aws_subnet.this)[0].owner_id
 }
 
-output "ipv6_cidr_blocks" {
+output "ipv4_cidrs" {
+  description = "The IPv4 CIDR blocks of the subnet group."
+  value       = compact(values(aws_subnet.this)[*].cidr_block)
+}
+
+output "ipv6_cidrs" {
   description = "The IPv6 CIDR blocks of the subnet group."
   value       = compact(values(aws_subnet.this)[*].ipv6_cidr_block)
 }
@@ -51,85 +56,209 @@ output "subnets_by_az" {
   }
 }
 
-output "db_subnet_group_id" {
-  description = "The ID of the RDS Subnet Group."
-  value       = one(aws_db_subnet_group.this[*].id)
+output "local_network_interface_device_index" {
+  description = "The device position for local network interfaces in this subnet."
+  value       = var.local_network_interface_device_index
 }
 
-output "db_subnet_group_arn" {
-  description = "The ARN of the RDS Subnet Group."
-  value       = one(aws_db_subnet_group.this[*].arn)
+output "public_ipv4_address_assignment" {
+  description = <<EOF
+  The configuration of public IPv4 address assignment.
+    `enabled` - Whether to automatically assign public IPv4 address to instances launched in the subnet group.
+  EOF
+  value = {
+    enabled = values(aws_subnet.this)[0].map_public_ip_on_launch
+  }
 }
 
-output "cache_subnet_group_id" {
-  description = "The ID of the Elasticache Subnet Group."
-  value       = one(aws_elasticache_subnet_group.this[*].id)
+output "customer_owned_ipv4_address_assignment" {
+  description = <<EOF
+  The configuration of Customer-owned IPv4 address assignment.
+    `enabled` - Whether to automatically assign Customer-owned IPv4 address to instances launched in the subnet group.
+    `outpost` - The ARN of the Outpost.
+    `pool` - The ID of the Customer-owned IPv4 address pool.
+  EOF
+  value = {
+    enabled = values(aws_subnet.this)[0].map_public_ip_on_launch
+    outpost = values(aws_subnet.this)[0].outpost_arn
+    pool    = values(aws_subnet.this)[0].customer_owned_ipv4_pool
+  }
 }
 
-# INFO: Not support arn output
-# output "cache_subnet_group_arn" {
-#   description = "The ARN of the Elasticache Subnet Group."
-#   value       = one(aws_elasticache_subnet_group.this[*].arn)
-# }
-
-output "redshift_subnet_group_id" {
-  description = "The ID of the Redshift Subnet Group."
-  value       = one(aws_redshift_subnet_group.this[*].id)
+output "ipv6_address_assignment" {
+  description = <<EOF
+  The configuration of IPv6 address assignment.
+    `enabled` - Whether to automatically assign IPv6 address to instances launched in the subnet group.
+  EOF
+  value = {
+    enabled = values(aws_subnet.this)[0].assign_ipv6_address_on_creation
+  }
 }
 
-output "redshift_subnet_group_arn" {
-  description = "The ARN of the Redshift Subnet Group."
-  value       = one(aws_redshift_subnet_group.this[*].arn)
+output "dns_config" {
+  description = <<EOF
+  The DNS configuration for the subnet group.
+    `id` - The ID of the DAX Subnet Group.
+  EOF
+  value = {
+    hostname_type = {
+      for k, v in local.hostname_types :
+      v => k
+    }[values(aws_subnet.this)[0].private_dns_hostname_type_on_launch]
+    dns_resource_name_ipv4_enabled = values(aws_subnet.this)[0].enable_resource_name_dns_a_record_on_launch
+    dns_resource_name_ipv6_enabled = values(aws_subnet.this)[0].enable_resource_name_dns_aaaa_record_on_launch
+    dns64_enabled                  = values(aws_subnet.this)[0].enable_dns64
+  }
 }
 
-output "neptune_subnet_group_id" {
-  description = "The ID of the Neptune DB Subnet Group."
-  value       = one(aws_neptune_subnet_group.this[*].id)
+output "dax_subnet_group" {
+  description = <<EOF
+  The configuration of DAX Subnet Group.
+    `id` - The ID of the DAX Subnet Group.
+    `name` - The name of the DAX Subnet Group.
+    `description` - The description of the DAX Subnet Group.
+  EOF
+  value = (var.dax_subnet_group.enabled
+    ? {
+      id = one(aws_dax_subnet_group.this[*].id)
+      # INFO: Not support arn output
+      # arn         = one(aws_dax_subnet_group.this[*])
+      name        = one(aws_dax_subnet_group.this[*].name)
+      description = one(aws_dax_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-output "neptune_subnet_group_arn" {
-  description = "The ARN of the Neptune Subnet Group."
-  value       = one(aws_neptune_subnet_group.this[*].arn)
+output "dms_replication_subnet_group" {
+  description = <<EOF
+  The configuration of DMS Replication Subnet Group.
+    `id` - The ID of the DMS Replication Subnet Group.
+    `arn` - The ARN of the DMS Replication Subnet Group.
+    `name` - The name of the DMS Replication Subnet Group.
+    `description` - The description of the DMS Replication Subnet Group.
+  EOF
+  value = (var.dms_replication_subnet_group.enabled
+    ? {
+      id          = one(aws_dms_replication_subnet_group.this[*].id)
+      arn         = one(aws_dms_replication_subnet_group.this[*].replication_subnet_group_arn)
+      name        = one(aws_dms_replication_subnet_group.this[*].replication_subnet_group_id)
+      description = one(aws_dms_replication_subnet_group.this[*].replication_subnet_group_description)
+    }
+    : null
+  )
 }
 
-output "docdb_subnet_group_id" {
-  description = "The ID of the DocumentDB Subnet Group."
-  value       = one(aws_docdb_subnet_group.this[*].id)
+output "docdb_subnet_group" {
+  description = <<EOF
+  The configuration of DocumentDB Subnet Group.
+    `id` - The ID of the DocumentDB Subnet Group.
+    `arn` - The ARN of the DocumentDB Subnet Group.
+    `name` - The name of the DocumentDB Subnet Group.
+    `description` - The description of the DocumentDB Subnet Group.
+  EOF
+  value = (var.docdb_subnet_group.enabled
+    ? {
+      id          = one(aws_docdb_subnet_group.this[*].id)
+      arn         = one(aws_docdb_subnet_group.this[*].arn)
+      name        = one(aws_docdb_subnet_group.this[*].name)
+      description = one(aws_docdb_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-output "docdb_subnet_group_arn" {
-  description = "The ARN of the DocumentDB Subnet Group."
-  value       = one(aws_docdb_subnet_group.this[*].arn)
+output "elasticache_subnet_group" {
+  description = <<EOF
+  The configuration of ElastiCache Subnet Group.
+    `id` - The ID of the ElastiCache Subnet Group.
+    `arn` - The ARN of the ElastiCache Subnet Group.
+    `name` - The name of the ElastiCache Subnet Group.
+    `description` - The description of the ElastiCache Subnet Group.
+  EOF
+  value = (var.elasticache_subnet_group.enabled
+    ? {
+      id          = one(aws_elasticache_subnet_group.this[*].id)
+      arn         = one(aws_elasticache_subnet_group.this[*].arn)
+      name        = one(aws_elasticache_subnet_group.this[*].name)
+      description = one(aws_elasticache_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-output "dax_subnet_group_id" {
-  description = "The ID of the DAX Subnet Group."
-  value       = one(aws_dax_subnet_group.this[*].id)
+output "memorydb_subnet_group" {
+  description = <<EOF
+  The configuration of MemoryDB Subnet Group.
+    `id` - The ID of the MemoryDB Subnet Group.
+    `arn` - The ARN of the MemoryDB Subnet Group.
+    `name` - The name of the MemoryDB Subnet Group.
+    `description` - The description of the MemoryDB Subnet Group.
+  EOF
+  value = (var.memorydb_subnet_group.enabled
+    ? {
+      id          = one(aws_memorydb_subnet_group.this[*].id)
+      arn         = one(aws_memorydb_subnet_group.this[*].arn)
+      name        = one(aws_memorydb_subnet_group.this[*].name)
+      description = one(aws_memorydb_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-# INFO: Not support arn output
-# output "dax_subnet_group_arn" {
-#   description = "The ARN of the DAX Subnet Group."
-#   value       = one(aws_dax_subnet_group.this[*].arn)
-# }
-
-output "dms_replication_subnet_group_id" {
-  description = "The ID of the DMS Replication Subnet Group."
-  value       = one(aws_dms_replication_subnet_group.this[*].id)
+output "neptune_subnet_group" {
+  description = <<EOF
+  The configuration of Neptune Subnet Group.
+    `id` - The ID of the Neptune Subnet Group.
+    `arn` - The ARN of the Neptune Subnet Group.
+    `name` - The name of the Neptune Subnet Group.
+    `description` - The description of the Neptune Subnet Group.
+  EOF
+  value = (var.neptune_subnet_group.enabled
+    ? {
+      id          = one(aws_neptune_subnet_group.this[*].id)
+      arn         = one(aws_neptune_subnet_group.this[*].arn)
+      name        = one(aws_neptune_subnet_group.this[*].name)
+      description = one(aws_neptune_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-# INFO: Not support arn output
-# output "dms_replication_subnet_group_arn" {
-#   description = "The ARN of the DMS Replication Subnet Group."
-#   value       = one(aws_dms_replication_subnet_group.this[*].arn)
-# }
-
-output "memorydb_subnet_group_id" {
-  description = "The ID of the MemoryDB Subnet Group."
-  value       = one(aws_memorydb_subnet_group.this[*].id)
+output "rds_subnet_group" {
+  description = <<EOF
+  The configuration of RDS Subnet Group.
+    `id` - The ID of the RDS Subnet Group.
+    `arn` - The ARN of the RDS Subnet Group.
+    `name` - The name of the RDS Subnet Group.
+    `description` - The description of the RDS Subnet Group.
+  EOF
+  value = (var.rds_subnet_group.enabled
+    ? {
+      id          = one(aws_db_subnet_group.this[*].id)
+      arn         = one(aws_db_subnet_group.this[*].arn)
+      name        = one(aws_db_subnet_group.this[*].name)
+      description = one(aws_db_subnet_group.this[*].description)
+    }
+    : null
+  )
 }
 
-output "memorydb_subnet_group_arn" {
-  description = "The ARN of the MemoryDB Subnet Group."
-  value       = one(aws_memorydb_subnet_group.this[*].arn)
+output "redshift_subnet_group" {
+  description = <<EOF
+  The configuration of Redshift Subnet Group.
+    `id` - The ID of the Redshift Subnet Group.
+    `arn` - The ARN of the Redshift Subnet Group.
+    `name` - The name of the Redshift Subnet Group.
+    `description` - The description of the Redshift Subnet Group.
+  EOF
+  value = (var.redshift_subnet_group.enabled
+    ? {
+      id          = one(aws_redshift_subnet_group.this[*].id)
+      arn         = one(aws_redshift_subnet_group.this[*].arn)
+      name        = one(aws_redshift_subnet_group.this[*].name)
+      description = one(aws_redshift_subnet_group.this[*].description)
+    }
+    : null
+  )
 }

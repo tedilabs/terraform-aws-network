@@ -11,5 +11,8 @@
 ":floppy_disk: security-group":
 - modules/security-group/**/*
 
+":floppy_disk: subnet-group":
+- modules/subnet-group/**/*
+
 ":floppy_disk: vpc":
 - modules/vpc/**/*
