@@ -13,7 +13,17 @@ output "owner_id" {
   value       = aws_network_acl.this.owner_id
 }
 
-output "associated_subnets" {
+output "name" {
+  description = "The name of the network ACL."
+  value       = var.name
+}
+
+output "vpc_id" {
+  description = "The VPC ID of the network ACL."
+  value       = aws_network_acl.this.vpc_id
+}
+
+output "subnets" {
   description = "A list of subnet IDs which is associated with the network ACL."
-  value       = var.subnets
+  value       = aws_network_acl.this.subnet_ids
 }

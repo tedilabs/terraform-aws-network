@@ -14,6 +14,14 @@ locals {
   } : {}
 }
 
+
+###################################################
+# Network ACL
+###################################################
+
+# INFO: Not supported attributes
+# - `ingress`
+# - `egress`
 resource "aws_network_acl" "this" {
   vpc_id     = var.vpc_id
   subnet_ids = var.subnets
@@ -29,6 +37,18 @@ resource "aws_network_acl" "this" {
 
 
 ###################################################
+# Subnet Associations of Network ACL
+###################################################
+
+# resource "aws_network_acl_association" "this" {
+#   for_each = toset(var.subnets)
+#
+#   network_acl_id = aws_network_acl.this.id
+#   subnet_id      = each.value
+# }
+
+
+###################################################
 # Network ACL Rules
 ###################################################
 
@@ -37,16 +57,17 @@ resource "aws_network_acl_rule" "ingress" {
 
   network_acl_id = aws_network_acl.this.id
 
-  egress          = false
-  rule_number     = each.key
-  rule_action     = lookup(each.value, "action", "")
-  protocol        = lookup(each.value, "protocol", -1)
-  from_port       = lookup(each.value, "from_port", null)
-  to_port         = lookup(each.value, "to_port", null)
-  icmp_type       = lookup(each.value, "icmp_type", null)
-  icmp_code       = lookup(each.value, "icmp_code", null)
-  cidr_block      = lookup(each.value, "cidr_block", null)
-  ipv6_cidr_block = lookup(each.value, "ipv6_cidr_block", null)
+  egress      = false
+  rule_number = each.key
+
+  rule_action     = lower(each.value.action)
+  protocol        = each.value.protocol
+  from_port       = each.value.from_port
+  to_port         = each.value.to_prot
+  icmp_type       = each.value.icmp_type
+  icmp_code       = each.value.icmp_code
+  cidr_block      = each.value.ipv4_cidr
+  ipv6_cidr_block = each.value.ipv6_cidr
 }
 
 resource "aws_network_acl_rule" "egress" {
@@ -54,14 +75,15 @@ resource "aws_network_acl_rule" "egress" {
 
   network_acl_id = aws_network_acl.this.id
 
-  egress          = true
-  rule_number     = each.key
-  rule_action     = lookup(each.value, "action", "")
-  protocol        = lookup(each.value, "protocol", -1)
-  from_port       = lookup(each.value, "from_port", null)
-  to_port         = lookup(each.value, "to_port", null)
-  icmp_type       = lookup(each.value, "icmp_type", null)
-  icmp_code       = lookup(each.value, "icmp_code", null)
-  cidr_block      = lookup(each.value, "cidr_block", null)
-  ipv6_cidr_block = lookup(each.value, "ipv6_cidr_block", null)
+  egress      = true
+  rule_number = each.key
+
+  rule_action     = lower(each.value.action)
+  protocol        = each.value.protocol
+  from_port       = each.value.from_port
+  to_port         = each.value.to_prot
+  icmp_type       = each.value.icmp_type
+  icmp_code       = each.value.icmp_code
+  cidr_block      = each.value.ipv4_cidr
+  ipv6_cidr_block = each.value.ipv6_cidr
 }
