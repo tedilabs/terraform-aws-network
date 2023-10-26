@@ -7,16 +7,16 @@ module "private_subnet_group" {
   # source  = "tedilabs/network/aws//modules/subnet-group"
   # version = "~> 0.2.0"
 
-  name = "test/private"
+  name = "test-private"
 
   vpc_id = module.vpc.id
 
   subnets = {
-    "test/private/az2" = {
+    "test-private/az2" = {
       availability_zone_id = "use1-az2"
       ipv4_cidr            = "10.0.200.0/24"
     }
-    "test/private/az4" = {
+    "test-private/az4" = {
       availability_zone_id = "use1-az4"
       ipv4_cidr            = "10.0.201.0/24"
     }
@@ -85,6 +85,15 @@ module "private_subnet_group" {
     description = "Test Redshift Subnet Group"
   }
 
+
+  ## Sharing
+  shares = [
+    # {
+    #   name = "team1"
+    #   principals = ["123456789012"]
+    # },
+  ]
+
   tags = {
     "project" = "terraform-aws-network-examples"
   }
@@ -95,16 +104,16 @@ module "public_subnet_group" {
   # source  = "tedilabs/network/aws//modules/subnet-group"
   # version = "~> 0.2.0"
 
-  name = "test/public"
+  name = "test-public"
 
   vpc_id = module.vpc.id
 
   subnets = {
-    "test/public/az2" = {
+    "test-public/az2" = {
       availability_zone_id = "use1-az2"
       ipv4_cidr            = "10.0.100.0/24"
     }
-    "test/public/az4" = {
+    "test-public/az4" = {
       availability_zone_id = "use1-az4"
       ipv4_cidr            = "10.0.101.0/24"
     }

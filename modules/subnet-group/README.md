@@ -31,6 +31,7 @@ This module creates following resources.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.10.0 |
+| <a name="module_share"></a> [share](#module\_share) | tedilabs/account/aws//modules/ram-share | ~> 0.27.0 |
 
 ## Resources
 
@@ -71,6 +72,7 @@ This module creates following resources.
 | <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | (Optional) The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
 | <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | (Optional) Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Optional) The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
+| <a name="input_shares"></a> [shares](#input\_shares) | (Optional) A list of resource shares via RAM (Resource Access Manager). | <pre>list(object({<br>    name = optional(string)<br><br>    permissions = optional(set(string), ["AWSRAMDefaultPermissionSubnet"])<br><br>    external_principals_allowed = optional(bool, false)<br>    principals                  = optional(set(string), [])<br><br>    tags = optional(map(string), {})<br>  }))</pre> | `[]` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A map of tags to add to all resources. | `map(string)` | `{}` | no |
 | <a name="input_timeouts"></a> [timeouts](#input\_timeouts) | (Optional) How long to wait for the subnet group to be created/deleted. | <pre>object({<br>    create = optional(string, "10m")<br>    delete = optional(string, "20m")<br>  })</pre> | `{}` | no |
 
@@ -99,6 +101,7 @@ This module creates following resources.
 | <a name="output_public_ipv4_address_assignment"></a> [public\_ipv4\_address\_assignment](#output\_public\_ipv4\_address\_assignment) | The configuration of public IPv4 address assignment.<br>    `enabled` - Whether to automatically assign public IPv4 address to instances launched in the subnet group. |
 | <a name="output_rds_subnet_group"></a> [rds\_subnet\_group](#output\_rds\_subnet\_group) | The configuration of RDS Subnet Group.<br>    `id` - The ID of the RDS Subnet Group.<br>    `arn` - The ARN of the RDS Subnet Group.<br>    `name` - The name of the RDS Subnet Group.<br>    `description` - The description of the RDS Subnet Group. |
 | <a name="output_redshift_subnet_group"></a> [redshift\_subnet\_group](#output\_redshift\_subnet\_group) | The configuration of Redshift Subnet Group.<br>    `id` - The ID of the Redshift Subnet Group.<br>    `arn` - The ARN of the Redshift Subnet Group.<br>    `name` - The name of the Redshift Subnet Group.<br>    `description` - The description of the Redshift Subnet Group. |
+| <a name="output_sharing"></a> [sharing](#output\_sharing) | The configuration for sharing of subnets in the subnet group.<br>    `status` - An indication of whether subnets are shared with other AWS accounts, or was shared with the current account by another AWS account. Sharing is configured through AWS Resource Access Manager (AWS RAM). Values are `NOT_SHARED`, `SHARED_BY_ME` or `SHARED_WITH_ME`.<br>    `shares` - The list of resource shares via RAM (Resource Access Manager). |
 | <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnets of the subnet group. |
 | <a name="output_subnets_by_az"></a> [subnets\_by\_az](#output\_subnets\_by\_az) | A map of subnets of the subnet group which are grouped by availability zone id. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the subnet group belongs to. |

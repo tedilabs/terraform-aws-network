@@ -41,16 +41,16 @@ locals {
     values(aws_subnet.this)[*].availability_zone_id
   )
   subnets = [
-    for subnet in aws_subnet.this : {
+    for name, subnet in aws_subnet.this : {
       id   = subnet.id
       arn  = subnet.arn
-      name = subnet.tags["Name"]
+      name = name
 
       availability_zone    = subnet.availability_zone
       availability_zone_id = subnet.availability_zone_id
 
-      cidr_block      = subnet.cidr_block
-      ipv6_cidr_block = subnet.ipv6_cidr_block
+      ipv4_cidr = subnet.cidr_block
+      ipv6_cidr = subnet.ipv6_cidr_block
     }
   ]
 }
