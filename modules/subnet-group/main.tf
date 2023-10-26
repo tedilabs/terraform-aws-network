@@ -14,6 +14,25 @@ locals {
   } : {}
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+locals {
+  available_availablity_zones    = data.aws_availability_zones.available.names
+  available_availablity_zone_ids = data.aws_availability_zones.available.zone_ids
+
+  az = {
+    for idx, id in local.available_availablity_zone_ids :
+    id => local.available_availablity_zones[idx]
+  }
+
+  hostname_types = {
+    "RESOURCE_NAME" = "resource-name"
+    "IP_NAME"       = "ip-name"
+  }
+}
+
 locals {
   availability_zones = distinct(
     values(aws_subnet.this)[*].availability_zone
@@ -21,9 +40,6 @@ locals {
   availability_zone_ids = distinct(
     values(aws_subnet.this)[*].availability_zone_id
   )
-}
-
-locals {
   subnets = [
     for subnet in aws_subnet.this : {
       id   = subnet.id
@@ -39,149 +55,85 @@ locals {
   ]
 }
 
+
+###################################################
+# Subnets of the Subnet Group
+###################################################
+
+# INFO: Not supported attributes
+# - `availability_zone_id`
 resource "aws_subnet" "this" {
   for_each = var.subnets
 
-  vpc_id               = var.vpc_id
-  availability_zone    = lookup(each.value, "availability_zone", null)
-  availability_zone_id = lookup(each.value, "availability_zone_id", null)
+  vpc_id = var.vpc_id
+  availability_zone = (each.value.availability_zone != null
+    ? each.value.availability_zone
+    : (each.value.availability_zone_id != null
+      ? local.az[each.value.availability_zone_id]
+      : null
+    )
+  )
 
-  cidr_block      = lookup(each.value, "cidr_block", "")
-  ipv6_cidr_block = lookup(each.value, "ipv6_cidr_block", null)
+  enable_lni_at_device_index = var.local_network_interface_device_index
 
-  map_public_ip_on_launch         = var.map_public_ip_on_launch
-  assign_ipv6_address_on_creation = var.assign_ipv6_address_on_creation
 
-  outpost_arn                     = var.outpost_arn
-  customer_owned_ipv4_pool        = var.customer_owned_ipv4_pool
-  map_customer_owned_ip_on_launch = var.map_customer_owned_ip_on_launch
+  ## IP CIDR Blocks
+  ipv6_native = each.value.type == "IPV6"
+
+  cidr_block      = each.value.ipv4_cidr
+  ipv6_cidr_block = each.value.ipv6_cidr
+
+
+  ## IP Assignments
+  map_public_ip_on_launch = (each.value.type == "IPV6"
+    ? false
+    : var.public_ipv4_address_assignment.enabled
+  )
+  assign_ipv6_address_on_creation = (each.value.type == "IPV6"
+    ? true
+    : var.ipv6_address_assignment.enabled
+  )
+  map_customer_owned_ip_on_launch = (each.value.type == "IPV6"
+    ? null
+    : (var.customer_owned_ipv4_address_assignment.enabled
+      ? true
+      : null
+    )
+  )
+  outpost_arn = (var.customer_owned_ipv4_address_assignment.enabled
+    ? var.customer_owned_ipv4_address_assignment.outpost
+    : null
+  )
+  customer_owned_ipv4_pool = (var.customer_owned_ipv4_address_assignment.enabled
+    ? var.customer_owned_ipv4_address_assignment.pool
+    : null
+  )
+
+
+  ## DNS Configurations
+  private_dns_hostname_type_on_launch = (each.value.type == "IPV6"
+    ? "resource-name"
+    : local.hostname_types[var.dns_config.hostname_type]
+  )
+  enable_resource_name_dns_a_record_on_launch = (each.value.type == "IPV6"
+    ? false
+    : var.dns_config.dns_resource_name_ipv4_enabled
+  )
+  enable_resource_name_dns_aaaa_record_on_launch = (each.value.type == "IPV6"
+    ? true
+    : var.dns_config.dns_resource_name_ipv6_enabled
+  )
+  enable_dns64 = var.dns_config.dns64_enabled
+
+
+  timeouts {
+    create = var.timeouts.create
+    delete = var.timeouts.delete
+  }
 
   tags = merge(
     {
       "Name" = each.key
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-
-###################################################
-# Subnet Groups for Managed Data Services
-###################################################
-
-resource "aws_db_subnet_group" "this" {
-  count = var.db_subnet_group_enabled ? 1 : 0
-
-  name       = var.db_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.db_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_elasticache_subnet_group" "this" {
-  count = var.cache_subnet_group_enabled ? 1 : 0
-
-  name       = var.cache_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.cache_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_redshift_subnet_group" "this" {
-  count = var.redshift_subnet_group_enabled ? 1 : 0
-
-  name       = var.redshift_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.redshift_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_neptune_subnet_group" "this" {
-  count = var.neptune_subnet_group_enabled ? 1 : 0
-
-  name       = var.neptune_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.neptune_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_docdb_subnet_group" "this" {
-  count = var.docdb_subnet_group_enabled ? 1 : 0
-
-  name       = var.docdb_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.docdb_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_dax_subnet_group" "this" {
-  count = var.dax_subnet_group_enabled ? 1 : 0
-
-  name       = var.dax_subnet_group_name
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  # INFO: Not support resource tags
-  # tags = {}
-}
-
-resource "aws_dms_replication_subnet_group" "this" {
-  count = var.dms_replication_subnet_group_enabled ? 1 : 0
-
-  replication_subnet_group_id          = var.dms_replication_subnet_group_name
-  replication_subnet_group_description = "Managed by Terraform."
-
-  subnet_ids = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.dms_replication_subnet_group_name
-    },
-    local.module_tags,
-    var.tags,
-  )
-}
-
-resource "aws_memorydb_subnet_group" "this" {
-  count = var.memorydb_subnet_group_enabled ? 1 : 0
-
-  name        = var.memorydb_subnet_group_name
-  description = "Managed by Terraform."
-  subnet_ids  = values(aws_subnet.this)[*].id
-
-  tags = merge(
-    {
-      "Name" = var.memorydb_subnet_group_name
     },
     local.module_tags,
     var.tags,
