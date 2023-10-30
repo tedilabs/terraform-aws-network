@@ -23,8 +23,8 @@ variable "ingress_rules" {
     (Required) `priority` - The rule priority. The rule number. Used for ordering.
     (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
     (Required) `protocol` - The protocol to match. If using the `-1` `all` protocol, you must specify a from and to port of `0`.
-    (Required) `from_port` - The from port to match.
-    (Required) `to_port` - The to port to match.
+    (Optional) `from_port` - The from port to match.
+    (Optional) `to_port` - The to port to match.
     (Optional) `ipv4_cidr` - The IPv4 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv6_cidr`.
     (Optional) `ipv6_cidr` - The IPv6 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv4_cidr`.
     (Optional) `icmp_type` - The ICMP type to be used. Defaults to `0`.
@@ -33,8 +33,8 @@ variable "ingress_rules" {
   type = map(object({
     action    = string
     protocol  = string
-    from_port = number
-    to_port   = number
+    from_port = optional(number)
+    to_port   = optional(number)
     ipv4_cidr = optional(string)
     ipv6_cidr = optional(string)
     icmp_type = optional(number, 0)
@@ -58,8 +58,8 @@ variable "egress_rules" {
     (Required) `priority` - The rule priority. The rule number. Used for ordering.
     (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
     (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
-    (Required) `from_port` - The from port to match.
-    (Required) `to_port` - The to port to match.
+    (Optional) `from_port` - The from port to match.
+    (Optional) `to_port` - The to port to match.
     (Optional) `ipv4_cidr` - The IPv4 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv6_cidr`.
     (Optional) `ipv6_cidr` - The IPv6 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv4_cidr`.
     (Optional) `icmp_type` - The ICMP type to be used. Defaults to `0`.
@@ -68,8 +68,8 @@ variable "egress_rules" {
   type = map(object({
     action    = string
     protocol  = string
-    from_port = number
-    to_port   = number
+    from_port = optional(number)
+    to_port   = optional(number)
     ipv4_cidr = optional(string)
     ipv6_cidr = optional(string)
     icmp_type = optional(number, 0)

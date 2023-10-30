@@ -63,7 +63,7 @@ resource "aws_network_acl_rule" "ingress" {
   rule_action     = lower(each.value.action)
   protocol        = each.value.protocol
   from_port       = each.value.from_port
-  to_port         = each.value.to_prot
+  to_port         = each.value.to_port
   icmp_type       = each.value.icmp_type
   icmp_code       = each.value.icmp_code
   cidr_block      = each.value.ipv4_cidr
@@ -81,7 +81,7 @@ resource "aws_network_acl_rule" "egress" {
   rule_action     = lower(each.value.action)
   protocol        = each.value.protocol
   from_port       = each.value.from_port
-  to_port         = each.value.to_prot
+  to_port         = each.value.to_port
   icmp_type       = each.value.icmp_type
   icmp_code       = each.value.icmp_code
   cidr_block      = each.value.ipv4_cidr
