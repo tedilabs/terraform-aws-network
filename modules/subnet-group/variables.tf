@@ -13,7 +13,7 @@ variable "vpc_id" {
 variable "subnets" {
   description = <<EOF
   (Required) A configuration of subnets to create in the subnet group. Each block of `subnets` as defined below.
-    (Required) `type` - The type of subnet. Valid values are `DUALSTACK` and `IPV6`.
+    (Optional) `type` - The type of subnet. Valid values are `DUALSTACK` and `IPV6`. Defaults to `DUALSTACK`.
     (Optional) `availability_zone` - The availability zone of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.
     (Optional) `availability_zone_id` - The availability zone ID of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.
   EOF
