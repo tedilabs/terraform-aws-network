@@ -10,6 +10,13 @@ variable "vpc_id" {
   nullable    = false
 }
 
+variable "is_main" {
+  description = "(Optional) Whether to set this route table as the main route table. Defaults to `false`."
+  type        = bool
+  default     = false
+  nullable    = false
+}
+
 variable "subnets" {
   description = "(Optional) A list of subnet IDs to associate with the route table."
   type        = list(string)
@@ -38,32 +45,93 @@ variable "propagating_vpn_gateways" {
   nullable    = false
 }
 
-variable "is_main" {
-  description = "(Optional) Whether to set this route table as the main route table."
-  type        = bool
-  default     = false
-  nullable    = false
-}
-
 variable "ipv4_routes" {
-  description = "(Optional) A list of route rules for IPv4 CIDRs."
-  type        = list(map(string))
-  default     = []
-  nullable    = false
+  description = <<EOF
+  (Optional) A list of route rules for destinations to IPv4 CIDRs. Each block of `ipv4_routes` as defined below.
+    (Required) `destination` - The destination IPv4 CIDR block of the route rule.
+    (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `id` - The ID of the target of the route rule.
+  EOF
+  type = list(object({
+    destination = string
+
+    target = object({
+      type = string
+      id   = string
+    })
+  }))
+  default  = []
+  nullable = false
+
+  validation {
+    condition = alltrue([
+      for route in var.ipv4_routes :
+      contains(["CARRIER_GATEWAY", "CORE_GATEWAY", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
+    ])
+    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`."
+  }
 }
 
 variable "ipv6_routes" {
-  description = "(Optional) A list of route rules for IPv6 CIDRs."
-  type        = list(map(string))
-  default     = []
-  nullable    = false
+  description = <<EOF
+  (Optional) A list of route rules for destinations to IPv6 CIDRs. Each block of `ipv6_routes` as defined below.
+    (Required) `destination` - The destination IPv6 CIDR block of the route rule.
+    (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `id` - The ID of the target of the route rule.
+  EOF
+  type = list(object({
+    destination = string
+
+    target = object({
+      type = string
+      id   = string
+    })
+  }))
+  default  = []
+  nullable = false
+
+  validation {
+    condition = alltrue([
+      for route in var.ipv6_routes :
+      contains(["CARRIER_GATEWAY", "CORE_GATEWAY", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
+    ])
+    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`."
+  }
 }
 
 variable "prefix_list_routes" {
-  description = "(Optional) A list of route rules for Managed Prefix List."
-  type        = list(map(string))
-  default     = []
-  nullable    = false
+  description = <<EOF
+  (Optional) A list of route rules for destinations to Prefix Lists. Each block of `prefix_list_routes` as defined below.
+    (Required) `name` - The name of the route rule.
+    (Required) `destination` - The destination Prefix List of the route rule.
+    (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `id` - The ID of the target of the route rule.
+  EOF
+  type = list(object({
+    name        = string
+    destination = string
+
+    target = object({
+      type = string
+      id   = string
+    })
+  }))
+  default  = []
+  nullable = false
+}
+
+variable "timeouts" {
+  description = "(Optional) How long to wait for the route table to be created/updated/deleted."
+  type = object({
+    create = optional(string, "5m")
+    update = optional(string, "2m")
+    delete = optional(string, "5m")
+  })
+  default  = {}
+  nullable = false
 }
 
 variable "tags" {
@@ -89,16 +157,19 @@ variable "resource_group_enabled" {
   description = "(Optional) Whether to create Resource Group to find and group AWS resources which are created by this module."
   type        = bool
   default     = true
+  nullable    = false
 }
 
 variable "resource_group_name" {
   description = "(Optional) The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`."
   type        = string
   default     = ""
+  nullable    = false
 }
 
 variable "resource_group_description" {
   description = "(Optional) The description of Resource Group."
   type        = string
   default     = "Managed by Terraform."
+  nullable    = false
 }
