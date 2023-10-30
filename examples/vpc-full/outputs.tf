@@ -11,12 +11,27 @@ output "subnet_groups" {
   }
 }
 
-output "public_nat_gateways" {
-  description = "The NAT Gateways in public."
-  value       = module.public_nat_gateway
+output "nat_gateways" {
+  description = "The NAT Gateways."
+  value = {
+    public  = module.public_nat_gateway
+    private = module.private_nat_gateway
+  }
 }
 
-output "private_nat_gateways" {
-  description = "The NAT Gateways in private."
-  value       = module.private_nat_gateway
+output "nacls" {
+  description = "The Network ACLs."
+  value = {
+    public  = module.public_network_acl
+    private = module.private_network_acl
+  }
 }
+
+output "route_tables" {
+  description = "The Route Tables."
+  value = {
+    public  = module.public_route_table
+    private = module.private_route_table
+  }
+}
+
