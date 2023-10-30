@@ -201,15 +201,13 @@ variable "default_security_group" {
   description = <<EOF
   (Optional) The configuration for the default Security Group of the VPC. `default_security_group` as defined below.
     (Optional) `name` - The name of the default Security Group. Defaults to same name of the VPC.
-    (Optional) `ingress_rules` - A set of ingress rules in the default Network ACL. If not explicitly defined, the AWS default rules are applied. `ingress_rules` as defined below.
-      (Required) `priority` - The rule priority. The rule number. Used for ordering.
-      (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
+    (Optional) `ingress_rules` - A set of ingress rules in the default Security Group. If not explicitly defined, the AWS default rules are applied. `ingress_rules` as defined below.
+      (Optional) `description` - The description of the rule.
       (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
       (Required) `from_port` - The from port to match.
       (Required) `to_port` - The to port to match.
-      (Optional) `ipv4_cidr` - The IPv4 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv6_cidr`.
-      (Optional) `ipv6_cidr` - The IPv6 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv4_cidr`.
-      (Optional) `icmp_type` - The ICMP type to be used. Defaults to `0`.
+      (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation. Cannot be specified with `ipv6_cidrs`.
+      (Optional) `ipv6_cidr` - The IPv6 network ranges to allow, in CIDR notation. Cannot be specified with `ipv4_cidrs`.
       (Optional) `icmp_code` - The ICMP code to be used. Defaults to `0`.
     (Optional) `egress_rules` - A set of egress rules in the default Network ACL. If not explicitly defined, the AWS default rules are applied. `egress_rules` as defined below.
       (Required) `priority` - The rule priority. The rule number. Used for ordering.
