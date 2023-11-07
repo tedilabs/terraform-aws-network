@@ -43,6 +43,11 @@ Terraform Modules from [this package](https://github.com/tedilabs/terraform-aws-
 - [vpc-simple](./examples/vpc-simple)
 - [vpc-with-ipam](./examples/vpc-with-ipam)
 
+### Security Group
+
+- [security-group-simple](./examples/security-group-simple)
+- [security-group-with-ipv4-cidrs](./examples/security-group-with-ipv4-cidrs)
+
 ### NAT Gateway
 
 - [nat-gateway-public](./examples/nat-gateway-public/)
