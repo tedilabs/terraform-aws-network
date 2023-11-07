@@ -59,7 +59,6 @@ resource "aws_main_route_table_association" "this" {
 # Associations
 ###################################################
 
-# INFO: Conflict on create with `for_each`
 resource "aws_route_table_association" "subnets" {
   count = length(var.subnets)
 
@@ -68,10 +67,10 @@ resource "aws_route_table_association" "subnets" {
 }
 
 resource "aws_route_table_association" "gateways" {
-  for_each = toset(var.gateways)
+  count = length(var.gateways)
 
   route_table_id = aws_route_table.this.id
-  gateway_id     = each.value
+  gateway_id     = var.gateways[count.index]
 }
 
 
