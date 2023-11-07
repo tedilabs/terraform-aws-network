@@ -16,6 +16,8 @@ variable "subnets" {
     (Optional) `type` - The type of subnet. Valid values are `DUALSTACK` and `IPV6`. Defaults to `DUALSTACK`.
     (Optional) `availability_zone` - The availability zone of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.
     (Optional) `availability_zone_id` - The availability zone ID of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.
+    (Optional) `ipv4_cidr` - The IPv4 CIDR block for the subnet.
+    (Optional) `ipv6_cidr` - The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
   EOF
   type = map(object({
     type = optional(string, "DUALSTACK")
