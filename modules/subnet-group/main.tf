@@ -60,19 +60,12 @@ locals {
 # Subnets of the Subnet Group
 ###################################################
 
-# INFO: Not supported attributes
-# - `availability_zone_id`
 resource "aws_subnet" "this" {
   for_each = var.subnets
 
-  vpc_id = var.vpc_id
-  availability_zone = (each.value.availability_zone != null
-    ? each.value.availability_zone
-    : (each.value.availability_zone_id != null
-      ? local.az[each.value.availability_zone_id]
-      : null
-    )
-  )
+  vpc_id               = var.vpc_id
+  availability_zone    = each.value.availability_zone
+  availability_zone_id = each.value.availability_zone_id
 
   enable_lni_at_device_index = var.local_network_interface_device_index
 
