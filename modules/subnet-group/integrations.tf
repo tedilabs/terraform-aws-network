@@ -1,4 +1,36 @@
 ###################################################
+# VPC Attachments for Transit Gateway
+###################################################
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
+  for_each = {
+    for attachment in var.transit_gateway_attachments :
+    attachment.name => attachment
+  }
+
+  vpc_id     = var.vpc_id
+  subnet_ids = values(aws_subnet.this)[*].id
+
+  transit_gateway_id = each.value.transit_gateway
+
+  appliance_mode_support                          = each.value.appliance_mode_enabled ? "enable" : "disable"
+  dns_support                                     = each.value.dns_support_enabled ? "enable" : "disable"
+  ipv6_support                                    = each.value.ipv6_enabled ? "enable" : "disable"
+  transit_gateway_default_route_table_association = each.value.default_association_route_table_enabled
+  transit_gateway_default_route_table_propagation = each.value.default_propagation_route_table_enabled
+
+  tags = merge(
+    {
+      "Name" = each.key
+    },
+    local.module_tags,
+    var.tags,
+    each.value.tags,
+  )
+}
+
+
+###################################################
 # Subnet Group for DAX
 ###################################################
 

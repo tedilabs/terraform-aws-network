@@ -131,6 +131,41 @@ variable "dns_config" {
   }
 }
 
+variable "transit_gateway_attachments" {
+  description = <<EOF
+  (Optional) A list of configurations for Transit Gateway VPC attachments. Each block of `transit_gateway_attachments` as defined below.
+    (Required) `name` - The name of the Transit Gateway VPC attachment.
+    (Required) `transit_gateway` - The ID of the Transit Gateway.
+    (Optional) `appliance_mode_enabled` - Whether Appliance Mode support is enabled. If enabled, a traffic flow between a source and destination uses the same Availability Zone for the VPC attachment for the lifetime of that flow. Defaults to `false`.
+    (Optional) `dns_support_enabled` - Whether to enable Domain Name System resolution for VPCs attached to this transit gateway. Defaults to `true`.
+    (Optional) `ipv6_enabled` - Whether to enable IPv6 support. Defaults to `false`.
+    (Optional) `default_association_route_table_enabled` - Whether to automatically associate transit gateway attachments with this transit gateway's default route table. This cannot be configured or perform drift detection with Resource Access Manager shared EC2 Transit Gateways. Defaults to `false`.
+    (Optional) `default_propagation_route_table_enabled` - Whether to automatically propagate transit gateway attachments with this transit gateway's default route table. This cannot be configured or perform drift detection with Resource Access Manager shared EC2 Transit Gateways. Defaults to `false`.
+    (Optional) `tags` - A map of tags to add to the vpc association.
+  EOF
+  type = list(object({
+    name                                    = string
+    transit_gateway                         = string
+    appliance_mode_enabled                  = optional(bool, false)
+    dns_support_enabled                     = optional(bool, true)
+    ipv6_enabled                            = optional(bool, false)
+    default_association_route_table_enabled = optional(bool, false)
+    default_propagation_route_table_enabled = optional(bool, false)
+
+    tags = optional(map(string), {})
+  }))
+  default  = []
+  nullable = false
+
+  validation {
+    condition = alltrue([
+      for attachment in var.transit_gateway_attachments :
+      startswith(attachment.transit_gateway, "tgw-")
+    ])
+    error_message = "Valid value for `transit_gateway` must be the ID of the Transit Gateway."
+  }
+}
+
 variable "dax_subnet_group" {
   description = <<EOF
   (Optional) A configuration of DAX Subnet Group. `dax_subnet_group` as defined below.

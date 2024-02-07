@@ -111,6 +111,25 @@ output "dns_config" {
   }
 }
 
+output "transit_gateway_attachments" {
+  description = <<EOF
+  The configuration of Transit Gateway VPC attachments.
+  EOF
+  value = {
+    for name, attachment in aws_ec2_transit_gateway_vpc_attachment.this :
+    name => {
+      name            = name
+      transit_gateway = attachment.transit_gateway_id
+
+      appliance_mode_enabled                  = attachment.appliance_mode_support == "enable"
+      dns_support_enabled                     = attachment.dns_support == "enable"
+      ipv6_enabled                            = attachment.ipv6_support == "enable"
+      default_association_route_table_enabled = attachment.transit_gateway_default_route_table_association
+      default_propagation_route_table_enabled = attachment.transit_gateway_default_route_table_propagation
+    }
+  }
+}
+
 output "dax_subnet_group" {
   description = <<EOF
   The configuration of DAX Subnet Group.
