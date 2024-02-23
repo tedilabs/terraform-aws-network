@@ -1,6 +1,25 @@
+data "aws_caller_identity" "this" {}
+
+locals {
+  account_id = data.aws_caller_identity.this.account_id
+}
+
+
 ###################################################
 # VPC Attachments for Transit Gateway
 ###################################################
+
+data "aws_ec2_transit_gateway" "this" {
+  for_each = {
+    for attachment in var.transit_gateway_attachments :
+    attachment.name => attachment.transit_gateway
+  }
+
+  filter {
+    name   = "transit-gateway-id"
+    values = [each.value]
+  }
+}
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
   for_each = {
@@ -13,11 +32,17 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
 
   transit_gateway_id = each.value.transit_gateway
 
-  appliance_mode_support                          = each.value.appliance_mode_enabled ? "enable" : "disable"
-  dns_support                                     = each.value.dns_support_enabled ? "enable" : "disable"
-  ipv6_support                                    = each.value.ipv6_enabled ? "enable" : "disable"
-  transit_gateway_default_route_table_association = each.value.default_association_route_table_enabled
-  transit_gateway_default_route_table_propagation = each.value.default_propagation_route_table_enabled
+  appliance_mode_support = each.value.appliance_mode_enabled ? "enable" : "disable"
+  dns_support            = each.value.dns_support_enabled ? "enable" : "disable"
+  ipv6_support           = each.value.ipv6_enabled ? "enable" : "disable"
+  transit_gateway_default_route_table_association = (local.account_id == data.aws_ec2_transit_gateway.this[each.key].owner_id
+    ? each.value.default_association_route_table_enabled
+    : null
+  )
+  transit_gateway_default_route_table_propagation = (local.account_id == data.aws_ec2_transit_gateway.this[each.key].owner_id
+    ? each.value.default_propagation_route_table_enabled
+    : null
+  )
 
   tags = merge(
     {
