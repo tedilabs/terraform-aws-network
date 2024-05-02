@@ -1,6 +1,17 @@
 version: 2
 updates:
-- package-ecosystem: "github-actions"
-  directory: "/"
+- package-ecosystem: github-actions
+  directory: /
   schedule:
-    interval: "daily"
+    interval: daily
+
+- package-ecosystem: terraform
+  directories:
+  - /modules/nacl
+  - /modules/nat-gateway
+  - /modules/route-table
+  - /modules/security-group
+  - /modules/subnet-group
+  - /modules/vpc
+  schedule:
+    interval: weekly
