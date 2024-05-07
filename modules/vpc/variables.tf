@@ -258,18 +258,20 @@ variable "dhcp_options" {
     (Optional) `name` - The name of the DHCP option set. Defaults to same name of the VPC.
     (Optional) `domain_name` - The suffix domain name to use by default when resolving non Fully Qualified Domain Names. In other words, this is what ends up being the search value in the `/etc/resolv.conf` file. If you're using `AmazonProvidedDNS` in `us-east-1`, specify `ec2.internal`. If you're using `AmazonProvidedDNS` in another Region, specify `{region}.compute.internal`.
     (Optional) `domain_name_servers` - A list of name servers to configure in `/etc/resolv.conf`. The IP addresses of up to four domain name servers, or `AmazonProvidedDNS`. If you want to use the default AWS nameservers you should set this to `AmazonProvidedDNS`. Defaults to `["AmazonProvidedDNS"]`.
+    (Optional) `ipv6_address_preferred_lease_time` - How frequently, in seconds, a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal. Acceptable values are between 140 and 2147483647 (approximately 68 years). Defaults to `140` seconds. If you use long-term addressing for EC2 instances, you can increase the lease time and avoid frequent lease renewal requests. Lease renewal typically occurs when half of the lease time has elapsed.
     (Optional) `netbios_name_servers` - A list of NetBIOS name servers. The IP addresses of up to four NetBIOS name servers.
     (Optional) `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8). AWS recommends to specify 2 since broadcast and multicast are not supported in their network. For more information about these node types, see RFC 2132. Defaults to `2`.
     (Optional) `ntp_servers` - A list of NTP servers to configure. The IP addresses of up to four Network Time Protocol (NTP) servers.
   EOF
   type = object({
-    enabled              = optional(bool, false)
-    name                 = optional(string)
-    domain_name          = optional(string)
-    domain_name_servers  = optional(list(string), ["AmazonProvidedDNS"])
-    netbios_name_servers = optional(list(string), [])
-    netbios_node_type    = optional(number, 2)
-    ntp_servers          = optional(list(string), [])
+    enabled                           = optional(bool, false)
+    name                              = optional(string)
+    domain_name                       = optional(string)
+    domain_name_servers               = optional(list(string), ["AmazonProvidedDNS"])
+    ipv6_address_preferred_lease_time = optional(number, 140)
+    netbios_name_servers              = optional(list(string), [])
+    netbios_node_type                 = optional(number, 2)
+    ntp_servers                       = optional(list(string), [])
   })
   default  = {}
   nullable = false
