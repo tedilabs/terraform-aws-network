@@ -21,10 +21,11 @@ resource "aws_vpc_dhcp_options" "this" {
     ? var.dhcp_options.domain_name
     : local.default_dhcp_options_domain_name
   )
-  domain_name_servers  = var.dhcp_options.domain_name_servers
-  ntp_servers          = var.dhcp_options.ntp_servers
-  netbios_name_servers = var.dhcp_options.netbios_name_servers
-  netbios_node_type    = var.dhcp_options.netbios_node_type
+  domain_name_servers               = var.dhcp_options.domain_name_servers
+  ipv6_address_preferred_lease_time = var.dhcp_options.ipv6_address_preferred_lease_time
+  ntp_servers                       = var.dhcp_options.ntp_servers
+  netbios_name_servers              = var.dhcp_options.netbios_name_servers
+  netbios_node_type                 = var.dhcp_options.netbios_node_type
 
   tags = merge(
     {

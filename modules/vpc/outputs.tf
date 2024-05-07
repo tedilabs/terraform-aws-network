@@ -215,6 +215,7 @@ output "dhcp_options" {
 
     `domain_name` - The suffix domain name to use by default when resolving non Fully Qualified Domain Names.
     `domain_name_servers` - A list of name servers to configure in `/etc/resolv.conf`.
+    `ipv6_address_preferred_lease_time` - A value for how frequently a running instance with an IPv6 assigned to it goes through DHCPv6 lease renewal.
     `netbios_name_servers` - A list of NetBIOS name servers.
     `netbios_node_type` - The NetBIOS node type (1, 2, 4, or 8).
     `ntp_servers` - A list of NTP servers to configure.
@@ -225,11 +226,12 @@ output "dhcp_options" {
       arn   = one(aws_vpc_dhcp_options.this[*].arn)
       owner = one(aws_vpc_dhcp_options.this[*].owner_id)
 
-      domain_name          = one(aws_vpc_dhcp_options.this[*].domain_name)
-      domain_name_servers  = one(aws_vpc_dhcp_options.this[*].domain_name_servers)
-      netbios_name_servers = one(aws_vpc_dhcp_options.this[*].netbios_name_servers)
-      netbios_node_type    = one(aws_vpc_dhcp_options.this[*].netbios_node_type)
-      ntp_servers          = one(aws_vpc_dhcp_options.this[*].ntp_servers)
+      domain_name                       = one(aws_vpc_dhcp_options.this[*].domain_name)
+      domain_name_servers               = one(aws_vpc_dhcp_options.this[*].domain_name_servers)
+      ipv6_address_preferred_lease_time = one(aws_vpc_dhcp_options.this[*].ipv6_address_preferred_lease_time)
+      netbios_name_servers              = one(aws_vpc_dhcp_options.this[*].netbios_name_servers)
+      netbios_node_type                 = one(aws_vpc_dhcp_options.this[*].netbios_node_type)
+      ntp_servers                       = one(aws_vpc_dhcp_options.this[*].ntp_servers)
     }
     : null
   )
