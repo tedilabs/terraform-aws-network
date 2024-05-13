@@ -4,7 +4,7 @@
 
 module "share" {
   source  = "tedilabs/account/aws//modules/ram-share"
-  version = "~> 0.27.0"
+  version = "~> 0.30.0"
 
   for_each = {
     for share in var.shares :
