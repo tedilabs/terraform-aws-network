@@ -1,18 +1,30 @@
 # Modules
 ":floppy_disk: nacl":
-- modules/nacl/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/nacl/**/*
 
 ":floppy_disk: nat-gateway":
-- modules/nat-gateway/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/nat-gateway/**/*
 
 ":floppy_disk: route-table":
-- modules/route-table/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/route-table/**/*
 
 ":floppy_disk: security-group":
-- modules/security-group/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/security-group/**/*
 
 ":floppy_disk: subnet-group":
-- modules/subnet-group/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/subnet-group/**/*
 
 ":floppy_disk: vpc":
-- modules/vpc/**/*
+- changed-files:
+  - any-glob-to-any-file:
+    - modules/vpc/**/*
