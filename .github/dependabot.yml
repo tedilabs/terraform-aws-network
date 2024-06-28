@@ -7,11 +7,6 @@ updates:
 
 - package-ecosystem: terraform
   directories:
-  - /modules/nacl
-  - /modules/nat-gateway
-  - /modules/route-table
-  - /modules/security-group
-  - /modules/subnet-group
-  - /modules/vpc
+  - /modules/*
   schedule:
     interval: weekly
