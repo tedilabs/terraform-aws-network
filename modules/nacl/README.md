@@ -6,7 +6,7 @@ This module creates following resources.
 - `aws_network_acl_association` (optional)
 - `aws_network_acl_rule` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -59,4 +59,4 @@ This module creates following resources.
 | <a name="output_owner_id"></a> [owner\_id](#output\_owner\_id) | The ID of the AWS account that owns the network ACL. |
 | <a name="output_subnets"></a> [subnets](#output\_subnets) | A list of subnet IDs which is associated with the network ACL. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The VPC ID of the network ACL. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

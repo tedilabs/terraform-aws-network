@@ -9,7 +9,7 @@ This module creates following resources.
 - `aws_vpc_endpoint_route_table_association` (optional)
 - `aws_vpn_gateway_route_propagation` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -80,4 +80,4 @@ This module creates following resources.
 | <a name="output_prefix_list_routes"></a> [prefix\_list\_routes](#output\_prefix\_list\_routes) | A list of route rules for destinations to Prefix Lists. |
 | <a name="output_propagated_vpn_gateways"></a> [propagated\_vpn\_gateways](#output\_propagated\_vpn\_gateways) | A list of Virtual Private Gateway IDs which propagate routes from. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the route table belongs to. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

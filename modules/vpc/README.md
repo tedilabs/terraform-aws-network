@@ -16,7 +16,7 @@ This module creates following resources.
 - `aws_vpn_gateway` (optional)
 - `aws_vpn_gateway_attachment` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -108,4 +108,4 @@ This module creates following resources.
 | <a name="output_private_hosted_zones"></a> [private\_hosted\_zones](#output\_private\_hosted\_zones) | List of associated private Hosted Zone IDs. |
 | <a name="output_tenancy"></a> [tenancy](#output\_tenancy) | A tenancy option for instances launched into the VPC. |
 | <a name="output_vpn_gateway"></a> [vpn\_gateway](#output\_vpn\_gateway) | The configuration for the virtual private gateway of the VPC.<br>    `id` - The ID of the Virtual Private Gateway.<br>    `arn` - The ARN of the Virtual Private Gateway.<br>    `asn` - The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

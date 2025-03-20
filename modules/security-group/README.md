@@ -6,7 +6,7 @@ This module creates following resources.
 - `aws_vpc_security_group_ingress_rule` (optional)
 - `aws_vpc_security_group_egress_rule` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -62,4 +62,4 @@ This module creates following resources.
 | <a name="output_name"></a> [name](#output\_name) | The name of the security group. |
 | <a name="output_owner_id"></a> [owner\_id](#output\_owner\_id) | The ID of the AWS account that owns the security group. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the associated VPC. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

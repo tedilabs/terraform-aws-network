@@ -5,7 +5,7 @@ This module creates following resources.
 - `aws_nat_gateway`
 - `aws_eip` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -64,4 +64,4 @@ This module creates following resources.
 | <a name="output_secondary_private_ips"></a> [secondary\_private\_ips](#output\_secondary\_private\_ips) | The secondary private IP addresses of the NAT Gateway. |
 | <a name="output_subnet"></a> [subnet](#output\_subnet) | The subnet which the NAT Gateway belongs to.<br>    `id` - The ID of the subnet.<br>    `arn` - The ARN of the subnet. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The VPC ID of the NAT Gateway. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->

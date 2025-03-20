@@ -12,7 +12,7 @@ This module creates following resources.
 - `aws_neptune_subnet_group` (optional)
 - `aws_redshift_subnet_group` (optional)
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -110,4 +110,4 @@ This module creates following resources.
 | <a name="output_subnets_by_az"></a> [subnets\_by\_az](#output\_subnets\_by\_az) | A map of subnets of the subnet group which are grouped by availability zone id. |
 | <a name="output_transit_gateway_attachments"></a> [transit\_gateway\_attachments](#output\_transit\_gateway\_attachments) | The configuration of Transit Gateway VPC attachments. |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the VPC which the subnet group belongs to. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
