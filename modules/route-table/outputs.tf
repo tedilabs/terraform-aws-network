@@ -79,28 +79,27 @@ output "prefix_list_routes" {
   description = "A list of route rules for destinations to Prefix Lists."
   value = [
     for route in var.prefix_list_routes : {
-      id          = aws_route.prefix_list[route.destination].id,
-      state       = aws_route.prefix_list[route.destination].state,
+      id          = aws_route.prefix_list[route.name].id,
+      state       = aws_route.prefix_list[route.name].state,
       destination = route.destination
       target = {
         type = route.target.type
         id = coalesce(
-          aws_route.prefix_list[route.destination].carrier_gateway_id,
-          aws_route.prefix_list[route.destination].core_network_arn,
-          aws_route.prefix_list[route.destination].egress_only_gateway_id,
-          aws_route.prefix_list[route.destination].gateway_id,
-          aws_route.prefix_list[route.destination].local_gateway_id,
-          aws_route.prefix_list[route.destination].nat_gateway_id,
-          aws_route.prefix_list[route.destination].network_interface_id,
-          aws_route.prefix_list[route.destination].transit_gateway_id,
-          aws_route.prefix_list[route.destination].vpc_endpoint_id,
-          aws_route.prefix_list[route.destination].vpc_peering_connection_id,
+          aws_route.prefix_list[route.name].carrier_gateway_id,
+          aws_route.prefix_list[route.name].core_network_arn,
+          aws_route.prefix_list[route.name].egress_only_gateway_id,
+          aws_route.prefix_list[route.name].gateway_id,
+          aws_route.prefix_list[route.name].local_gateway_id,
+          aws_route.prefix_list[route.name].nat_gateway_id,
+          aws_route.prefix_list[route.name].network_interface_id,
+          aws_route.prefix_list[route.name].transit_gateway_id,
+          aws_route.prefix_list[route.name].vpc_endpoint_id,
+          aws_route.prefix_list[route.name].vpc_peering_connection_id,
         )
       }
     }
   ]
 }
-
 
 output "associated_subnets" {
   description = "A list of subnet IDs which is associated with the route table."
