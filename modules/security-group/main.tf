@@ -40,4 +40,8 @@ resource "aws_security_group" "this" {
     local.module_tags,
     var.tags,
   )
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
