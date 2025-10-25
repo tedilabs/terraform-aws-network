@@ -1,3 +1,8 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = values(aws_subnet.this)[0].region
+}
+
 output "name" {
   description = "The name of the subnet group."
   value       = var.name
@@ -18,7 +23,7 @@ output "arns" {
   value       = values(aws_subnet.this)[*].arn
 }
 
-output "owner" {
+output "owner_id" {
   description = "The ID of the AWS account that owns subnets in the subnet group."
   value       = values(aws_subnet.this)[0].owner_id
 }

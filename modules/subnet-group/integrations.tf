@@ -62,6 +62,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
 resource "aws_dax_subnet_group" "this" {
   count = var.dax_subnet_group.enabled ? 1 : 0
 
+  region = var.region
+
   name        = coalesce(var.dax_subnet_group.name, var.name)
   description = var.dax_subnet_group.description
 
@@ -78,6 +80,8 @@ resource "aws_dax_subnet_group" "this" {
 
 resource "aws_dms_replication_subnet_group" "this" {
   count = var.dms_replication_subnet_group.enabled ? 1 : 0
+
+  region = var.region
 
   replication_subnet_group_id          = coalesce(var.dms_replication_subnet_group.name, var.name)
   replication_subnet_group_description = var.dms_replication_subnet_group.description
@@ -101,6 +105,8 @@ resource "aws_dms_replication_subnet_group" "this" {
 resource "aws_docdb_subnet_group" "this" {
   count = var.docdb_subnet_group.enabled ? 1 : 0
 
+  region = var.region
+
   name        = coalesce(var.docdb_subnet_group.name, var.name)
   description = var.docdb_subnet_group.description
 
@@ -122,6 +128,8 @@ resource "aws_docdb_subnet_group" "this" {
 
 resource "aws_elasticache_subnet_group" "this" {
   count = var.elasticache_subnet_group.enabled ? 1 : 0
+
+  region = var.region
 
   name        = coalesce(var.elasticache_subnet_group.name, var.name)
   description = var.elasticache_subnet_group.description
@@ -145,6 +153,8 @@ resource "aws_elasticache_subnet_group" "this" {
 resource "aws_memorydb_subnet_group" "this" {
   count = var.memorydb_subnet_group.enabled ? 1 : 0
 
+  region = var.region
+
   name        = coalesce(var.memorydb_subnet_group.name, var.name)
   description = var.memorydb_subnet_group.description
 
@@ -166,6 +176,8 @@ resource "aws_memorydb_subnet_group" "this" {
 
 resource "aws_neptune_subnet_group" "this" {
   count = var.neptune_subnet_group.enabled ? 1 : 0
+
+  region = var.region
 
   name        = coalesce(var.neptune_subnet_group.name, var.name)
   description = var.neptune_subnet_group.description
@@ -189,6 +201,8 @@ resource "aws_neptune_subnet_group" "this" {
 resource "aws_db_subnet_group" "this" {
   count = var.rds_subnet_group.enabled ? 1 : 0
 
+  region = var.region
+
   name        = coalesce(var.rds_subnet_group.name, var.name)
   description = var.rds_subnet_group.description
 
@@ -210,6 +224,8 @@ resource "aws_db_subnet_group" "this" {
 
 resource "aws_redshift_subnet_group" "this" {
   count = var.redshift_subnet_group.enabled ? 1 : 0
+
+  region = var.region
 
   name        = coalesce(var.redshift_subnet_group.name, var.name)
   description = var.redshift_subnet_group.description

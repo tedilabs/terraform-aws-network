@@ -1,3 +1,10 @@
+variable "region" {
+  description = "(Optional) The region in which to create the module resources. If not provided, the module resources will be created in the provider's configured region."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
 variable "name" {
   description = "(Required) The name of the subnet group."
   type        = string
@@ -18,6 +25,14 @@ variable "subnets" {
     (Optional) `availability_zone_id` - The availability zone ID of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.
     (Optional) `ipv4_cidr` - The IPv4 CIDR block for the subnet.
     (Optional) `ipv6_cidr` - The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.
+    (Optional) `ipv4_cidr_reservations` - A list of IPv4 CIDR reservations for the subnet. Each block of `ipv4_cidr_reservations` as defined below.
+      (Required) `ipv4_cidr` - The IPv4 CIDR block for the reservation.
+      (Optional) `type` - The type of reservation. Valid values are `EXPLICIT` and `PREFIX`. Defaults to `EXPLICIT`.
+      (Optional) `description` - The description of the reservation.
+    (Optional) `ipv6_cidr_reservations` - A list of IPv6 CIDR reservations for the subnet. Each block of `ipv6_cidr_reservations` as defined below.
+      (Required) `ipv6_cidr` - The IPv6 CIDR block for the reservation.
+      (Optional) `type` - The type of reservation. Valid values are `EXPLICIT` and `PREFIX`. Defaults to `EXPLICIT`.
+      (Optional) `description` - The description of the reservation.
   EOF
   type = map(object({
     type = optional(string, "DUALSTACK")
@@ -27,6 +42,17 @@ variable "subnets" {
 
     ipv4_cidr = optional(string)
     ipv6_cidr = optional(string)
+
+    ipv4_cidr_reservations = optional(list(object({
+      ipv4_cidr   = string
+      type        = optional(string, "EXPLICIT")
+      description = optional(string, "Managed by Terraform.")
+    })), [])
+    ipv6_cidr_reservations = optional(list(object({
+      ipv6_cidr   = string
+      type        = optional(string, "EXPLICIT")
+      description = optional(string, "Managed by Terraform.")
+    })), [])
   }))
   nullable = false
 
@@ -56,6 +82,46 @@ variable "subnets" {
       if subnet.type == "IPV6"
     ])
     error_message = "IPv6 CIDR block must be provided for `IPV6` subnet."
+  }
+  validation {
+    condition = alltrue([
+      for subnet in values(var.subnets) :
+      alltrue([
+        for reservation in subnet.ipv4_cidr_reservations :
+        contains(["EXPLICIT", "PREFIX"], reservation.type)
+      ])
+    ])
+    error_message = "Valid values for `type` of each `ipv4_cidr_reservations` are `EXPLICIT` and `PREFIX`."
+  }
+  validation {
+    condition = alltrue([
+      for subnet in values(var.subnets) :
+      alltrue([
+        for reservation in subnet.ipv6_cidr_reservations :
+        contains(["EXPLICIT", "PREFIX"], reservation.type)
+      ])
+    ])
+    error_message = "Valid values for `type` of each `ipv6_cidr_reservations` are `EXPLICIT` and `PREFIX`."
+  }
+  validation {
+    condition = alltrue([
+      for subnet in values(var.subnets) :
+      alltrue([
+        for reservation in subnet.ipv4_cidr_reservations :
+        provider::assert::cidrv4(reservation.ipv4_cidr)
+      ])
+    ])
+    error_message = "Valid value for `ipv4_cidr` of each `ipv4_cidr_reservations` must be a valid IPv4 CIDR block."
+  }
+  validation {
+    condition = alltrue([
+      for subnet in values(var.subnets) :
+      alltrue([
+        for reservation in subnet.ipv6_cidr_reservations :
+        provider::assert::cidrv6(reservation.ipv6_cidr)
+      ])
+    ])
+    error_message = "Valid value for `ipv6_cidr` of each `ipv6_cidr_reservations` must be a valid IPv6 CIDR block."
   }
 }
 
@@ -323,8 +389,21 @@ variable "module_tags_enabled" {
 # Resource Group
 ###################################################
 
-
-
+variable "resource_group" {
+  description = <<EOF
+  (Optional) A configurations of Resource Group for this module. `resource_group` as defined below.
+    (Optional) `enabled` - Whether to create Resource Group to find and group AWS resources which are created by this module. Defaults to `true`.
+    (Optional) `name` - The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. If not provided, a name will be generated using the module name and instance name.
+    (Optional) `description` - The description of Resource Group. Defaults to `Managed by Terraform.`.
+  EOF
+  type = object({
+    enabled     = optional(bool, true)
+    name        = optional(string, "")
+    description = optional(string, "Managed by Terraform.")
+  })
+  default  = {}
+  nullable = false
+}
 
 
 ###################################################
@@ -344,21 +423,5 @@ variable "shares" {
     tags = optional(map(string), {})
   }))
   default  = []
-  nullable = false
-}
-
-variable "resource_group" {
-  description = <<EOF
-  (Optional) A configurations of Resource Group for this module. `resource_group` as defined below.
-    (Optional) `enabled` - Whether to create Resource Group to find and group AWS resources which are created by this module. Defaults to `true`.
-    (Optional) `name` - The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. If not provided, a name will be generated using the module name and instance name.
-    (Optional) `description` - The description of Resource Group. Defaults to `Managed by Terraform.`.
-  EOF
-  type = object({
-    enabled     = optional(bool, true)
-    name        = optional(string, "")
-    description = optional(string, "Managed by Terraform.")
-  })
-  default  = {}
   nullable = false
 }

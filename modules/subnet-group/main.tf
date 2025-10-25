@@ -15,6 +15,8 @@ locals {
 }
 
 data "aws_availability_zones" "available" {
+  region = var.region
+
   state = "available"
 }
 
@@ -51,6 +53,9 @@ locals {
 
       ipv4_cidr = subnet.cidr_block
       ipv6_cidr = subnet.ipv6_cidr_block
+
+      ipv4_cidr_reservations = var.subnets[name].ipv4_cidr_reservations
+      ipv6_cidr_reservations = var.subnets[name].ipv6_cidr_reservations
     }
   ]
 }
@@ -62,6 +67,8 @@ locals {
 
 resource "aws_subnet" "this" {
   for_each = var.subnets
+
+  region = var.region
 
   vpc_id               = var.vpc_id
   availability_zone    = each.value.availability_zone
@@ -131,4 +138,62 @@ resource "aws_subnet" "this" {
     local.module_tags,
     var.tags,
   )
+}
+
+
+###################################################
+# CIDR Reservations for Subnets of the Subnet Group
+###################################################
+
+locals {
+  ipv4_cidr_reservations = flatten([
+    for name, subnet in var.subnets :
+    [
+      for reservation in subnet.ipv4_cidr_reservations :
+      merge(reservation, {
+        id     = "${name}/${reservation.ipv4_cidr}"
+        subnet = aws_subnet.this[name]
+      })
+    ]
+  ])
+  ipv6_cidr_reservations = flatten([
+    for name, subnet in var.subnets :
+    [
+      for reservation in subnet.ipv6_cidr_reservations :
+      merge(reservation, {
+        id     = "${name}/${reservation.ipv6_cidr}"
+        subnet = aws_subnet.this[name]
+      })
+    ]
+  ])
+}
+
+resource "aws_ec2_subnet_cidr_reservation" "ipv4" {
+  for_each = {
+    for reservation in local.ipv4_cidr_reservations :
+    reservation.id => reservation
+  }
+
+  region = each.value.subnet.region
+
+  subnet_id = each.value.subnet.id
+
+  cidr_block       = each.value.ipv4_cidr
+  reservation_type = lower(each.value.type)
+  description      = each.value.description
+}
+
+resource "aws_ec2_subnet_cidr_reservation" "ipv6" {
+  for_each = {
+    for reservation in local.ipv6_cidr_reservations :
+    reservation.id => reservation
+  }
+
+  region = each.value.subnet.region
+
+  subnet_id = each.value.subnet.id
+
+  cidr_block       = each.value.ipv6_cidr
+  reservation_type = lower(each.value.type)
+  description      = each.value.description
 }
