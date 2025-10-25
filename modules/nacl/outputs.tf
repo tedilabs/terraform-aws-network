@@ -1,3 +1,8 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = aws_network_acl.this.region
+}
+
 output "id" {
   description = "The ID of the network ACL."
   value       = aws_network_acl.this.id

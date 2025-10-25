@@ -23,6 +23,8 @@ locals {
 # - `ingress`
 # - `egress`
 resource "aws_network_acl" "this" {
+  region = var.region
+
   vpc_id     = var.vpc_id
   subnet_ids = var.subnets
 
@@ -55,6 +57,8 @@ resource "aws_network_acl" "this" {
 resource "aws_network_acl_rule" "ingress" {
   for_each = var.ingress_rules
 
+  region = var.region
+
   network_acl_id = aws_network_acl.this.id
 
   egress      = false
@@ -72,6 +76,8 @@ resource "aws_network_acl_rule" "ingress" {
 
 resource "aws_network_acl_rule" "egress" {
   for_each = var.egress_rules
+
+  region = var.region
 
   network_acl_id = aws_network_acl.this.id
 
