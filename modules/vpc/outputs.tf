@@ -1,9 +1,14 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = aws_vpc.this.region
+}
+
 output "name" {
   description = "The name of the VPC."
   value       = var.name
 }
 
-output "owner" {
+output "owner_id" {
   description = "The ID of the AWS account that owns the VPC."
   value       = aws_vpc.this.owner_id
 }
@@ -139,14 +144,14 @@ output "dns_resolution_enabled" {
   value       = aws_vpc.this.enable_dns_support
 }
 
-output "dns_dnssec_validation_enabled" {
-  description = "Whether or not the VPC has Route53 DNSSEC validation support."
-  value       = var.dns_dnssec_validation_enabled
-}
-
-output "dns_dnssec_validation_id" {
-  description = "The ID of a configuration for DNSSEC validation."
-  value       = one(aws_route53_resolver_dnssec_config.this[*].id)
+output "dnssec_validation" {
+  description = "The configuration for Route53 DNSSEC validation for the VPC."
+  value = {
+    enabled = var.dnssec_validation.enabled
+    id      = one(aws_route53_resolver_dnssec_config.this[*].id)
+    arn     = one(aws_route53_resolver_dnssec_config.this[*].arn)
+    status  = one(aws_route53_resolver_dnssec_config.this[*].status)
+  }
 }
 
 output "private_hosted_zones" {
@@ -162,9 +167,9 @@ output "default_network_acl" {
     `owner` - The ID of the AWS account that owns the default Network ACL.
   EOF
   value = {
-    id    = aws_vpc.this.default_network_acl_id
-    arn   = aws_default_network_acl.this.arn
-    owner = aws_default_network_acl.this.owner_id
+    id       = aws_vpc.this.default_network_acl_id
+    arn      = aws_default_network_acl.this.arn
+    owner_id = aws_default_network_acl.this.owner_id
   }
 }
 
@@ -190,7 +195,7 @@ output "default_security_group" {
   value = {
     id          = aws_vpc.this.default_security_group_id
     arn         = aws_default_security_group.this.arn
-    owner       = aws_default_security_group.this.owner_id
+    owner_id    = aws_default_security_group.this.owner_id
     name        = aws_default_security_group.this.name
     description = aws_default_security_group.this.description
   }
@@ -222,9 +227,9 @@ output "dhcp_options" {
   EOF
   value = (var.dhcp_options.enabled
     ? {
-      id    = one(aws_vpc_dhcp_options.this[*].id)
-      arn   = one(aws_vpc_dhcp_options.this[*].arn)
-      owner = one(aws_vpc_dhcp_options.this[*].owner_id)
+      id       = one(aws_vpc_dhcp_options.this[*].id)
+      arn      = one(aws_vpc_dhcp_options.this[*].arn)
+      owner_id = one(aws_vpc_dhcp_options.this[*].owner_id)
 
       domain_name                       = one(aws_vpc_dhcp_options.this[*].domain_name)
       domain_name_servers               = one(aws_vpc_dhcp_options.this[*].domain_name_servers)
@@ -246,9 +251,9 @@ output "internet_gateway" {
   EOF
   value = (var.internet_gateway.enabled
     ? {
-      id    = one(aws_internet_gateway.this[*].id)
-      arn   = one(aws_internet_gateway.this[*].arn)
-      owner = one(aws_internet_gateway.this[*].owner_id)
+      id       = one(aws_internet_gateway.this[*].id)
+      arn      = one(aws_internet_gateway.this[*].arn)
+      owner_id = one(aws_internet_gateway.this[*].owner_id)
     }
     : null
   )

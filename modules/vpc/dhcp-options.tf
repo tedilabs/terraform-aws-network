@@ -1,7 +1,9 @@
-data "aws_region" "this" {}
+data "aws_region" "this" {
+  region = var.region
+}
 
 locals {
-  region = data.aws_region.this.name
+  region = data.aws_region.this.region
 
   default_dhcp_options_domain_name = (local.region != "us-east-1"
     ? "${local.region}.compute.internal"
@@ -16,6 +18,8 @@ locals {
 
 resource "aws_vpc_dhcp_options" "this" {
   count = var.dhcp_options.enabled ? 1 : 0
+
+  region = var.region
 
   domain_name = (length(compact([var.dhcp_options.domain_name])) > 0
     ? var.dhcp_options.domain_name
@@ -42,6 +46,8 @@ resource "aws_vpc_dhcp_options" "this" {
 
 resource "aws_vpc_dhcp_options_association" "this" {
   count = var.dhcp_options.enabled ? 1 : 0
+
+  region = aws_vpc.this.region
 
   vpc_id          = aws_vpc.this.id
   dhcp_options_id = aws_vpc_dhcp_options.this[0].id

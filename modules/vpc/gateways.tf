@@ -2,10 +2,12 @@
 # Internet Gateway
 ###################################################
 
-# INFO: Not supported attributes
+# INFO: Use a separate resource
 # - `vpc_id`
 resource "aws_internet_gateway" "this" {
   count = var.internet_gateway.enabled ? 1 : 0
+
+  region = var.region
 
   tags = merge(
     {
@@ -19,6 +21,8 @@ resource "aws_internet_gateway" "this" {
 resource "aws_internet_gateway_attachment" "this" {
   count = var.internet_gateway.enabled ? 1 : 0
 
+  region = aws_vpc.this.region
+
   vpc_id              = aws_vpc.this.id
   internet_gateway_id = aws_internet_gateway.this[0].id
 }
@@ -30,6 +34,8 @@ resource "aws_internet_gateway_attachment" "this" {
 
 resource "aws_egress_only_internet_gateway" "this" {
   count = var.egress_only_internet_gateway.enabled ? 1 : 0
+
+  region = var.region
 
   vpc_id = aws_vpc.this.id
 
@@ -54,11 +60,14 @@ resource "aws_egress_only_internet_gateway" "this" {
 # Virtual Private Gateway
 ###################################################
 
-# INFO: Not supported attributes
+# INFO: Use a separate resource
 # - `vpc_id`
+# INFO: Not supported attributes
 # - `availability_zone`
 resource "aws_vpn_gateway" "this" {
   count = var.vpn_gateway.enabled ? 1 : 0
+
+  region = var.region
 
   amazon_side_asn = var.vpn_gateway.asn
 
@@ -73,6 +82,8 @@ resource "aws_vpn_gateway" "this" {
 
 resource "aws_vpn_gateway_attachment" "this" {
   count = var.vpn_gateway.enabled ? 1 : 0
+
+  region = aws_vpc.this.region
 
   vpc_id         = aws_vpc.this.id
   vpn_gateway_id = aws_vpn_gateway.this[0].id

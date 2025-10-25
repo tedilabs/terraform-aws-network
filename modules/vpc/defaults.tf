@@ -5,6 +5,8 @@
 # INFO: Not supported attributes
 # - `subnet_ids`
 resource "aws_default_network_acl" "this" {
+  region = var.region
+
   default_network_acl_id = aws_vpc.this.default_network_acl_id
 
   dynamic "ingress" {
@@ -128,6 +130,8 @@ resource "aws_default_network_acl" "this" {
 ###################################################
 
 # resource "aws_default_route_table" "this" {
+#   region = var.region
+#
 #   default_route_table_id = aws_vpc.this.default_route_table_id
 #
 #   tags = merge(
@@ -145,6 +149,8 @@ resource "aws_default_network_acl" "this" {
 ###################################################
 
 resource "aws_default_security_group" "this" {
+  region = var.region
+
   vpc_id = aws_vpc.this.id
 
   dynamic "ingress" {

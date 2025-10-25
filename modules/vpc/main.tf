@@ -29,6 +29,8 @@ locals {
 ###################################################
 
 resource "aws_vpc" "this" {
+  region = var.region
+
   ## IPv4 CIDR Blocks
   cidr_block = (var.ipv4_cidrs[0].type == "MANUAL"
     ? var.ipv4_cidrs[0].cidr
@@ -45,7 +47,6 @@ resource "aws_vpc" "this" {
 
 
   ## IPv6 CIDR Blocks
-  # TODO: Want to manage IPv6 CIDRs with `aws_vpc_ipv6_cidr_block_association` resource. But, there are unsupported featrues yet.
   assign_generated_ipv6_cidr_block = (local.ipv6_enabled
     ? (var.ipv6_cidrs[0].type == "AMAZON"
       ? true
@@ -108,6 +109,8 @@ resource "aws_vpc" "this" {
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
   count = length(var.ipv4_cidrs) > 0 ? length(var.ipv4_cidrs) - 1 : 0
 
+  region = aws_vpc.this.region
+
   vpc_id = aws_vpc.this.id
   cidr_block = (var.ipv4_cidrs[count.index + 1].type == "MANUAL"
     ? var.ipv4_cidrs[count.index + 1].cidr
@@ -123,16 +126,24 @@ resource "aws_vpc_ipv4_cidr_block_association" "this" {
   )
 }
 
+# INFO: Not supported attributes
+# - `ipv6_pool`
 resource "aws_vpc_ipv6_cidr_block_association" "this" {
-  count = length(var.ipv6_cidrs) > 0 ? length(var.ipv6_cidrs) - 1 : 0
+  count = local.ipv6_enabled ? length(var.ipv6_cidrs) - 1 : 0
+
+  region = aws_vpc.this.region
 
   vpc_id = aws_vpc.this.id
-  ipv6_cidr_block = (var.ipv6_cidrs[count.index + 1].type == "IPAM_POOL"
-    ? var.ipv6_cidrs[count.index + 1].ipam_pool.cidr
+  assign_generated_ipv6_cidr_block = (var.ipv6_cidrs[count.index + 1].type == "AMAZON"
+    ? true
     : null
   )
   ipv6_ipam_pool_id = (var.ipv6_cidrs[count.index + 1].type == "IPAM_POOL"
     ? var.ipv6_cidrs[count.index + 1].ipam_pool.id
+    : null
+  )
+  ipv6_cidr_block = (var.ipv6_cidrs[count.index + 1].type == "IPAM_POOL"
+    ? var.ipv6_cidrs[count.index + 1].ipam_pool.cidr
     : null
   )
   ipv6_netmask_length = (var.ipv6_cidrs[count.index + 1].type == "IPAM_POOL"

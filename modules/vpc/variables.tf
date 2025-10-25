@@ -1,3 +1,10 @@
+variable "region" {
+  description = "(Optional) The region in which to create the module resources. If not provided, the module resources will be created in the provider's configured region."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
 variable "name" {
   description = "(Required) Desired name for the VPC resources."
   type        = string
@@ -108,11 +115,16 @@ variable "dns_resolution_enabled" {
   nullable    = false
 }
 
-variable "dns_dnssec_validation_enabled" {
-  description = "(Optional) Should be true to enable Route53 DNSSEC validation in the VPC."
-  type        = bool
-  default     = false
-  nullable    = false
+variable "dnssec_validation" {
+  description = <<EOF
+  (Optional) A configuration for Route53 DNSSEC validation in the VPC. `dnssec_validation` as defined below.
+    (Optional) `enabled` - Whether to enable Route53 DNSSEC validation in the VPC. Defaults to `false`.
+  EOF
+  type = object({
+    enabled = optional(bool, false)
+  })
+  default  = {}
+  nullable = false
 }
 
 variable "private_hosted_zones" {
@@ -347,9 +359,6 @@ variable "module_tags_enabled" {
 ###################################################
 # Resource Group
 ###################################################
-
-
-
 
 variable "resource_group" {
   description = <<EOF
