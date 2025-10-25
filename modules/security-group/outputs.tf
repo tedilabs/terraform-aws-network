@@ -1,3 +1,8 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = aws_security_group.this.region
+}
+
 output "id" {
   description = "The ID of the security group."
   value       = aws_security_group.this.id
@@ -62,6 +67,18 @@ output "egress_rules" {
       to_port   = rule.to_port
     }
   }
+}
+
+output "vpc_associations" {
+  description = <<EOF
+  A set
+  EOF
+  value = [
+    for association in aws_vpc_security_group_vpc_association.this : {
+      vpc    = association.vpc_id
+      status = association.state
+    }
+  ]
 }
 
 output "resource_group" {

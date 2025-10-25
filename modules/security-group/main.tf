@@ -25,6 +25,8 @@ locals {
 # - `egress`
 # - `ingress`
 resource "aws_security_group" "this" {
+  region = var.region
+
   vpc_id = var.vpc_id
 
   name = var.name
@@ -44,4 +46,18 @@ resource "aws_security_group" "this" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+
+###################################################
+# VPC Associations for Security Group
+###################################################
+
+resource "aws_vpc_security_group_vpc_association" "this" {
+  for_each = var.vpc_associations
+
+  region = aws_security_group.this.region
+
+  security_group_id = aws_security_group.this.id
+  vpc_id            = each.key
 }

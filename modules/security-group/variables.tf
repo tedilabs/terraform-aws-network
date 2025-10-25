@@ -1,3 +1,10 @@
+variable "region" {
+  description = "(Optional) The region in which to create the module resources. If not provided, the module resources will be created in the provider's configured region."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
 variable "name" {
   description = "(Required) The name of the security group."
   type        = string
@@ -119,6 +126,15 @@ variable "egress_rules" {
   }
 }
 
+variable "vpc_associations" {
+  description = <<EOF
+  (Optional) A set of VPC IDs to associate with the security group.
+  EOF
+  type        = set(string)
+  default     = []
+  nullable    = false
+}
+
 variable "tags" {
   description = "(Optional) A map of tags to add to all resources."
   type        = map(string)
@@ -137,9 +153,6 @@ variable "module_tags_enabled" {
 ###################################################
 # Resource Group
 ###################################################
-
-
-
 
 variable "resource_group" {
   description = <<EOF

@@ -5,26 +5,27 @@ This module creates following resources.
 - `aws_security_group`
 - `aws_vpc_security_group_ingress_rule` (optional)
 - `aws_vpc_security_group_egress_rule` (optional)
+- `aws_vpc_security_group_vpc_association` (optional)
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.6 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.12 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.3.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.18.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.10.0 |
+| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.12.0 |
 
 ## Resources
 
@@ -33,6 +34,7 @@ This module creates following resources.
 | [aws_security_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_vpc_security_group_egress_rule.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
 | [aws_vpc_security_group_ingress_rule.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
+| [aws_vpc_security_group_vpc_association.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_vpc_association) | resource |
 
 ## Inputs
 
@@ -44,11 +46,11 @@ This module creates following resources.
 | <a name="input_egress_rules"></a> [egress\_rules](#input\_egress\_rules) | (Optional) The configuration for egress rules of the security group. Each block of `egress_rules` as defined below.<br/>    (Required) `id` - The ID of the egress rule. This value is only used internally within Terraform code.<br/>    (Optional) `description` - The description of the rule.<br/>    (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.<br/>    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.<br/>    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.<br/>    (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.<br/>    (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.<br/>    (Optional) `prefix_lists` - The prefix list IDs to allow.<br/>    (Optional) `security_groups` - The source security group IDs to allow.<br/>    (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule. | <pre>list(object({<br/>    id              = string<br/>    description     = optional(string, "Managed by Terraform.")<br/>    protocol        = string<br/>    from_port       = number<br/>    to_port         = number<br/>    ipv4_cidrs      = optional(list(string), [])<br/>    ipv6_cidrs      = optional(list(string), [])<br/>    prefix_lists    = optional(list(string), [])<br/>    security_groups = optional(list(string), [])<br/>    self            = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_ingress_rules"></a> [ingress\_rules](#input\_ingress\_rules) | (Optional) The configuration for ingress rules of the security group. Each block of `ingress_rules` as defined below.<br/>    (Required) `id` - The ID of the ingress rule. This value is only used internally within Terraform code.<br/>    (Optional) `description` - The description of the rule.<br/>    (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.<br/>    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.<br/>    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.<br/>    (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.<br/>    (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.<br/>    (Optional) `prefix_lists` - The prefix list IDs to allow.<br/>    (Optional) `security_groups` - The source security group IDs to allow.<br/>    (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule. | <pre>list(object({<br/>    id              = string<br/>    description     = optional(string, "Managed by Terraform.")<br/>    protocol        = string<br/>    from_port       = number<br/>    to_port         = number<br/>    ipv4_cidrs      = optional(list(string), [])<br/>    ipv6_cidrs      = optional(list(string), [])<br/>    prefix_lists    = optional(list(string), [])<br/>    security_groups = optional(list(string), [])<br/>    self            = optional(bool, false)<br/>  }))</pre> | `[]` | no |
 | <a name="input_module_tags_enabled"></a> [module\_tags\_enabled](#input\_module\_tags\_enabled) | (Optional) Whether to create AWS Resource Tags for the module informations. | `bool` | `true` | no |
-| <a name="input_resource_group_description"></a> [resource\_group\_description](#input\_resource\_group\_description) | (Optional) The description of Resource Group. | `string` | `"Managed by Terraform."` | no |
-| <a name="input_resource_group_enabled"></a> [resource\_group\_enabled](#input\_resource\_group\_enabled) | (Optional) Whether to create Resource Group to find and group AWS resources which are created by this module. | `bool` | `true` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | (Optional) The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. | `string` | `""` | no |
+| <a name="input_region"></a> [region](#input\_region) | (Optional) The region in which to create the module resources. If not provided, the module resources will be created in the provider's configured region. | `string` | `null` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | (Optional) A configurations of Resource Group for this module. `resource_group` as defined below.<br/>    (Optional) `enabled` - Whether to create Resource Group to find and group AWS resources which are created by this module. Defaults to `true`.<br/>    (Optional) `name` - The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. If not provided, a name will be generated using the module name and instance name.<br/>    (Optional) `description` - The description of Resource Group. Defaults to `Managed by Terraform.`. | <pre>object({<br/>    enabled     = optional(bool, true)<br/>    name        = optional(string, "")<br/>    description = optional(string, "Managed by Terraform.")<br/>  })</pre> | `{}` | no |
 | <a name="input_revoke_rules_on_delete"></a> [revoke\_rules\_on\_delete](#input\_revoke\_rules\_on\_delete) | (Optional) Instruct Terraform to revoke all of the Security Groups attached ingress and egress rules before deleting the rule itself. This is normally not needed. | `bool` | `false` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | (Optional) A map of tags to add to all resources. | `map(string)` | `{}` | no |
+| <a name="input_vpc_associations"></a> [vpc\_associations](#input\_vpc\_associations) | (Optional) A set of VPC IDs to associate with the security group. | `set(string)` | `[]` | no |
 
 ## Outputs
 
@@ -61,5 +63,8 @@ This module creates following resources.
 | <a name="output_ingress_rules"></a> [ingress\_rules](#output\_ingress\_rules) | The configuration of the security group ingress rules. |
 | <a name="output_name"></a> [name](#output\_name) | The name of the security group. |
 | <a name="output_owner_id"></a> [owner\_id](#output\_owner\_id) | The ID of the AWS account that owns the security group. |
+| <a name="output_region"></a> [region](#output\_region) | The AWS region this module resources resides in. |
+| <a name="output_resource_group"></a> [resource\_group](#output\_resource\_group) | The resource group created to manage resources in this module. |
+| <a name="output_vpc_associations"></a> [vpc\_associations](#output\_vpc\_associations) | A set |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | The ID of the associated VPC. |
 <!-- END_TF_DOCS -->

@@ -184,6 +184,8 @@ resource "aws_vpc_security_group_ingress_rule" "this" {
     rule.id => rule
   }
 
+  region = aws_security_group.this.region
+
   security_group_id = aws_security_group.this.id
   description       = each.value.description
 
@@ -221,6 +223,8 @@ resource "aws_vpc_security_group_egress_rule" "this" {
     for rule in local.normalized_egress_rules :
     rule.id => rule
   }
+
+  region = aws_security_group.this.region
 
   security_group_id = aws_security_group.this.id
   description       = each.value.description
