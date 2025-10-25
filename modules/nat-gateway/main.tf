@@ -15,6 +15,8 @@ locals {
 }
 
 data "aws_subnet" "this" {
+  region = var.region
+
   id = var.subnet
 }
 
@@ -23,32 +25,27 @@ data "aws_subnet" "this" {
 # NAT Gateway
 ###################################################
 
+# INFO: Use a separate resource
+# - `secondary_allocation_ids`
 resource "aws_nat_gateway" "this" {
+  region = var.region
+
   connectivity_type = var.is_private ? "private" : "public"
   subnet_id         = var.subnet
 
 
-  ## Primary IP Addresse
-  allocation_id = var.primary_ip_assignment.elastic_ip
-  private_ip    = var.primary_ip_assignment.private_ip
+  ## Public IP Addresses
+  allocation_id = var.public_ip_assignments.primary_elastic_ip
 
 
-  ## Secondary IP Addresses
-  secondary_allocation_ids = (!var.is_private
-    ? [
-      for assignment in var.secondary_ip_assignments :
-      assignment.elastic_ip
-    ]
+  ## Private IP Addresses
+  private_ip = var.private_ip_assignments.primary_private_ip
+  secondary_private_ip_addresses = (var.private_ip_assignments.secondary_private_ip_count == 0
+    ? var.private_ip_assignments.secondary_private_ips
     : null
   )
-  secondary_private_ip_addresses = (var.secondary_ip_count == null
-    ? [
-      for assignment in var.secondary_ip_assignments :
-      assignment.private_ip
-    ]
-    : null
-  )
-  secondary_private_ip_address_count = var.secondary_ip_count
+  secondary_private_ip_address_count = var.private_ip_assignments.secondary_private_ip_count > 0 ? var.private_ip_assignments.secondary_private_ip_count : null
+
 
   timeouts {
     create = var.timeouts.create
@@ -67,10 +64,24 @@ resource "aws_nat_gateway" "this" {
   lifecycle {
     precondition {
       condition = anytrue([
-        var.secondary_ip_count == null,
-        var.secondary_ip_count != null && var.is_private == true,
+        var.private_ip_assignments.secondary_private_ip_count == 0,
+        var.private_ip_assignments.secondary_private_ip_count != 0 && var.is_private == true,
       ])
-      error_message = "`secondary_ip_count` variable is only supported with private NAT Gateway."
+      error_message = "`secondary_private_ip_address_count` can only be set for private NAT Gateway."
     }
   }
+}
+
+
+###################################################
+# Secondary Elastic IPs for NAT Gateway
+###################################################
+
+resource "aws_nat_gateway_eip_association" "this" {
+  for_each = toset(var.public_ip_assignments.secondary_elastic_ips)
+
+  region = aws_nat_gateway.this.region
+
+  nat_gateway_id = aws_nat_gateway.this.id
+  allocation_id  = each.value
 }

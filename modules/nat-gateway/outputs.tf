@@ -1,3 +1,8 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = aws_nat_gateway.this.region
+}
+
 output "id" {
   description = "The ID of the NAT Gateway."
   value       = aws_nat_gateway.this.id
@@ -42,14 +47,28 @@ output "subnet" {
   }
 }
 
-output "elastic_ip" {
-  description = "The Allocation ID of the Elastic IP address for the gateway."
-  value       = aws_nat_gateway.this.allocation_id
-}
-
 output "netework_interface" {
   description = "The ENI ID of the network interface created by the NAT gateway."
   value       = aws_nat_gateway.this.network_interface_id
+}
+
+output "public_ip_assignments" {
+  description = "The public IP address assignments of the NAT Gateway."
+  value = {
+    primary_elastic_ip = aws_nat_gateway.this.allocation_id
+    secondary_elastic_ips = [
+      for association in aws_nat_gateway_eip_association.this :
+      association.allocation_id
+    ]
+  }
+}
+
+output "private_ip_assignments" {
+  description = "The private IP address assignments of the NAT Gateway."
+  value = {
+    primary_private_ip    = aws_nat_gateway.this.private_ip
+    secondary_private_ips = aws_nat_gateway.this.secondary_private_ip_addresses
+  }
 }
 
 output "primary_public_ip" {
@@ -60,11 +79,6 @@ output "primary_public_ip" {
 output "primary_private_ip" {
   description = "The private IP address of the NAT Gateway."
   value       = aws_nat_gateway.this.private_ip
-}
-
-output "secondary_private_ips" {
-  description = "The secondary private IP addresses of the NAT Gateway."
-  value       = aws_nat_gateway.this.secondary_private_ip_addresses
 }
 
 output "resource_group" {

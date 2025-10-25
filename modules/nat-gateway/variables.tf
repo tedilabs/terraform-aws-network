@@ -1,3 +1,10 @@
+variable "region" {
+  description = "(Optional) The region in which to create the module resources. If not provided, the module resources will be created in the provider's configured region."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
 variable "name" {
   description = "(Required) Desired name for the NAT Gateway resources."
   type        = string
@@ -17,57 +24,49 @@ variable "subnet" {
   nullable    = false
 }
 
-variable "primary_ip_assignment" {
+variable "public_ip_assignments" {
   description = <<EOF
-  (Optional) A configuration to assign primary ip address with the NAT Gateway. `primary_ip_assignment` as defined below.
-    (Optional) `elastic_ip` - The allocation ID of Elastic IP address to associate with the NAT Gateway.
-    (Optional) `private_ip` - The private IP address to associate with the NAT Gateway. If you dont't provide an address, a private IPv4 address will be automatically assigned.
+  (Optional) A configuration to assign public ip addresses with the NAT Gateway. `public_ip_assignments` as defined below.
+    (Optional) `primary_elastic_ip` - The allocation ID of Elastic IP address to associate with the NAT Gateway.
+    (Optional) `secondary_elastic_ips` - A set of allocation IDs of Elastic IP addresses to associate with the NAT Gateway as secondary IPs.
   EOF
   type = object({
-    elastic_ip = optional(string)
-    private_ip = optional(string)
+    primary_elastic_ip    = optional(string)
+    secondary_elastic_ips = optional(set(string), [])
   })
   default  = {}
   nullable = false
+
+  validation {
+    condition = anytrue([
+      var.is_private,
+      !var.is_private && var.public_ip_assignments.primary_elastic_ip != null
+    ])
+    error_message = "`primary_elastic_ip` must be provided for public NAT Gateway."
+  }
 }
 
-variable "secondary_ip_assignments" {
+variable "private_ip_assignments" {
   description = <<EOF
-  (Optional) A configuration to assign secondary ip addresses with the NAT Gateway. Each block of `secondary_ip_assignments` as defined below.
-    (Optional) `elastic_ip` - The allocation ID of Elastic IP address to associate with the NAT Gateway.
-    (Optional) `private_ip` - The private IP address to associate with the NAT Gateway. If you dont't provide an address, a private IPv4 address will be automatically assigned.
+  (Optional) A configuration to assign private ip addresses with the NAT Gateway. `private_ip_assignments` as defined below.
+    (Optional) `primary_private_ip` - The private IP address to associate with the NAT Gateway. If you dont't provide an address, a private IPv4 address will be automatically assigned.
+    (Optional) `secondary_private_ips` - A set of secondary private IPv4 addresses to assign to the NAT Gateway.
+    (Optional) `secondary_private_ip_count` - The number of secondary private IPv4 addresses to assign to the NAT Gateway.
   EOF
-  type = list(object({
-    elastic_ip = optional(string)
-    private_ip = optional(string)
-  }))
-  default  = []
+  type = object({
+    primary_private_ip         = optional(string)
+    secondary_private_ips      = optional(set(string), [])
+    secondary_private_ip_count = optional(number, 0)
+  })
+  default  = {}
   nullable = false
 
   validation {
     condition = alltrue([
-      for assignment in var.secondary_ip_assignments : (
-        assignment.elastic_ip != null || assignment.private_ip != null
-      )
+      var.private_ip_assignments.secondary_private_ip_count >= 0,
+      var.private_ip_assignments.secondary_private_ip_count <= 32,
     ])
-    error_message = "Either `elastic_ip` or `private_ip` must be provided."
-  }
-}
-
-variable "secondary_ip_count" {
-  description = <<EOF
-  (Optional) The number of secondary private IPv4 addresses to assign to the NAT Gateway. Only used with private NAT Gateway.
-  EOF
-  type        = number
-  default     = null
-  nullable    = true
-
-  validation {
-    condition = (var.secondary_ip_count != null
-      ? var.secondary_ip_count > 0 && var.secondary_ip_count < 32
-      : true
-    )
-    error_message = "`secondary_ip_count` must be greater than 0 and less than 32."
+    error_message = "`secondary_private_ip_count` must be between 0 and 32."
   }
 }
 
@@ -100,9 +99,6 @@ variable "module_tags_enabled" {
 ###################################################
 # Resource Group
 ###################################################
-
-
-
 
 variable "resource_group" {
   description = <<EOF
