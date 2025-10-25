@@ -1,3 +1,8 @@
+output "region" {
+  description = "The AWS region this module resources resides in."
+  value       = aws_route_table.this.region
+}
+
 output "vpc_id" {
   description = "The ID of the VPC which the route table belongs to."
   value       = var.vpc_id
@@ -13,9 +18,14 @@ output "arn" {
   value       = aws_route_table.this.arn
 }
 
-output "owner" {
+output "owner_id" {
   description = "The ID of the AWS account that owns subnets in the routing table."
   value       = aws_route_table.this.owner_id
+}
+
+output "name" {
+  description = "The name of the routing table."
+  value       = var.name
 }
 
 output "is_main" {
@@ -29,6 +39,7 @@ output "ipv4_routes" {
     for route in var.ipv4_routes : {
       id          = aws_route.ipv4[route.destination].id,
       state       = aws_route.ipv4[route.destination].state,
+      origin      = aws_route.ipv4[route.destination].origin,
       destination = route.destination
       target = {
         type = route.target.type
@@ -55,6 +66,7 @@ output "ipv6_routes" {
     for route in var.ipv6_routes : {
       id          = aws_route.ipv6[route.destination].id,
       state       = aws_route.ipv6[route.destination].state,
+      origin      = aws_route.ipv6[route.destination].origin,
       destination = route.destination
       target = {
         type = route.target.type
@@ -81,6 +93,7 @@ output "prefix_list_routes" {
     for route in var.prefix_list_routes : {
       id          = aws_route.prefix_list[route.name].id,
       state       = aws_route.prefix_list[route.name].state,
+      origin      = aws_route.prefix_list[route.destination].origin,
       destination = route.destination
       target = {
         type = route.target.type

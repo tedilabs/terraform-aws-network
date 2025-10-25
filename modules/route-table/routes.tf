@@ -10,6 +10,8 @@ resource "aws_route" "ipv4" {
     route.destination => route
   }
 
+  region = aws_route_table.this.region
+
   route_table_id         = aws_route_table.this.id
   destination_cidr_block = each.key
 
@@ -68,6 +70,8 @@ resource "aws_route" "ipv6" {
     route.destination => route
   }
 
+  region = aws_route_table.this.region
+
   route_table_id              = aws_route_table.this.id
   destination_ipv6_cidr_block = each.key
 
@@ -125,6 +129,8 @@ resource "aws_route" "prefix_list" {
     for route in var.prefix_list_routes :
     route.name => route
   }
+
+  region = aws_route_table.this.region
 
   route_table_id             = aws_route_table.this.id
   destination_prefix_list_id = each.value.destination
