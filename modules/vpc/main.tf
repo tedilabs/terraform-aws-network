@@ -21,6 +21,12 @@ locals {
     "DEFAULT"   = "default"
     "DEDICATED" = "dedicated"
   }
+
+  block_public_access_exclusion_mode = {
+    "BIDIRECTIONAL" = "allow-bidirectional"
+    "EGRESS"        = "allow-ingress"
+    "OFF"           = "off"
+  }
 }
 
 
@@ -149,5 +155,29 @@ resource "aws_vpc_ipv6_cidr_block_association" "this" {
   ipv6_netmask_length = (var.ipv6_cidrs[count.index + 1].type == "IPAM_POOL"
     ? var.ipv6_cidrs[count.index + 1].ipam_pool.netmask_length
     : null
+  )
+}
+
+
+###################################################
+# Block Public Access Exclusion for the VPC
+###################################################
+
+# INFO: Not supported attributes
+# - `subnet_id`
+resource "aws_vpc_block_public_access_exclusion" "this" {
+  count = var.block_public_access_exclusion_mode != "OFF" ? 1 : 0
+
+  region = aws_vpc.this.region
+
+  vpc_id                          = aws_vpc.this.id
+  internet_gateway_exclusion_mode = local.block_public_access_exclusion_mode[var.block_public_access_exclusion_mode]
+
+  tags = merge(
+    {
+      "Name" = local.metadata.name
+    },
+    local.module_tags,
+    var.tags,
   )
 }

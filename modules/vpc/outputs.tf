@@ -242,6 +242,17 @@ output "dhcp_options" {
   )
 }
 
+output "block_public_access_exclusion_mode" {
+  description = "The block public access exclusion mode for the VPC."
+  value = (one(aws_vpc_block_public_access_exclusion.this) != null
+    ? {
+      for k, v in local.block_public_access_exclusion_mode :
+      v => k
+    }[aws_vpc_block_public_access_exclusion.this[0].internet_gateway_exclusion_mode]
+    : "OFF"
+  )
+}
+
 output "internet_gateway" {
   description = <<EOF
   The configuration for the Internet Gateway of the VPC.

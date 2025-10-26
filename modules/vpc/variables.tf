@@ -289,6 +289,23 @@ variable "dhcp_options" {
   nullable = false
 }
 
+variable "block_public_access_exclusion_mode" {
+  description = <<EOF
+  (Optional) The block public access exclusion mode for the VPC. Valid values are `BIDIRECTIONAL`, `EGRESS`, and `OFF`. Defaults to `OFF`.
+    `BIDIRECTIONAL` - Allow all internet traffic to and from the excluded VPC.
+    `EGRESS` - Allow egress internet traffic from the excluded VPC. Only applies when VPC Block Public Access is set to Bidirectional.
+    `OFF` - Follow the VPC Block Public Access settings without any exclusions.
+  EOF
+  type        = string
+  default     = "OFF"
+  nullable    = false
+
+  validation {
+    condition     = contains(["BIDIRECTIONAL", "EGRESS", "OFF"], var.block_public_access_exclusion_mode)
+    error_message = "Valid values for `block_public_access_exclusion_mode` are `BIDIRECTIONAL`, `EGRESS`, and `OFF`."
+  }
+}
+
 variable "internet_gateway" {
   description = <<EOF
   (Required) The configuration for an Internet Gateway of the VPC. An internet gateway is a virtual router that connects a VPC to the internet. `internet_gateway` as defined below.
