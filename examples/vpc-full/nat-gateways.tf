@@ -29,9 +29,8 @@ module "public_nat_gateway" {
   subnet     = module.public_subnet_group.subnets_by_az["use1-az2"][0].id
 
 
-  ## Primary IP Address
-  primary_ip_assignment = {
-    elastic_ip = module.elastic_ip.id
+  public_ip_assignments = {
+    primary_elastic_ip = module.elastic_ip.id
   }
 
 
@@ -56,8 +55,8 @@ module "private_nat_gateway" {
 
 
   ## Primary IP Address
-  primary_ip_assignment = {
-    private_ip = "10.0.200.7"
+  private_ip_assignments = {
+    primary_private_ip = "10.0.200.7"
   }
 
 

@@ -28,15 +28,11 @@ module "nat_gateway" {
   subnet     = data.aws_subnets.default.ids[0]
 
 
-  ## Primary IP Address
-  primary_ip_assignment = {
+  private_ip_assignments = {
     # Automatically assign a public IP address to the NAT Gateway
-    private_ip = null
+    primary_private_ip         = null
+    secondary_private_ip_count = 7
   }
-
-
-  ## Secondary IP Addresses
-  secondary_ip_count = 7
 
 
   tags = {
@@ -54,28 +50,15 @@ module "nat_gateway_2" {
   subnet     = data.aws_subnets.default.ids[0]
 
 
-  ## Primary IP Address
-  primary_ip_assignment = {
-    # Automatically assign a public IP address to the NAT Gateway
-    private_ip = "172.31.51.100"
+  private_ip_assignments = {
+    primary_private_ip = "172.31.51.100"
+    secondary_private_ips = [
+      "172.31.51.101",
+      "172.31.51.102",
+      "172.31.51.103",
+      "172.31.51.104",
+    ]
   }
-
-
-  ## Secondary IP Addresses
-  secondary_ip_assignments = [
-    {
-      private_ip = "172.31.51.101"
-    },
-    {
-      private_ip = "172.31.51.102"
-    },
-    {
-      private_ip = "172.31.51.103"
-    },
-    {
-      private_ip = "172.31.51.104"
-    },
-  ]
 
 
   tags = {

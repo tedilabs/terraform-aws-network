@@ -28,10 +28,9 @@ module "nat_gateway" {
   subnet     = data.aws_subnets.default.ids[0]
 
 
-  ## Primary IP Address
-  primary_ip_assignment = {
+  private_ip_assignments = {
     # Automatically assign a public IP address to the NAT Gateway
-    private_ip = null
+    primary_private_ip = null
   }
 
 

@@ -46,8 +46,8 @@ module "nat_gateway" {
 
 
   ## Primary IP Address
-  primary_ip_assignment = {
-    elastic_ip = module.elastic_ip.id
+  public_ip_assignments = {
+    primary_elastic_ip = module.elastic_ip.id
   }
 
 
