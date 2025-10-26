@@ -116,6 +116,17 @@ output "dns_config" {
   }
 }
 
+output "block_public_access_exclusion_mode" {
+  description = "The block public access exclusion mode for the subnet group."
+  value = (length(aws_vpc_block_public_access_exclusion.this) != 0
+    ? {
+      for k, v in local.block_public_access_exclusion_mode :
+      v => k
+    }[values(aws_vpc_block_public_access_exclusion.this)[0].internet_gateway_exclusion_mode]
+    : "OFF"
+  )
+}
+
 output "transit_gateway_attachments" {
   description = <<EOF
   The configuration of Transit Gateway VPC attachments.

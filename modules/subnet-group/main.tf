@@ -33,6 +33,12 @@ locals {
     "RESOURCE_NAME" = "resource-name"
     "IP_NAME"       = "ip-name"
   }
+
+  block_public_access_exclusion_mode = {
+    "BIDIRECTIONAL" = "allow-bidirectional"
+    "EGRESS"        = "allow-ingress"
+    "OFF"           = "off"
+  }
 }
 
 locals {
@@ -196,4 +202,31 @@ resource "aws_ec2_subnet_cidr_reservation" "ipv6" {
   cidr_block       = each.value.ipv6_cidr
   reservation_type = lower(each.value.type)
   description      = each.value.description
+}
+
+
+###################################################
+# Block Public Access Exclusion for the Subnet Group
+###################################################
+
+# INFO: Not supported attributes
+# - `vpc_id`
+resource "aws_vpc_block_public_access_exclusion" "this" {
+  for_each = (var.block_public_access_exclusion_mode != "OFF"
+    ? aws_subnet.this
+    : {}
+  )
+
+  region = var.region
+
+  subnet_id                       = each.value.id
+  internet_gateway_exclusion_mode = local.block_public_access_exclusion_mode[var.block_public_access_exclusion_mode]
+
+  tags = merge(
+    {
+      "Name" = each.key
+    },
+    local.module_tags,
+    var.tags,
+  )
 }

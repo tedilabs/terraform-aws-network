@@ -197,6 +197,23 @@ variable "dns_config" {
   }
 }
 
+variable "block_public_access_exclusion_mode" {
+  description = <<EOF
+  (Optional) The block public access exclusion mode for the subnet group. Valid values are `BIDIRECTIONAL`, `EGRESS`, and `OFF`. Defaults to `OFF`.
+    `BIDIRECTIONAL` - Allow all internet traffic to and from the excluded subnet group.
+    `EGRESS` - Allow egress internet traffic from the excluded subnet group. Only applies when VPC Block Public Access is set to Bidirectional.
+    `OFF` - Follow the VPC Block Public Access settings without any exclusions.
+  EOF
+  type        = string
+  default     = "OFF"
+  nullable    = false
+
+  validation {
+    condition     = contains(["BIDIRECTIONAL", "EGRESS", "OFF"], var.block_public_access_exclusion_mode)
+    error_message = "Valid values for `block_public_access_exclusion_mode` are `BIDIRECTIONAL`, `EGRESS`, and `OFF`."
+  }
+}
+
 variable "transit_gateway_attachments" {
   description = <<EOF
   (Optional) A list of configurations for Transit Gateway VPC attachments. Each block of `transit_gateway_attachments` as defined below.
