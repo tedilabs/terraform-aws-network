@@ -36,7 +36,7 @@ locals {
 
   block_public_access_exclusion_mode = {
     "BIDIRECTIONAL" = "allow-bidirectional"
-    "EGRESS"        = "allow-ingress"
+    "EGRESS"        = "allow-egress"
     "OFF"           = "off"
   }
 }
