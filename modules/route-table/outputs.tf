@@ -93,7 +93,7 @@ output "prefix_list_routes" {
     for route in var.prefix_list_routes : {
       id          = aws_route.prefix_list[route.name].id,
       state       = aws_route.prefix_list[route.name].state,
-      origin      = aws_route.prefix_list[route.destination].origin,
+      origin      = aws_route.prefix_list[route.name].origin,
       destination = route.destination
       target = {
         type = route.target.type
