@@ -115,13 +115,18 @@ variable "dns_resolution_enabled" {
   nullable    = false
 }
 
-variable "dnssec_validation" {
+variable "route53_resolver" {
   description = <<EOF
-  (Optional) A configuration for Route53 DNSSEC validation in the VPC. `dnssec_validation` as defined below.
-    (Optional) `enabled` - Whether to enable Route53 DNSSEC validation in the VPC. Defaults to `false`.
+  (Optional) A configuration for Route53 Resolver in the VPC. `route53_resolver` as defined below.
+    (Optional) `autodefined_reverse_dns_resolution_enabled` - Whether to enable the autodefined reverse DNS resolution for the VPC. Defaults to `true`.
+    (Optional) `dnssec_validation` - The configuration for DNSSEC validation in the VPC. `dnssec_validation` as defined below.
+      (Optional) `enabled` - Whether to use DNSSEC validation to check DNSSEC cryptographic signatures to ensure that a DNS response was not tampered with. Defaults to `false`.
   EOF
   type = object({
-    enabled = optional(bool, false)
+    autodefined_reverse_dns_resolution_enabled = optional(bool, true)
+    dnssec_validation = optional(object({
+      enabled = optional(bool, false)
+    }), {})
   })
   default  = {}
   nullable = false

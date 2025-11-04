@@ -144,13 +144,16 @@ output "dns_resolution_enabled" {
   value       = aws_vpc.this.enable_dns_support
 }
 
-output "dnssec_validation" {
-  description = "The configuration for Route53 DNSSEC validation for the VPC."
+output "route53_resolver" {
+  description = "The configuration for Route53 Resolver in the VPC."
   value = {
-    enabled = var.dnssec_validation.enabled
-    id      = one(aws_route53_resolver_dnssec_config.this[*].id)
-    arn     = one(aws_route53_resolver_dnssec_config.this[*].arn)
-    status  = one(aws_route53_resolver_dnssec_config.this[*].status)
+    autodefined_reverse_dns_resolution = aws_route53_resolver_config.this.autodefined_reverse_flag == "ENABLE"
+    dnssec_validation = {
+      enabled = var.route53_resolver.dnssec_validation.enabled
+      id      = one(aws_route53_resolver_dnssec_config.this[*].id)
+      arn     = one(aws_route53_resolver_dnssec_config.this[*].arn)
+      status  = one(aws_route53_resolver_dnssec_config.this[*].status)
+    }
   }
 }
 
