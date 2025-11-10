@@ -96,7 +96,7 @@ resource "aws_vpc" "this" {
   enable_network_address_usage_metrics = var.network_address_usage_metrics_enabled
 
   enable_dns_hostnames = var.dns_hostnames_enabled
-  enable_dns_support   = var.dns_resolution_enabled
+  enable_dns_support   = var.route53_resolver.enabled
 
   tags = merge(
     {

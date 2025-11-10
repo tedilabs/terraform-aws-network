@@ -139,14 +139,22 @@ output "dns_hostnames_enabled" {
   value       = aws_vpc.this.enable_dns_hostnames
 }
 
-output "dns_resolution_enabled" {
-  description = "Whether DNS resolution through the Amazon DNS server is supported for the VPC."
-  value       = aws_vpc.this.enable_dns_support
-}
-
 output "route53_resolver" {
   description = "The configuration for Route53 Resolver in the VPC."
   value = {
+    enabled              = aws_vpc.this.enable_dns_support
+    private_hosted_zones = values(aws_route53_zone_association.this)[*].zone_id
+    profile_associations = [
+      for name, assoc in aws_route53profiles_association.this : {
+        id   = assoc.id
+        arn  = assoc.arn
+        name = name
+        profile = {
+          id = assoc.profile_id
+        }
+        status = assoc.status
+      }
+    ]
     autodefined_reverse_dns_resolution = aws_route53_resolver_config.this.autodefined_reverse_flag == "ENABLE"
     dnssec_validation = {
       enabled = var.route53_resolver.dnssec_validation.enabled
@@ -155,11 +163,6 @@ output "route53_resolver" {
       status  = one(aws_route53_resolver_dnssec_config.this[*].status)
     }
   }
-}
-
-output "private_hosted_zones" {
-  description = "List of associated private Hosted Zone IDs."
-  value       = values(aws_route53_zone_association.this)[*].zone_id
 }
 
 output "default_network_acl" {

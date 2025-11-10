@@ -108,21 +108,27 @@ variable "dns_hostnames_enabled" {
   nullable    = false
 }
 
-variable "dns_resolution_enabled" {
-  description = "(Optional) Whether DNS resolution through the Amazon DNS server is supported for the VPC. Defaults to `true`."
-  type        = bool
-  default     = true
-  nullable    = false
-}
-
 variable "route53_resolver" {
   description = <<EOF
   (Optional) A configuration for Route53 Resolver in the VPC. `route53_resolver` as defined below.
+    (Optional) `enabled` - Whether DNS resolution through the Route53 Resolver (the Amazon DNS server) is supported for the VPC. Defaults to `true`.
+    (Optional) `private_hosted_zones` - A set of private Hosted Zone IDs to associate with the VPC.
+    (Optional) `profile_associations` - A list of configurations for Route53 Profile associations with the VPC. Each block of `profile_associations` as defined below.
+      (Required) `name` - The name of the resource association with the Route53 profile.
+      (Required) `profile` - The ID of the Route53 profile to associate with.
+      (Optional) `tags` - A map of tags to add to the Route53 Profile association resource.
     (Optional) `autodefined_reverse_dns_resolution_enabled` - Whether to enable the autodefined reverse DNS resolution for the VPC. Defaults to `true`.
     (Optional) `dnssec_validation` - The configuration for DNSSEC validation in the VPC. `dnssec_validation` as defined below.
       (Optional) `enabled` - Whether to use DNSSEC validation to check DNSSEC cryptographic signatures to ensure that a DNS response was not tampered with. Defaults to `false`.
   EOF
   type = object({
+    enabled              = optional(bool, true)
+    private_hosted_zones = optional(set(string), [])
+    profile_associations = optional(list(object({
+      name    = string
+      profile = string
+      tags    = optional(map(string), {})
+    })), [])
     autodefined_reverse_dns_resolution_enabled = optional(bool, true)
     dnssec_validation = optional(object({
       enabled = optional(bool, false)
@@ -130,13 +136,6 @@ variable "route53_resolver" {
   })
   default  = {}
   nullable = false
-}
-
-variable "private_hosted_zones" {
-  description = "(Optional) List of private Hosted Zone IDs to associate."
-  type        = list(string)
-  default     = []
-  nullable    = false
 }
 
 variable "default_network_acl" {
