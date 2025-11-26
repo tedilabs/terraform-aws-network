@@ -140,6 +140,7 @@ output "transit_gateway_attachments" {
       appliance_mode_enabled                  = attachment.appliance_mode_support == "enable"
       dns_support_enabled                     = attachment.dns_support == "enable"
       ipv6_enabled                            = attachment.ipv6_support == "enable"
+      security_group_referencing_enabled      = attachment.security_group_referencing_support == "enable"
       default_association_route_table_enabled = attachment.transit_gateway_default_route_table_association
       default_propagation_route_table_enabled = attachment.transit_gateway_default_route_table_propagation
     }

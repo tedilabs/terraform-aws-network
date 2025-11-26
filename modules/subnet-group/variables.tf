@@ -222,6 +222,7 @@ variable "transit_gateway_attachments" {
     (Optional) `appliance_mode_enabled` - Whether Appliance Mode support is enabled. If enabled, a traffic flow between a source and destination uses the same Availability Zone for the VPC attachment for the lifetime of that flow. Defaults to `false`.
     (Optional) `dns_support_enabled` - Whether to enable Domain Name System resolution for VPCs attached to this transit gateway. Defaults to `true`.
     (Optional) `ipv6_enabled` - Whether to enable IPv6 support. Defaults to `false`.
+    (Optional) `security_group_referencing_enabled` - Whether to enable security group referencing support. Defaults to `false`.
     (Optional) `default_association_route_table_enabled` - Whether to automatically associate transit gateway attachments with this transit gateway's default route table. This cannot be configured or perform drift detection with Resource Access Manager shared EC2 Transit Gateways. Defaults to `false`.
     (Optional) `default_propagation_route_table_enabled` - Whether to automatically propagate transit gateway attachments with this transit gateway's default route table. This cannot be configured or perform drift detection with Resource Access Manager shared EC2 Transit Gateways. Defaults to `false`.
     (Optional) `tags` - A map of tags to add to the vpc association.
@@ -232,6 +233,7 @@ variable "transit_gateway_attachments" {
     appliance_mode_enabled                  = optional(bool, false)
     dns_support_enabled                     = optional(bool, true)
     ipv6_enabled                            = optional(bool, false)
+    security_group_referencing_enabled      = optional(bool, false)
     default_association_route_table_enabled = optional(bool, false)
     default_propagation_route_table_enabled = optional(bool, false)
 

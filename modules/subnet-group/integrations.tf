@@ -15,6 +15,8 @@ data "aws_ec2_transit_gateway" "this" {
     attachment.name => attachment.transit_gateway
   }
 
+  region = var.region
+
   filter {
     name   = "transit-gateway-id"
     values = [each.value]
@@ -27,14 +29,18 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
     attachment.name => attachment
   }
 
+  region = var.region
+
   vpc_id     = var.vpc_id
   subnet_ids = values(aws_subnet.this)[*].id
 
   transit_gateway_id = each.value.transit_gateway
 
-  appliance_mode_support = each.value.appliance_mode_enabled ? "enable" : "disable"
-  dns_support            = each.value.dns_support_enabled ? "enable" : "disable"
-  ipv6_support           = each.value.ipv6_enabled ? "enable" : "disable"
+  appliance_mode_support             = each.value.appliance_mode_enabled ? "enable" : "disable"
+  dns_support                        = each.value.dns_support_enabled ? "enable" : "disable"
+  ipv6_support                       = each.value.ipv6_enabled ? "enable" : "disable"
+  security_group_referencing_support = each.value.security_group_referencing_enabled ? "enable" : "disable"
+
   transit_gateway_default_route_table_association = (local.account_id == data.aws_ec2_transit_gateway.this[each.key].owner_id
     ? each.value.default_association_route_table_enabled
     : null
