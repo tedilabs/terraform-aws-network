@@ -113,7 +113,7 @@ variable "route53_resolver" {
   (Optional) A configuration for Route53 Resolver in the VPC. `route53_resolver` as defined below.
     (Optional) `enabled` - Whether DNS resolution through the Route53 Resolver (the Amazon DNS server) is supported for the VPC. Defaults to `true`.
     (Optional) `private_hosted_zones` - A set of private Hosted Zone IDs to associate with the VPC.
-    (Optional) `profile_associations` - A list of configurations for Route53 Profile associations with the VPC. Each block of `profile_associations` as defined below.
+    (Optional) `profile_association` - A configuration for Route53 Profile association with the VPC. `profile_association` as defined below.
       (Required) `name` - The name of the resource association with the Route53 profile.
       (Required) `profile` - The ID of the Route53 profile to associate with.
       (Optional) `tags` - A map of tags to add to the Route53 Profile association resource.
@@ -124,11 +124,11 @@ variable "route53_resolver" {
   type = object({
     enabled              = optional(bool, true)
     private_hosted_zones = optional(set(string), [])
-    profile_associations = optional(list(object({
+    profile_association = optional(object({
       name    = string
       profile = string
       tags    = optional(map(string), {})
-    })), [])
+    }))
     autodefined_reverse_dns_resolution_enabled = optional(bool, true)
     dnssec_validation = optional(object({
       enabled = optional(bool, false)

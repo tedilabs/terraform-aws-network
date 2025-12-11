@@ -144,17 +144,18 @@ output "route53_resolver" {
   value = {
     enabled              = aws_vpc.this.enable_dns_support
     private_hosted_zones = values(aws_route53_zone_association.this)[*].zone_id
-    profile_associations = [
-      for name, assoc in aws_route53profiles_association.this : {
-        id   = assoc.id
-        arn  = assoc.arn
-        name = name
+    profile_association = (length(aws_route53profiles_association.this) > 0
+      ? {
+        id   = aws_route53profiles_association.this[0].id
+        arn  = aws_route53profiles_association.this[0].arn
+        name = aws_route53profiles_association.this[0].name
         profile = {
-          id = assoc.profile_id
+          id = aws_route53profiles_association.this[0].profile_id
         }
-        status = assoc.status
+        status = aws_route53profiles_association.this[0].status
       }
-    ]
+      : null
+    )
     autodefined_reverse_dns_resolution = aws_route53_resolver_config.this.autodefined_reverse_flag == "ENABLE"
     dnssec_validation = {
       enabled = var.route53_resolver.dnssec_validation.enabled

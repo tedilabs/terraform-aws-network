@@ -17,25 +17,22 @@ resource "aws_route53_zone_association" "this" {
 ###################################################
 
 resource "aws_route53profiles_association" "this" {
-  for_each = {
-    for assoc in var.route53_resolver.profile_associations :
-    assoc.name => assoc
-  }
+  count = var.route53_resolver.profile_association != null ? 1 : 0
 
   region = aws_vpc.this.region
 
   resource_id = aws_vpc.this.id
 
-  name       = each.key
-  profile_id = each.value.profile
+  name       = var.route53_resolver.profile_association.name
+  profile_id = var.route53_resolver.profile_association.profile
 
   tags = merge(
     {
-      "Name" = "${local.metadata.name}/${each.key}"
+      "Name" = "${local.metadata.name}/${var.route53_resolver.profile_association.name}"
     },
     local.module_tags,
     var.tags,
-    each.value.tags,
+    var.route53_resolver.profile_association.tags,
   )
 }
 
