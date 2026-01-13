@@ -44,8 +44,8 @@ variable "ingress_rules" {
     (Required) `id` - The ID of the ingress rule. This value is only used internally within Terraform code.
     (Optional) `description` - The description of the rule.
     (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.
-    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
-    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
+    (Optional) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
+    (Optional) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
     (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
     (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
     (Optional) `prefix_lists` - The prefix list IDs to allow.
@@ -56,8 +56,8 @@ variable "ingress_rules" {
     id              = string
     description     = optional(string, "Managed by Terraform.")
     protocol        = string
-    from_port       = number
-    to_port         = number
+    from_port       = optional(number)
+    to_port         = optional(number)
     ipv4_cidrs      = optional(list(string), [])
     ipv6_cidrs      = optional(list(string), [])
     prefix_lists    = optional(list(string), [])
@@ -88,8 +88,8 @@ variable "egress_rules" {
     (Required) `id` - The ID of the egress rule. This value is only used internally within Terraform code.
     (Optional) `description` - The description of the rule.
     (Required) `protocol` - The protocol to match. Note that if `protocol` is set to `-1`, it translates to all protocols, all port ranges, and `from_port` and `to_port` values should not be defined.
-    (Required) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
-    (Required) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
+    (Optional) `from_port` - The start of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 type.
+    (Optional) `to_port` - The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
     (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
     (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
     (Optional) `prefix_lists` - The prefix list IDs to allow.
@@ -100,8 +100,8 @@ variable "egress_rules" {
     id              = string
     description     = optional(string, "Managed by Terraform.")
     protocol        = string
-    from_port       = number
-    to_port         = number
+    from_port       = optional(number)
+    to_port         = optional(number)
     ipv4_cidrs      = optional(list(string), [])
     ipv6_cidrs      = optional(list(string), [])
     prefix_lists    = optional(list(string), [])
