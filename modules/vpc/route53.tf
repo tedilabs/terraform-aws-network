@@ -28,7 +28,7 @@ resource "aws_route53profiles_association" "this" {
 
   tags = merge(
     {
-      "Name" = "${local.metadata.name}/${var.route53_resolver.profile_association.name}"
+      "Name" = var.route53_resolver.profile_association.name
     },
     local.module_tags,
     var.tags,
