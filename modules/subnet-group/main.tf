@@ -213,13 +213,13 @@ resource "aws_ec2_subnet_cidr_reservation" "ipv6" {
 # - `vpc_id`
 resource "aws_vpc_block_public_access_exclusion" "this" {
   for_each = (var.block_public_access_exclusion_mode != "OFF"
-    ? aws_subnet.this
+    ? var.subnets
     : {}
   )
 
   region = var.region
 
-  subnet_id                       = each.value.id
+  subnet_id                       = aws_subnet.this[each.key].id
   internet_gateway_exclusion_mode = local.block_public_access_exclusion_mode[var.block_public_access_exclusion_mode]
 
   tags = merge(
