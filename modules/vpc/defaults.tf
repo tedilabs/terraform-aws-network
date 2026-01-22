@@ -10,7 +10,7 @@ resource "aws_default_network_acl" "this" {
   default_network_acl_id = aws_vpc.this.default_network_acl_id
 
   dynamic "ingress" {
-    for_each = (var.default_network_acl.ingress_rules == null
+    for_each = (length(var.default_network_acl.ingress_rules) == 0
       ? ["go"]
       : []
     )
@@ -26,7 +26,7 @@ resource "aws_default_network_acl" "this" {
   }
 
   dynamic "ingress" {
-    for_each = (var.default_network_acl.ingress_rules == null && local.ipv6_enabled
+    for_each = (length(var.default_network_acl.ingress_rules) == 0 && local.ipv6_enabled
       ? ["go"]
       : []
     )
@@ -42,17 +42,14 @@ resource "aws_default_network_acl" "this" {
   }
 
   dynamic "ingress" {
-    for_each = (var.default_network_acl.ingress_rules != null
-      ? var.default_network_acl.ingress_rules
-      : []
-    )
+    for_each = var.default_network_acl.ingress_rules
 
     content {
-      rule_no         = ingress.value.priority
+      rule_no         = tonumber(ingress.key)
       action          = lower(ingress.value.action)
       protocol        = ingress.value.protocol
-      from_port       = ingress.value.from_port
-      to_port         = ingress.value.to_port
+      from_port       = coalesce(ingress.value.from_port, 0)
+      to_port         = coalesce(ingress.value.to_port, 0)
       cidr_block      = ingress.value.ipv4_cidr
       ipv6_cidr_block = ingress.value.ipv6_cidr
       icmp_type       = ingress.value.icmp_type
@@ -61,7 +58,7 @@ resource "aws_default_network_acl" "this" {
   }
 
   dynamic "egress" {
-    for_each = (var.default_network_acl.egress_rules == null
+    for_each = (length(var.default_network_acl.egress_rules) == 0
       ? ["go"]
       : []
     )
@@ -77,7 +74,7 @@ resource "aws_default_network_acl" "this" {
   }
 
   dynamic "egress" {
-    for_each = (var.default_network_acl.egress_rules == null && local.ipv6_enabled
+    for_each = (length(var.default_network_acl.egress_rules) == 0 && local.ipv6_enabled
       ? ["go"]
       : []
     )
@@ -93,17 +90,14 @@ resource "aws_default_network_acl" "this" {
   }
 
   dynamic "egress" {
-    for_each = (var.default_network_acl.egress_rules != null
-      ? var.default_network_acl.egress_rules
-      : []
-    )
+    for_each = var.default_network_acl.egress_rules
 
     content {
-      rule_no         = egress.value.priority
+      rule_no         = tonumber(egress.key)
       action          = lower(egress.value.action)
       protocol        = egress.value.protocol
-      from_port       = egress.value.from_port
-      to_port         = egress.value.to_port
+      from_port       = coalesce(egress.value.from_port, 0)
+      to_port         = coalesce(egress.value.to_port, 0)
       cidr_block      = egress.value.ipv4_cidr
       ipv6_cidr_block = egress.value.ipv6_cidr
       icmp_type       = egress.value.icmp_type
