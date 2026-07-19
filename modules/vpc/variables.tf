@@ -117,6 +117,7 @@ variable "route53_resolver" {
       (Required) `name` - The name of the resource association with the Route53 profile.
       (Required) `profile` - The ID of the Route53 profile to associate with.
       (Optional) `tags` - A map of tags to add to the Route53 Profile association resource.
+    (Optional) `query_logging_configs` - A set of Route53 Resolver query logging configuration IDs to associate with the VPC. Used to log DNS queries that originate in the VPC. Each configuration can be owned by the current account or shared from another AWS account via RAM (Resource Access Manager).
     (Optional) `autodefined_reverse_dns_resolution_enabled` - Whether to enable the autodefined reverse DNS resolution for the VPC. Defaults to `true`.
     (Optional) `dnssec_validation` - The configuration for DNSSEC validation in the VPC. `dnssec_validation` as defined below.
       (Optional) `enabled` - Whether to use DNSSEC validation to check DNSSEC cryptographic signatures to ensure that a DNS response was not tampered with. Defaults to `false`.
@@ -129,6 +130,7 @@ variable "route53_resolver" {
       profile = string
       tags    = optional(map(string), {})
     }))
+    query_logging_configs                      = optional(set(string), [])
     autodefined_reverse_dns_resolution_enabled = optional(bool, true)
     dnssec_validation = optional(object({
       enabled = optional(bool, false)

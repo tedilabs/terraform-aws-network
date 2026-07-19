@@ -156,6 +156,7 @@ output "route53_resolver" {
       }
       : null
     )
+    query_logging_configs              = keys(aws_route53_resolver_query_log_config_association.this)
     autodefined_reverse_dns_resolution = aws_route53_resolver_config.this.autodefined_reverse_flag == "ENABLE"
     dnssec_validation = {
       enabled = var.route53_resolver.dnssec_validation.enabled
