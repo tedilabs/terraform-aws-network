@@ -5,7 +5,7 @@
 module "private_subnet_group" {
   source = "../../modules/subnet-group"
   # source  = "tedilabs/network/aws//modules/subnet-group"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name = "test-private"
 
@@ -102,7 +102,7 @@ module "private_subnet_group" {
 module "public_subnet_group" {
   source = "../../modules/subnet-group"
   # source  = "tedilabs/network/aws//modules/subnet-group"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name = "test-public"
 

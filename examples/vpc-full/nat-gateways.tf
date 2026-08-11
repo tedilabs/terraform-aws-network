@@ -4,7 +4,7 @@
 
 module "elastic_ip" {
   source  = "tedilabs/ipam/aws//modules/elastic-ip"
-  version = "~> 0.3.0"
+  version = "~> 0.4.0"
 
   name = "nat-gw-test-public/az2"
   type = "AMAZON"
@@ -22,7 +22,7 @@ module "elastic_ip" {
 module "public_nat_gateway" {
   source = "../../modules/nat-gateway"
   # source  = "tedilabs/network/aws//modules/nat-gateway"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name       = "test-public/az2"
   is_private = false
@@ -47,7 +47,7 @@ module "public_nat_gateway" {
 module "private_nat_gateway" {
   source = "../../modules/nat-gateway"
   # source  = "tedilabs/network/aws//modules/nat-gateway"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name       = "test-private/az2"
   is_private = true

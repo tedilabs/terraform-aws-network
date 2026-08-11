@@ -21,7 +21,7 @@ data "aws_subnets" "default" {
 module "nat_gateway" {
   source = "../../modules/nat-gateway"
   # source  = "tedilabs/network/aws//modules/nat-gateway"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name       = "test-count"
   is_private = true
@@ -43,7 +43,7 @@ module "nat_gateway" {
 module "nat_gateway_2" {
   source = "../../modules/nat-gateway"
   # source  = "tedilabs/network/aws//modules/nat-gateway"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name       = "test-assingments"
   is_private = true

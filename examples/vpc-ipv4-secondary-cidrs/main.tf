@@ -10,7 +10,7 @@ provider "aws" {
 module "vpc" {
   source = "../../modules/vpc"
   # source  = "tedilabs/network/aws//modules/vpc"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name = "test"
   ipv4_cidrs = [

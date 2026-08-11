@@ -11,7 +11,7 @@ locals {
 
 module "ipam" {
   source  = "tedilabs/ipam/aws//modules/ipam"
-  version = "~> 0.1.0"
+  version = "~> 0.4.0"
 
   name        = "test"
   description = "Managed by Terraform."

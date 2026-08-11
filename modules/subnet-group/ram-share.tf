@@ -13,7 +13,7 @@ locals {
 
 module "share" {
   source  = "tedilabs/organization/aws//modules/ram-share"
-  version = "~> 0.5.0"
+  version = "~> 0.7.0"
 
   for_each = {
     for share in var.shares :
