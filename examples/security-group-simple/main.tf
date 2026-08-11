@@ -13,8 +13,8 @@ data "aws_vpc" "default" {
 
 module "security_group" {
   source = "../../modules/security-group"
-  # source  = "tedilabs/ipam/aws//modules/security-group"
-  # version = "~> 0.30.0"
+  # source  = "tedilabs/network/aws//modules/security-group"
+  # version = "~> 1.2.0"
 
   vpc_id = data.aws_vpc.default.id
 

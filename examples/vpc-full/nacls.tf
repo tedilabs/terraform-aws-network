@@ -5,7 +5,7 @@
 module "private_network_acl" {
   source = "../../modules/nacl"
   # source  = "tedilabs/network/aws//modules/nacl"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name    = "test-private"
   vpc_id  = module.vpc.id
@@ -34,7 +34,7 @@ module "private_network_acl" {
 module "public_network_acl" {
   source = "../../modules/nacl"
   # source  = "tedilabs/network/aws//modules/nacl"
-  # version = "~> 0.2.0"
+  # version = "~> 1.2.0"
 
   name    = "test-public"
   vpc_id  = module.vpc.id
