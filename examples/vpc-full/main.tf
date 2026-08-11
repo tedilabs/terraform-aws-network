@@ -48,24 +48,22 @@ module "vpc" {
   ## Defaults
   default_network_acl = {
     name = "test-default"
-    ingress_rules = [
-      {
-        priority  = 200
+    ingress_rules = {
+      200 = {
         action    = "ALLOW"
         protocol  = "tcp"
         from_port = 443
         to_port   = 443
         ipv4_cidr = "0.0.0.0/0"
-      },
-      {
-        priority  = 201
+      }
+      201 = {
         action    = "ALLOW"
         protocol  = "tcp"
         from_port = 443
         to_port   = 443
         ipv6_cidr = "::/0"
-      },
-    ]
+      }
+    }
   }
   default_security_group = {
     name = "test-default"
