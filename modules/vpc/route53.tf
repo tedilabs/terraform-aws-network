@@ -74,3 +74,16 @@ resource "aws_route53_resolver_config" "this" {
   resource_id              = aws_vpc.this.id
   autodefined_reverse_flag = var.route53_resolver.autodefined_reverse_dns_resolution_enabled ? "ENABLE" : "DISABLE"
 }
+
+
+###################################################
+# DNS Firewall
+###################################################
+
+resource "aws_route53_resolver_firewall_config" "this" {
+  region = var.region
+
+  resource_id = aws_vpc.this.id
+
+  firewall_fail_open = var.route53_resolver.firewall.fail_open_enabled ? "ENABLED" : "DISABLED"
+}

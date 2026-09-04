@@ -121,6 +121,8 @@ variable "route53_resolver" {
     (Optional) `autodefined_reverse_dns_resolution_enabled` - Whether to enable the autodefined reverse DNS resolution for the VPC. Defaults to `true`.
     (Optional) `dnssec_validation` - The configuration for DNSSEC validation in the VPC. `dnssec_validation` as defined below.
       (Optional) `enabled` - Whether to use DNSSEC validation to check DNSSEC cryptographic signatures to ensure that a DNS response was not tampered with. Defaults to `false`.
+    (Optional) `firewall` - The configuration for Route53 Resolver Firewall in the VPC. `firewall` as defined below.
+      (Optional) `fail_open_enabled` - Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly. If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.
   EOF
   type = object({
     enabled              = optional(bool, true)
@@ -134,6 +136,9 @@ variable "route53_resolver" {
     autodefined_reverse_dns_resolution_enabled = optional(bool, true)
     dnssec_validation = optional(object({
       enabled = optional(bool, false)
+    }), {})
+    firewall = optional(object({
+      fail_open_enabled = optional(bool, false)
     }), {})
   })
   default  = {}
