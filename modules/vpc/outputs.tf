@@ -164,6 +164,10 @@ output "route53_resolver" {
       arn     = one(aws_route53_resolver_dnssec_config.this[*].arn)
       status  = one(aws_route53_resolver_dnssec_config.this[*].status)
     }
+    firewall = {
+      fail_open_enabled = module.dns_firewall.fail_open_enabled
+      rule_groups       = module.dns_firewall.rule_groups
+    }
   }
 }
 

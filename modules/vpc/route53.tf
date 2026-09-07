@@ -74,3 +74,33 @@ resource "aws_route53_resolver_config" "this" {
   resource_id              = aws_vpc.this.id
   autodefined_reverse_flag = var.route53_resolver.autodefined_reverse_dns_resolution_enabled ? "ENABLE" : "DISABLE"
 }
+
+
+###################################################
+# DNS Firewall
+###################################################
+
+module "dns_firewall" {
+  source  = "tedilabs/firewall/aws//modules/dns-firewall"
+  version = "~> 0.5.0"
+
+  region = aws_vpc.this.region
+
+  target = {
+    type = "VPC"
+    id   = aws_vpc.this.id
+  }
+
+  fail_open_enabled = var.route53_resolver.firewall.fail_open_enabled
+  rule_groups       = var.route53_resolver.firewall.rule_groups
+
+  resource_group = {
+    enabled = false
+  }
+  module_tags_enabled = false
+
+  tags = merge(
+    local.module_tags,
+    var.tags,
+  )
+}
