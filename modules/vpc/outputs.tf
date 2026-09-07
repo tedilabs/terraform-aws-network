@@ -165,7 +165,8 @@ output "route53_resolver" {
       status  = one(aws_route53_resolver_dnssec_config.this[*].status)
     }
     firewall = {
-      fail_open_enabled = aws_route53_resolver_firewall_config.this.firewall_fail_open == "ENABLED"
+      fail_open_enabled = module.dns_firewall.fail_open_enabled
+      rule_groups       = module.dns_firewall.rule_groups
     }
   }
 }

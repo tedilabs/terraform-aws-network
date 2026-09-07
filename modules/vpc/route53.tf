@@ -80,10 +80,27 @@ resource "aws_route53_resolver_config" "this" {
 # DNS Firewall
 ###################################################
 
-resource "aws_route53_resolver_firewall_config" "this" {
-  region = var.region
+module "dns_firewall" {
+  source  = "tedilabs/firewall/aws//modules/dns-firewall"
+  version = "~> 0.5.0"
 
-  resource_id = aws_vpc.this.id
+  region = aws_vpc.this.region
 
-  firewall_fail_open = var.route53_resolver.firewall.fail_open_enabled ? "ENABLED" : "DISABLED"
+  target = {
+    type = "VPC"
+    id   = aws_vpc.this.id
+  }
+
+  fail_open_enabled = var.route53_resolver.firewall.fail_open_enabled
+  rule_groups       = var.route53_resolver.firewall.rule_groups
+
+  resource_group = {
+    enabled = false
+  }
+  module_tags_enabled = false
+
+  tags = merge(
+    local.module_tags,
+    var.tags,
+  )
 }

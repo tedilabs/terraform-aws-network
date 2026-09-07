@@ -123,6 +123,11 @@ variable "route53_resolver" {
       (Optional) `enabled` - Whether to use DNSSEC validation to check DNSSEC cryptographic signatures to ensure that a DNS response was not tampered with. Defaults to `false`.
     (Optional) `firewall` - The configuration for Route53 Resolver Firewall in the VPC. `firewall` as defined below.
       (Optional) `fail_open_enabled` - Determines how Route 53 Resolver handles queries during failures, for example when all traffic that is sent to DNS Firewall fails to receive a reply. By default, fail open is disabled, which means the failure mode is closed. This approach favors security over availability. DNS Firewall blocks queries that it is unable to evaluate properly. If you enable this option, the failure mode is open. This approach favors availability over security. DNS Firewall allows queries to proceed if it is unable to properly evaluate them.
+      (Optional) `rule_groups` - A list of DNS Firewall rule groups to associate with the VPC. Each value of `rule_groups` as defined below.
+        (Required) `id` - The ID of the firewall rule group.
+        (Required) `priority` - The setting that determines the processing order of the rule group among the rule groups associated with the VPC. DNS Firewall filters VPC traffic starting from the rule group with the lowest numeric priority setting. Valid values are between `101` and `9899`.
+        (Required) `name` - A name that lets you identify the association, to manage and use it.
+        (Optional) `mutation_protection_enabled` - If enabled, this setting disallows modification or removal of the association, to help prevent against accidentally altering DNS firewall protections. Defaults to `false`.
   EOF
   type = object({
     enabled              = optional(bool, true)
@@ -139,6 +144,13 @@ variable "route53_resolver" {
     }), {})
     firewall = optional(object({
       fail_open_enabled = optional(bool, false)
+      rule_groups = optional(list(object({
+        id       = string
+        priority = number
+        name     = string
+
+        mutation_protection_enabled = optional(bool, false)
+      })), [])
     }), {})
   })
   default  = {}
