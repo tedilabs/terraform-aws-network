@@ -18,7 +18,7 @@ This module creates following resources.
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12 |
 | <a name="requirement_assert"></a> [assert](#requirement\_assert) | >= 0.15 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.12 |
@@ -26,20 +26,20 @@ This module creates following resources.
 ## Providers
 
 | Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.28.0 |
+| ---- | ------- |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.12 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.12.0 |
-| <a name="module_share"></a> [share](#module\_share) | tedilabs/organization/aws//modules/ram-share | ~> 0.5.0 |
+| <a name="module_share"></a> [share](#module\_share) | tedilabs/organization/aws//modules/ram-share | ~> 0.8.1 |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_dax_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dax_subnet_group) | resource |
 | [aws_db_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/db_subnet_group) | resource |
 | [aws_dms_replication_subnet_group.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dms_replication_subnet_group) | resource |
@@ -60,7 +60,7 @@ This module creates following resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_name"></a> [name](#input\_name) | (Required) The name of the subnet group. | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | (Required) A configuration of subnets to create in the subnet group. Each block of `subnets` as defined below.<br/>    (Optional) `type` - The type of subnet. Valid values are `DUALSTACK` and `IPV6`. Defaults to `DUALSTACK`.<br/>    (Optional) `availability_zone` - The availability zone of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.<br/>    (Optional) `availability_zone_id` - The availability zone ID of the subnet. If the value of `availability_zone` and `availability_zone_id` are both not provided, the subnet will be created in random availability zone.<br/>    (Optional) `ipv4_cidr` - The IPv4 CIDR block for the subnet.<br/>    (Optional) `ipv6_cidr` - The IPv6 network range for the subnet, in CIDR notation. The subnet size must use a /64 prefix length.<br/>    (Optional) `ipv4_cidr_reservations` - A list of IPv4 CIDR reservations for the subnet. Each block of `ipv4_cidr_reservations` as defined below.<br/>      (Required) `ipv4_cidr` - The IPv4 CIDR block for the reservation.<br/>      (Optional) `type` - The type of reservation. Valid values are `EXPLICIT` and `PREFIX`. Defaults to `EXPLICIT`.<br/>      (Optional) `description` - The description of the reservation.<br/>    (Optional) `ipv6_cidr_reservations` - A list of IPv6 CIDR reservations for the subnet. Each block of `ipv6_cidr_reservations` as defined below.<br/>      (Required) `ipv6_cidr` - The IPv6 CIDR block for the reservation.<br/>      (Optional) `type` - The type of reservation. Valid values are `EXPLICIT` and `PREFIX`. Defaults to `EXPLICIT`.<br/>      (Optional) `description` - The description of the reservation. | <pre>map(object({<br/>    type = optional(string, "DUALSTACK")<br/><br/>    availability_zone    = optional(string)<br/>    availability_zone_id = optional(string)<br/><br/>    ipv4_cidr = optional(string)<br/>    ipv6_cidr = optional(string)<br/><br/>    ipv4_cidr_reservations = optional(list(object({<br/>      ipv4_cidr   = string<br/>      type        = optional(string, "EXPLICIT")<br/>      description = optional(string, "Managed by Terraform.")<br/>    })), [])<br/>    ipv6_cidr_reservations = optional(list(object({<br/>      ipv6_cidr   = string<br/>      type        = optional(string, "EXPLICIT")<br/>      description = optional(string, "Managed by Terraform.")<br/>    })), [])<br/>  }))</pre> | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | (Required) The ID of the VPC which the subnet group belongs to. | `string` | n/a | yes |
@@ -89,7 +89,7 @@ This module creates following resources.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_arns"></a> [arns](#output\_arns) | A list of ARNs of subnets |
 | <a name="output_availability_zone_ids"></a> [availability\_zone\_ids](#output\_availability\_zone\_ids) | A list of availability zone IDs which the subnet group uses. |
 | <a name="output_availability_zones"></a> [availability\_zones](#output\_availability\_zones) | A list of availability zones which the subnet group uses. |

@@ -9,26 +9,26 @@ This module creates following resources.
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.12 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 6.12 |
 
 ## Providers
 
 | Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.18.0 |
+| ---- | ------- |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 6.12 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.12.0 |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [aws_nat_gateway.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_nat_gateway_eip_association.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway_eip_association) | resource |
 | [aws_subnet.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/subnet) | data source |
@@ -36,7 +36,7 @@ This module creates following resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_name"></a> [name](#input\_name) | (Required) Desired name for the NAT Gateway resources. | `string` | n/a | yes |
 | <a name="input_subnet"></a> [subnet](#input\_subnet) | (Required) The Subnet ID of the subnet in which to place the NAT Gateway. | `string` | n/a | yes |
 | <a name="input_is_private"></a> [is\_private](#input\_is\_private) | (Optional) Whether to create the NAT gateway as private or public connectivity type. Defaults to `false` (public). | `bool` | `false` | no |
@@ -51,7 +51,7 @@ This module creates following resources.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_availability_zone"></a> [availability\_zone](#output\_availability\_zone) | The availability zone of the NAT Gateway.<br/>    `id` - The ID of the availability zone.<br/>    `name` - The name of the availability zone. |
 | <a name="output_id"></a> [id](#output\_id) | The ID of the NAT Gateway. |
 | <a name="output_is_private"></a> [is\_private](#output\_is\_private) | Whether the NAT Gateway supports public or private connectivity. |
