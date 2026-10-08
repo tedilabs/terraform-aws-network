@@ -3,7 +3,7 @@ locals {
     package = "terraform-aws-network"
     version = trimspace(file("${path.module}/../../VERSION"))
     module  = basename(path.module)
-    name    = var.name
+    name    = "${var.vpc_id}/${var.name}"
   }
   module_tags = var.module_tags_enabled ? {
     "module.terraform.io/package"   = local.metadata.package
@@ -37,7 +37,7 @@ resource "aws_security_group" "this" {
 
   tags = merge(
     {
-      "Name" = local.metadata.name
+      "Name" = var.name
     },
     local.module_tags,
     var.tags,
