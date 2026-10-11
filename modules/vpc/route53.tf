@@ -82,7 +82,7 @@ resource "aws_route53_resolver_config" "this" {
 
 module "dns_firewall" {
   source  = "tedilabs/firewall/aws//modules/dns-firewall"
-  version = "~> 0.5.0"
+  version = "~> 0.6.0"
 
   region = aws_vpc.this.region
 
@@ -103,4 +103,8 @@ module "dns_firewall" {
     local.module_tags,
     var.tags,
   )
+
+  telemetry = {
+    enabled = false
+  }
 }

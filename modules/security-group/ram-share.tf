@@ -13,7 +13,7 @@ locals {
 
 module "share" {
   source  = "tedilabs/organization/aws//modules/ram-share"
-  version = "~> 0.8.1"
+  version = "~> 0.9.0"
 
   for_each = {
     for share in var.shares :
@@ -42,4 +42,8 @@ module "share" {
     var.tags,
     each.value.tags,
   )
+
+  telemetry = {
+    enabled = false
+  }
 }
