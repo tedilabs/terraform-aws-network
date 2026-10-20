@@ -82,7 +82,7 @@ resource "aws_route53_resolver_config" "this" {
 
 module "dns_firewall" {
   source  = "tedilabs/firewall/aws//modules/dns-firewall"
-  version = "~> 0.6.0"
+  version = "~> 0.8.0"
 
   region = aws_vpc.this.region
 
