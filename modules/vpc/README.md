@@ -41,7 +41,7 @@ This module creates following resources.
 
 | Name | Source | Version |
 | ---- | ------ | ------- |
-| <a name="module_dns_firewall"></a> [dns\_firewall](#module\_dns\_firewall) | tedilabs/firewall/aws//modules/dns-firewall | ~> 0.6.0 |
+| <a name="module_dns_firewall"></a> [dns\_firewall](#module\_dns\_firewall) | tedilabs/firewall/aws//modules/dns-firewall | ~> 0.9.0 |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | tedilabs/misc/aws//modules/resource-group | ~> 0.13.0 |
 
 ## Resources
