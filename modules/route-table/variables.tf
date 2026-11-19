@@ -57,7 +57,7 @@ variable "ipv4_routes" {
   (Optional) A list of route rules for destinations to IPv4 CIDRs. Each block of `ipv4_routes` as defined below.
     (Required) `destination` - The destination IPv4 CIDR block of the route rule.
     (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
-      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`.
       (Required) `id` - The ID of the target of the route rule.
   EOF
   type = list(object({
@@ -74,9 +74,9 @@ variable "ipv4_routes" {
   validation {
     condition = alltrue([
       for route in var.ipv4_routes :
-      contains(["CARRIER_GATEWAY", "CORE_GATEWAY", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
+      contains(["CARRIER_GATEWAY", "CORE_NETWORK", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "GATEWAY_LOAD_BALANCER_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
     ])
-    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`."
+    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`."
   }
 }
 
@@ -85,7 +85,7 @@ variable "ipv6_routes" {
   (Optional) A list of route rules for destinations to IPv6 CIDRs. Each block of `ipv6_routes` as defined below.
     (Required) `destination` - The destination IPv6 CIDR block of the route rule.
     (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
-      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`.
       (Required) `id` - The ID of the target of the route rule.
   EOF
   type = list(object({
@@ -102,9 +102,9 @@ variable "ipv6_routes" {
   validation {
     condition = alltrue([
       for route in var.ipv6_routes :
-      contains(["CARRIER_GATEWAY", "CORE_GATEWAY", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
+      contains(["CARRIER_GATEWAY", "CORE_NETWORK", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "GATEWAY_LOAD_BALANCER_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
     ])
-    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`."
+    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`."
   }
 }
 
@@ -114,7 +114,7 @@ variable "prefix_list_routes" {
     (Required) `name` - The name of the route rule.
     (Required) `destination` - The destination Prefix List of the route rule.
     (Required) `target` - A configuration of the target of the route rule. `target` as defined below.
-      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_GATEWAY`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `VPC_ENDPOINT`, `VPC_PEERING_CONNECTION`.
+      (Required) `type` - The type of the target of the route rule. Valid values are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`.
       (Required) `id` - The ID of the target of the route rule.
   EOF
   type = list(object({

@@ -49,7 +49,7 @@ resource "aws_route" "ipv4" {
     ? each.value.target.id
     : null
   )
-  vpc_endpoint_id = (each.value.target.type == "VPC_ENDPOINT"
+  vpc_endpoint_id = (each.value.target.type == "GATEWAY_LOAD_BALANCER_ENDPOINT"
     ? each.value.target.id
     : null
   )
@@ -109,7 +109,7 @@ resource "aws_route" "ipv6" {
     ? each.value.target.id
     : null
   )
-  vpc_endpoint_id = (each.value.target.type == "VPC_ENDPOINT"
+  vpc_endpoint_id = (each.value.target.type == "GATEWAY_LOAD_BALANCER_ENDPOINT"
     ? each.value.target.id
     : null
   )
@@ -169,7 +169,7 @@ resource "aws_route" "prefix_list" {
     ? each.value.target.id
     : null
   )
-  vpc_endpoint_id = (each.value.target.type == "VPC_ENDPOINT"
+  vpc_endpoint_id = (each.value.target.type == "GATEWAY_LOAD_BALANCER_ENDPOINT"
     ? each.value.target.id
     : null
   )
