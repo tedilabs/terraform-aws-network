@@ -180,7 +180,7 @@ variable "shares" {
   type = list(object({
     name = optional(string)
 
-    permissions = optional(set(string), ["AWSRAMDefaultPermissionsSecurityGroup"])
+    permissions = optional(set(string), ["AWSRAMDefaultPermissionSecurityGroup"])
 
     external_principals_allowed = optional(bool, false)
     principals                  = optional(set(string), [])
