@@ -84,7 +84,7 @@ output "customer_owned_ipv4_address_assignment" {
     `pool` - The ID of the Customer-owned IPv4 address pool.
   EOF
   value = {
-    enabled = values(aws_subnet.this)[0].map_public_ip_on_launch
+    enabled = values(aws_subnet.this)[0].map_customer_owned_ip_on_launch
     outpost = values(aws_subnet.this)[0].outpost_arn
     pool    = values(aws_subnet.this)[0].customer_owned_ipv4_pool
   }
