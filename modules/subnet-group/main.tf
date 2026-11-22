@@ -14,21 +14,7 @@ locals {
   } : {}
 }
 
-data "aws_availability_zones" "available" {
-  region = var.region
-
-  state = "available"
-}
-
 locals {
-  available_availablity_zones    = data.aws_availability_zones.available.names
-  available_availablity_zone_ids = data.aws_availability_zones.available.zone_ids
-
-  az = {
-    for idx, id in local.available_availablity_zone_ids :
-    id => local.available_availablity_zones[idx]
-  }
-
   hostname_types = {
     "RESOURCE_NAME" = "resource-name"
     "IP_NAME"       = "ip-name"
