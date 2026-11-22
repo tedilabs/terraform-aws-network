@@ -56,12 +56,16 @@ resource "aws_route53_resolver_query_log_config_association" "this" {
 ###################################################
 
 resource "aws_route53_resolver_rule_association" "this" {
-  for_each = var.route53_resolver.resolver_rules
+  for_each = {
+    for rule in var.route53_resolver.resolver_rules :
+    rule.id => rule
+  }
 
   region = aws_vpc.this.region
 
-  resolver_rule_id = each.value
+  resolver_rule_id = each.key
   vpc_id           = aws_vpc.this.id
+  name             = each.value.name
 }
 
 
