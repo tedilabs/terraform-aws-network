@@ -49,7 +49,7 @@ variable "public_ip_assignments" {
 variable "private_ip_assignments" {
   description = <<EOF
   (Optional) A configuration to assign private ip addresses with the NAT Gateway. `private_ip_assignments` as defined below.
-    (Optional) `primary_private_ip` - The private IP address to associate with the NAT Gateway. If you dont't provide an address, a private IPv4 address will be automatically assigned.
+    (Optional) `primary_private_ip` - The private IP address to associate with the NAT Gateway. If you don't provide an address, a private IPv4 address will be automatically assigned.
     (Optional) `secondary_private_ips` - A set of secondary private IPv4 addresses to assign to the NAT Gateway.
     (Optional) `secondary_private_ip_count` - The number of secondary private IPv4 addresses to assign to the NAT Gateway.
   EOF
