@@ -15,7 +15,7 @@ data "aws_subnets" "default" {
 
 
 ###################################################
-# Public NAT Gateway
+# Private NAT Gateway
 ###################################################
 
 module "nat_gateway" {
@@ -29,7 +29,7 @@ module "nat_gateway" {
 
 
   private_ip_assignments = {
-    # Automatically assign a public IP address to the NAT Gateway
+    # Automatically assign a private IP address to the NAT Gateway
     primary_private_ip         = null
     secondary_private_ip_count = 7
   }

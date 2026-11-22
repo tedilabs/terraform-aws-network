@@ -67,7 +67,7 @@ resource "aws_nat_gateway" "this" {
         var.private_ip_assignments.secondary_private_ip_count == 0,
         var.private_ip_assignments.secondary_private_ip_count != 0 && var.is_private == true,
       ])
-      error_message = "`secondary_private_ip_address_count` can only be set for private NAT Gateway."
+      error_message = "`private_ip_assignments.secondary_private_ip_count` can only be set for private NAT Gateway."
     }
   }
 }

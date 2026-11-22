@@ -27,7 +27,6 @@ variable "subnets" {
 variable "ingress_rules" {
   description = <<EOF
   (Optional) A map of ingress rules in the default Network ACL. Use the key of map as the rule number (priority). If not explicitly defined, the AWS default rules are applied. Each block of `ingress_rules` as defined below.
-    (Required) `priority` - The rule priority. The rule number. Used for ordering.
     (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
     (Required) `protocol` - The protocol to match. If using the `-1` `all` protocol, you must specify a from and to port of `0`.
     (Optional) `from_port` - The from port to match.
@@ -62,7 +61,6 @@ variable "ingress_rules" {
 variable "egress_rules" {
   description = <<EOF
   (Optional) A map of egress rules in the default Network ACL. Use the key of map as the rule number (priority). If not explicitly defined, the AWS default rules are applied. Each block of `egress_rules` as defined below.
-    (Required) `priority` - The rule priority. The rule number. Used for ordering.
     (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
     (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
     (Optional) `from_port` - The from port to match.

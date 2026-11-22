@@ -103,7 +103,10 @@ output "ipv6_address_assignment" {
 output "dns_config" {
   description = <<EOF
   The DNS configuration for the subnet group.
-    `id` - The ID of the DAX Subnet Group.
+    `hostname_type` - The type of hostnames assigned to instances in the subnet at launch.
+    `dns_resource_name_ipv4_enabled` - Whether DNS queries for instance hostnames are answered with DNS A records.
+    `dns_resource_name_ipv6_enabled` - Whether DNS queries for instance hostnames are answered with DNS AAAA records.
+    `dns64_enabled` - Whether DNS64 is enabled.
   EOF
   value = {
     hostname_type = {
