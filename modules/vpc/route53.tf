@@ -63,9 +63,10 @@ resource "aws_route53_resolver_rule_association" "this" {
 
   region = aws_vpc.this.region
 
-  resolver_rule_id = each.key
   vpc_id           = aws_vpc.this.id
+
   name             = each.value.name
+  resolver_rule_id = each.key
 }
 
 
