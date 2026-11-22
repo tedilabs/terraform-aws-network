@@ -52,6 +52,25 @@ resource "aws_route53_resolver_query_log_config_association" "this" {
 
 
 ###################################################
+# Rule Associations for Route53 Resolver
+###################################################
+
+resource "aws_route53_resolver_rule_association" "this" {
+  for_each = {
+    for rule in var.route53_resolver.resolver_rules :
+    rule.id => rule
+  }
+
+  region = aws_vpc.this.region
+
+  vpc_id = aws_vpc.this.id
+
+  name             = each.value.name
+  resolver_rule_id = each.key
+}
+
+
+###################################################
 # DNSSEC Validation
 ###################################################
 
