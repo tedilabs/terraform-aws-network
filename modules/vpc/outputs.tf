@@ -183,7 +183,7 @@ output "default_network_acl" {
   The configuration for the default Network ACL of the VPC.
     `id` - The ID of the default Network ACL.
     `arn` - The ARN of the default Network ACL.
-    `owner` - The ID of the AWS account that owns the default Network ACL.
+    `owner_id` - The ID of the AWS account that owns the default Network ACL.
   EOF
   value = {
     id       = aws_vpc.this.default_network_acl_id
@@ -207,7 +207,7 @@ output "default_security_group" {
   The configuration for the default Security Group of the VPC.
     `id` - The ID of the default Security Group.
     `arn` - The ARN of the default Security Group.
-    `owner` - The ID of the AWS account that owns the default Security Group.
+    `owner_id` - The ID of the AWS account that owns the default Security Group.
     `name` - The name of the default Security Group.
     `description` - The description of the default Security Group.
   EOF
@@ -235,7 +235,7 @@ output "dhcp_options" {
   The configuration for the DHCP Option Set of the VPC.
     `id` - The ID of the DHCP Options Set.
     `arn` - The ARN of the DHCP Options Set.
-    `owner` - The ID of the AWS account that owns the DHCP Option Set.
+    `owner_id` - The ID of the AWS account that owns the DHCP Option Set.
 
     `domain_name` - The suffix domain name to use by default when resolving non Fully Qualified Domain Names.
     `domain_name_servers` - A list of name servers to configure in `/etc/resolv.conf`.
@@ -277,7 +277,7 @@ output "internet_gateway" {
   The configuration for the Internet Gateway of the VPC.
     `id` - The ID of the Internet Gateway.
     `arn` - The ARN of the Internet Gateway.
-    `owner` - The ID of the AWS account that owns the internet gateway.
+    `owner_id` - The ID of the AWS account that owns the internet gateway.
   EOF
   value = (var.internet_gateway.enabled
     ? {

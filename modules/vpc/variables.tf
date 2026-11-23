@@ -169,7 +169,6 @@ variable "default_network_acl" {
   (Optional) The configuration for the default Network ACL of the VPC. `default_network_acl` as defined below.
     (Optional) `name` - The name of the default Network ACL. Defaults to same name of the VPC.
     (Optional) `ingress_rules` - A map of ingress rules in the default Network ACL. Use the key of map as the rule number (priority). If not explicitly defined, the AWS default rules are applied. Each block of `ingress_rules` as defined below.
-      (Required) `priority` - The rule priority. The rule number. Used for ordering.
       (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
       (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
       (Optional) `from_port` - The from port to match.
@@ -179,7 +178,6 @@ variable "default_network_acl" {
       (Optional) `icmp_type` - The ICMP type to be used. Defaults to `0`.
       (Optional) `icmp_code` - The ICMP code to be used. Defaults to `0`.
     (Optional) `egress_rules` - A map of egress rules in the default Network ACL. Use the key of map as the rule number (priority). If not explicitly defined, the AWS default rules are applied. Each block of `egress_rules` as defined below.
-      (Required) `priority` - The rule priority. The rule number. Used for ordering.
       (Required) `action` - The action to indicate whether to allow or deny the traffic that matches the rule. Valid values are `ALLOW` and `DENY`.
       (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
       (Optional) `from_port` - The from port to match.
@@ -240,8 +238,8 @@ variable "default_security_group" {
       (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
       (Optional) `from_port` - The from port to match.
       (Optional) `to_port` - The to port to match.
-      (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation. Cannot be specified with `ipv6_cidrs`.
-      (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation. Cannot be specified with `ipv4_cidrs`.
+      (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
+      (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
       (Optional) `prefix_lists` - The prefix list IDs to allow.
       (Optional) `security_groups` - The source security group IDs to allow.
       (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule.
@@ -250,11 +248,11 @@ variable "default_security_group" {
       (Required) `protocol` - The protocol to match. If using the `-1` 'all' protocol, you must specify a from and to port of `0`.
       (Optional) `from_port` - The from port to match.
       (Optional) `to_port` - The to port to match.
-      (Optional) `ipv4_cidrs` - The IPv4 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv6_cidrs`.
-      (Optional) `ipv6_cidrs` - The IPv6 network range to allow or deny, in CIDR notation. Cannot be specified with `ipv4_cidrs`.
+      (Optional) `ipv4_cidrs` - The IPv4 network ranges to allow, in CIDR notation.
+      (Optional) `ipv6_cidrs` - The IPv6 network ranges to allow, in CIDR notation.
       (Optional) `prefix_lists` - The prefix list IDs to allow.
-      (Optional) `security_groups` - The source security group IDs to allow.
-      (Optional) `self` - Whether the security group itself will be added as a source to this ingress rule.
+      (Optional) `security_groups` - The destination security group IDs to allow.
+      (Optional) `self` - Whether the security group itself will be added as a destination to this egress rule.
   EOF
   type = object({
     name = optional(string)
