@@ -143,7 +143,7 @@ variable "tags" {
 }
 
 variable "module_tags_enabled" {
-  description = "(Optional) Whether to create AWS Resource Tags for the module informations."
+  description = "(Optional) Whether to create AWS Resource Tags for the module information."
   type        = bool
   default     = true
   nullable    = false
@@ -156,7 +156,7 @@ variable "module_tags_enabled" {
 
 variable "resource_group" {
   description = <<EOF
-  (Optional) A configurations of Resource Group for this module. `resource_group` as defined below.
+  (Optional) A configuration of Resource Group for this module. `resource_group` as defined below.
     (Optional) `enabled` - Whether to create Resource Group to find and group AWS resources which are created by this module. Defaults to `true`.
     (Optional) `name` - The name of Resource Group. A Resource Group name can have a maximum of 127 characters, including letters, numbers, hyphens, dots, and underscores. The name cannot start with `AWS` or `aws`. If not provided, a name will be generated using the module name and instance name.
     (Optional) `description` - The description of Resource Group. Defaults to `Managed by Terraform.`.
@@ -176,7 +176,14 @@ variable "resource_group" {
 ###################################################
 
 variable "shares" {
-  description = "(Optional) A list of resource shares via RAM (Resource Access Manager)."
+  description = <<EOF
+  (Optional) A list of resource shares via RAM (Resource Access Manager). Each block of `shares` as defined below.
+    (Required) `name` - The name of the resource share. The name of the RAM resource share is generated with the name of the security group as a prefix.
+    (Optional) `permissions` - A set of the names of the RAM permissions to associate with the resource share. Defaults to `["AWSRAMDefaultPermissionSecurityGroup"]`.
+    (Optional) `external_principals_allowed` - Whether principals outside your organization can be associated with the resource share. Defaults to `false`.
+    (Optional) `principals` - A set of principals to associate with the resource share. Possible values are an AWS account ID, an ARN of an organization in AWS Organizations, an ARN of an organizational unit (OU) in AWS Organizations, or an ARN of an IAM role or user. Defaults to `[]`.
+    (Optional) `tags` - A map of tags to add to the resource share. Defaults to `{}`.
+  EOF
   type = list(object({
     name = string
 
