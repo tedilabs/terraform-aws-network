@@ -15,8 +15,7 @@ locals {
 }
 
 locals {
-  ipv4_secondary_cidrs = slice(var.ipv4_cidrs, 1, length(var.ipv4_cidrs))
-  ipv6_enabled         = length(var.ipv6_cidrs) > 0
+  ipv6_enabled = length(var.ipv6_cidrs) > 0
   tenancy = {
     "DEFAULT"   = "default"
     "DEDICATED" = "dedicated"
