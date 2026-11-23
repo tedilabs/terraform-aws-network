@@ -128,6 +128,14 @@ variable "prefix_list_routes" {
   }))
   default  = []
   nullable = false
+
+  validation {
+    condition = alltrue([
+      for route in var.prefix_list_routes :
+      contains(["CARRIER_GATEWAY", "CORE_NETWORK", "EGRESS_ONLY_INTERNET_GATEWAY", "INTERNET_GATEWAY", "VPN_GATEWAY", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "TRANSIT_GATEWAY", "GATEWAY_LOAD_BALANCER_ENDPOINT", "VPC_PEERING_CONNECTION"], route.target.type)
+    ])
+    error_message = "Valid values for `type` are `CARRIER_GATEWAY`, `CORE_NETWORK`, `EGRESS_ONLY_INTERNET_GATEWAY`, `INTERNET_GATEWAY`, `VPN_GATEWAY`, `LOCAL_GATEWAY`, `NAT_GATEWAY`, `NETWORK_INTERFACE`, `TRANSIT_GATEWAY`, `GATEWAY_LOAD_BALANCER_ENDPOINT`, `VPC_PEERING_CONNECTION`."
+  }
 }
 
 variable "timeouts" {
